@@ -1,1 +1,1 @@
-# json_dynamic_widget_plugin_google_chards
+# json_dynamic_widget_plugin_google_charts
