@@ -1,4 +1,4 @@
-# json_dynamic_widget_plugin_svg
+# json_dynamic_widget_plugin_charts_flutter
 
 ## Table of Contents
 
@@ -9,19 +9,19 @@
 
 ## Live Example
 
-* [Web](https://peiffer-innovations.github.io/json_dynamic_widget_plugin_svg/web/index.html#/)
+* [Web](https://peiffer-innovations.github.io/json_dynamic_widget_plugin_charts_flutter/web/index.html#/)
 
 
 ## Introduction
 
-Plugin to the [JSON Dynamic Widget](https://peiffer-innovations.github.io/json_dynamic_widget) to provide SVG support utilizing the [websafe_svg](https://pub.dev/packages/websafe_svg) backed by [flutter_svg](https://pub.dev/packages/flutter_svg).
+Plugin to the [JSON Dynamic Widget](https://peiffer-innovations.github.io/json_dynamic_widget) to provide Charts support utilizing the [charts_flutter](https://pub.dev/packages/charts_flutter).
 
 
 ## Using the Plugin
 
 ```dart
 import 'package:json_dynamic_widget/json_dynamic_widget.dart';
-import 'package:json_dynamic_widget_plugin_svg/json_dynamic_widget_plugin_svg.dart';
+import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
 
 
 void main() {
@@ -35,7 +35,7 @@ void main() {
 
   // Bind the plugin to the registry.  This is necessary for the registry to
   // find the widget provided by the plugin
-  JsonSvgPlugin.bind(registry);
+  JsonChartsFlutterPlugin.bind(registry);
 
   // ...
 }
