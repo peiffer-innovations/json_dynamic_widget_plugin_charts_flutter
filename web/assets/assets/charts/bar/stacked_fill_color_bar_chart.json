@@ -1,0 +1,84 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/bar_charts/stacked_fill_color",
+    "title": "Stacked Fill Color",
+    "data": {
+      "desktop": [
+        {
+          "year": "2014",
+          "sales": 5
+        },
+        {
+          "year": "2015",
+          "sales": 25
+        },
+        {
+          "year": "2016",
+          "sales": 100
+        },
+        {
+          "year": "2017",
+          "sales": 75
+        }
+      ],
+      "tablet": [
+        {
+          "year": "2014",
+          "sales": 25
+        },
+        {
+          "year": "2015",
+          "sales": 50
+        },
+        {
+          "year": "2016",
+          "sales": 10
+        },
+        {
+          "year": "2017",
+          "sales": 20
+        }
+      ],
+      "mobile": [
+        {
+          "year": "2014",
+          "sales": 10
+        },
+        {
+          "year": "2015",
+          "sales": 15
+        },
+        {
+          "year": "2016",
+          "sales": 50
+        },
+        {
+          "year": "2017",
+          "sales": 45
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales, color:#1c98f3, fillColor:#92cbf9)##",
+        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales, color:#f54133)##",
+        "mobile": "##create_series(items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales, color:#48804f, fillColor:#00000000)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "defaultRenderer": {
+          "groupingType": "stacked",
+          "strokeWidthPx": 2.0
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

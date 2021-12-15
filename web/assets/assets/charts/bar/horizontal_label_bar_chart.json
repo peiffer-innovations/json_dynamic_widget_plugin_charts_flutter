@@ -1,0 +1,52 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/bar_charts/horizontal_bar_label",
+    "title": "Horizontal Label",
+    "data": [
+      {
+        "label": "2014: $5",
+        "year": "2014",
+        "sales": 5
+      },
+      {
+        "label": "2015: $25",
+        "year": "2015",
+        "sales": 25
+      },
+      {
+        "label": "2016: $100",
+        "year": "2016",
+        "sales": 100
+      },
+      {
+        "label": "2017: $75",
+        "year": "2017",
+        "sales": 75
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(items:{{data}}, name:Sales, domain:$.year, measure:$.sales)##"
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "barRendererDecorator": {
+          "type": "label"
+        },
+        "domainAxis": {
+          "type": "ordinal",
+          "renderSpec": {
+            "type": "none"
+          }
+        },
+        "series": "{{series}}",
+        "vertical": false
+      }
+    }
+  }
+}

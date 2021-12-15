@@ -1,0 +1,81 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/bar_charts/spark_bar",
+    "title": "Spark Bar",
+    "data": [
+      {
+        "year": "2007",
+        "sales": 3100
+      },
+      {
+        "year": "2008",
+        "sales": 3500
+      },
+      {
+        "year": "2009",
+        "sales": 5000
+      },
+      {
+        "year": "2010",
+        "sales": 2500
+      },
+      {
+        "year": "2011",
+        "sales": 3200
+      },
+      {
+        "year": "2012",
+        "sales": 4500
+      },
+      {
+        "year": "2013",
+        "sales": 4400
+      },
+      {
+        "year": "2014",
+        "sales": 5000
+      },
+      {
+        "year": "2015",
+        "sales": 5000
+      },
+      {
+        "year": "2016",
+        "sales": 4500
+      },
+      {
+        "year": "2017",
+        "sales": 4300
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(items:{{data}}, name:Sales, domain:$.year, measure:$.sales)##"
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "domainAxis": {
+          "type": "ordinal",
+          "renderSpec": {
+            "type": "none"
+          },
+          "showAxisLine": true
+        },
+        "layoutConfig": 0,
+        "primaryMeasureAxis": {
+          "type": "ordinal",
+          "renderSpec": {
+            "type": "none"
+          }
+        },
+        "series": "{{series}}",
+        "vertical": true
+      }
+    }
+  }
+}

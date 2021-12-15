@@ -1,0 +1,149 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/bar_charts/stacked_target_line",
+    "title": "Stacked Target Line",
+    "data": {
+      "desktop": {
+        "series": [
+          {
+            "year": "2014",
+            "sales": 5
+          },
+          {
+            "year": "2015",
+            "sales": 25
+          },
+          {
+            "year": "2016",
+            "sales": 100
+          },
+          {
+            "year": "2017",
+            "sales": 75
+          }
+        ],
+        "target": [
+          {
+            "sales": 4,
+            "year": "2014"
+          },
+          {
+            "sales": 20,
+            "year": "2015"
+          },
+          {
+            "sales": 80,
+            "year": "2016"
+          },
+          {
+            "sales": 65,
+            "year": "2017"
+          }
+        ]
+      },
+      "tablet": {
+        "series": [
+          {
+            "year": "2014",
+            "sales": 25
+          },
+          {
+            "year": "2015",
+            "sales": 50
+          },
+          {
+            "year": "2016",
+            "sales": 10
+          },
+          {
+            "year": "2017",
+            "sales": 20
+          }
+        ],
+        "target": [
+          {
+            "sales": 30,
+            "year": "2014"
+          },
+          {
+            "sales": 55,
+            "year": "2015"
+          },
+          {
+            "sales": 15,
+            "year": "2016"
+          },
+          {
+            "sales": 25,
+            "year": "2017"
+          }
+        ]
+      },
+      "mobile": {
+        "series": [
+          {
+            "year": "2014",
+            "sales": 10
+          },
+          {
+            "year": "2015",
+            "sales": 15
+          },
+          {
+            "year": "2016",
+            "sales": 50
+          },
+          {
+            "year": "2017",
+            "sales": 45
+          }
+        ],
+        "target": [
+          {
+            "sales": 10,
+            "year": "2014"
+          },
+          {
+            "sales": 5,
+            "year": "2015"
+          },
+          {
+            "sales": 45,
+            "year": "2016"
+          },
+          {
+            "sales": 35,
+            "year": "2017"
+          }
+        ]
+      }
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(items:{{data;$.desktop.series}}, name:Desktop, domain:$.year, measure:$.sales)##",
+        "tablet": "##create_series(items:{{data;$.tablet.series}}, name:Tablet, domain:$.year, measure:$.sales)##",
+        "mobile": "##create_series(items:{{data;$.mobile.series}}, name:Mobile, domain:$.year, measure:$.sales)##",
+        "desktop_target": "##create_series(rendererIdKey:customTargetLine, items:{{data;$.desktop.target}}, name:Desktop, domain:$.year, measure:$.sales)##",
+        "tablet_target": "##create_series(rendererIdKey:customTargetLine, items:{{data;$.tablet.target}}, name:Tablet, domain:$.year, measure:$.sales)##",
+        "mobile_target": "##create_series(rendererIdKey:customTargetLine, items:{{data;$.mobile.target}}, name:Mobile, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "barGroupingType": "stacked",
+        "customSeriesRenderers": {
+          "customRendererId": "customTargetLine",
+          "groupingType": "stacked",
+          "type": "target_line"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}
