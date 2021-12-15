@@ -1,0 +1,137 @@
+{
+  "type": "set_value",
+  "args": {
+    "charts": {
+      "bar": [
+        "simple_bar_chart",
+        "stacked_bar_chart",
+        "grouped_bar_chart",
+        "grouped_stacked_bar_chart",
+        "grouped_target_line_bar_chart",
+        "stacked_horizontal_bar_chart",
+        "stacked_target_line_bar_chart",
+        "horizontal_bar_chart",
+        "horizontal_label_bar_chart",
+        "vertical_label_bar_chart",
+        "spark_bar_chart",
+        "grouped_fill_color_bar_chart",
+        "stacked_fill_color_bar_chart",
+        "pattern_forward_hatch_bar_chart",
+        "horizontal_pattern_forward_hatch_bar_chart",
+        "grouped_stacked_weight_pattern_bar_chart",
+        "custom_rounded_bar_chart"
+      ],
+      "time_series": [
+        "simple_time_series"
+      ]
+    },
+    "template": {
+      "type": "column",
+      "children": [
+        {
+          "type": "expanded",
+          "child": "##template(!{{value}})##"
+        },
+        {
+          "type": "text",
+          "args": {
+            "maxLines": 1,
+            "overflow": "ellipsis",
+            "text": "{{title}}"
+          }
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "scaffold",
+    "args": {
+      "appBar": {
+        "type": "app_bar",
+        "args": {
+          "title": {
+            "type": "text",
+            "args": {
+              "text": "Charts"
+            }
+          }
+        }
+      },
+      "body": {
+        "type": "list_view",
+        "children": [
+          {
+            "type": "padding",
+            "args": {
+              "padding": {
+                "left": 16.0,
+                "right": 16.0,
+                "top": 16.0
+              }
+            },
+            "child": {
+              "type": "text",
+              "args": {
+                "text": "Bar Charts",
+                "style": {
+                  "fontSize": 16.0,
+                  "fontWeight": "bold"
+                }
+              }
+            }
+          },
+          {
+            "type": "grid_view",
+            "args": {
+              "gridDelegate": {
+                "childAspectRatio": 1,
+                "crossAxisSpacing": 16.0,
+                "mainAxisSpacing": 16.0,
+                "maxCrossAxisExtent": 420,
+                "type": "max_cross_axis_extent"
+              },
+              "padding": 16.0,
+              "shrinkWrap": true
+            },
+            "children": "##for_each({{charts;$.bar}}, template)##"
+          },
+          {
+            "type": "padding",
+            "args": {
+              "padding": {
+                "left": 16.0,
+                "right": 16.0,
+                "top": 16.0
+              }
+            },
+            "child": {
+              "type": "text",
+              "args": {
+                "text": "Time Series Charts",
+                "style": {
+                  "fontSize": 16.0,
+                  "fontWeight": "bold"
+                }
+              }
+            }
+          },
+          {
+            "type": "grid_view",
+            "args": {
+              "gridDelegate": {
+                "childAspectRatio": 1,
+                "crossAxisSpacing": 16.0,
+                "mainAxisSpacing": 16.0,
+                "maxCrossAxisExtent": 420,
+                "type": "max_cross_axis_extent"
+              },
+              "padding": 16.0,
+              "shrinkWrap": true
+            },
+            "children": "##for_each({{charts;$.time_series}}, template)##"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+name: example
+description: Example app for the JsonDynamicWidget library
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  json_dynamic_widget_plugin_charts_flutter:
+    path: ../
+
+# dependency_overrides:
+#   json_dynamic_widget:
+#     path: ../../json_dynamic_widget
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/charts/
+    - assets/charts/bar/
+    - assets/charts/time_series/
+    - assets/pages/

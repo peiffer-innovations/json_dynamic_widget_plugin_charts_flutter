@@ -1,0 +1,43 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/time_series_charts/simple",
+    "title": "Simple",
+    "data": [
+      {
+        "date": "2017-9-19",
+        "value": 5
+      },
+      {
+        "date": "2017-9-26",
+        "value": 25
+      },
+      {
+        "date": "2017-10-3",
+        "value": 100
+      },
+      {
+        "date": "2017-10-10",
+        "value": 75
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales)##",
+        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales)##",
+        "mobile": "##create_series(items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "barGroupingType": "grouped",
+        "series": "{{series}}"
+      }
+    }
+  }
+}
