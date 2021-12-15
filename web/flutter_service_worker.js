@@ -35,8 +35,8 @@ const RESOURCES = {
 "assets/assets/charts/bar/stacked_horizontal_bar_chart.json": "5547409b3168a9bf5ea9b7763c82f478",
 "assets/assets/charts/bar/simple_bar_chart.json": "8602c9947f77aec9d3088dd3ffcaac05",
 "assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
-"index.html": "14fe11c31006007a482e9b10c77d958a",
-"/": "14fe11c31006007a482e9b10c77d958a",
+"index.html": "ce41dc2652125d50150cacbe8ba2e342",
+"/": "ce41dc2652125d50150cacbe8ba2e342",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796"
 };
 
