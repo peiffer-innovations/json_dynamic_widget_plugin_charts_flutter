@@ -1,0 +1,80 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/time_series_charts/range_annotation_margin",
+    "title": "Range Annotation Margin",
+    "data": [
+      {
+        "date": "2017-9-19",
+        "value": 5
+      },
+      {
+        "date": "2017-9-26",
+        "value": 25
+      },
+      {
+        "date": "2017-10-3",
+        "value": 100
+      },
+      {
+        "date": "2017-10-10",
+        "value": 75
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value)##"
+    },
+    "child": {
+      "type": "time_series_chart",
+      "args": {
+        "animate": false,
+        "behaviors": {
+          "annotations": [
+            {
+              "axisType": "domain",
+              "color": "!{{charts.MaterialPalette.gray.shade200}}",
+              "endLabel": "D1 End",
+              "endValue": "2017-10-15",
+              "labelAnchor": "end",
+              "labelDirection": "horizontal",
+              "startLabel": "D1 Start",
+              "startValue": "2017-10-4",
+              "type": "range_annotation"
+            },
+            {
+              "axisType": "measure",
+              "startValue": 15,
+              "endValue": 20,
+              "startLabel": "M1 Start",
+              "endLabel": "M1 End",
+              "labelAnchor": "end",
+              "color": "!{{charts.MaterialPalette.gray.shade300}}",
+              "type": "range_annotation"
+            },
+            {
+              "axisType": "measure",
+              "startValue": 35,
+              "endValue": 65,
+              "startLabel": "M2 Start",
+              "endLabel": "M2 End",
+              "labelAnchor": "start",
+              "color": "!{{charts.MaterialPalette.gray.shade300}}",
+              "type": "range_annotation"
+            }
+          ],
+          "type": "range_annotation"
+        },
+        "layoutConfig": {
+          "bottomMarginSpec": 20,
+          "leftMarginSpec": 60,
+          "rightMarginSpec": 60,
+          "topMarginSpec": 20
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

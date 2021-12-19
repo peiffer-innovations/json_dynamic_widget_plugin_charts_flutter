@@ -1,4 +1,4 @@
-import 'package:json_dynamic_widget_plugin_charts_flutter/src/schema/all.dart';
+import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
 import 'package:json_theme/json_theme_schemas.dart';
 
 class TimeSeriesChartSchema {

@@ -1,8 +1,8 @@
 {
   "type": "set_value",
   "args": {
-    "url": "https://google.github.io/charts/flutter/example/time_series_charts/simple",
-    "title": "Simple",
+    "url": "https://google.github.io/charts/flutter/example/time_series_charts/line_annotation",
+    "title": "Line Annotation",
     "data": [
       {
         "date": "2017-9-19",
@@ -31,6 +31,23 @@
       "type": "time_series_chart",
       "args": {
         "animate": false,
+        "behaviors": {
+          "annotations": [
+            {
+              "axisType": "domain",
+              "startLabel": "Oct 4",
+              "type": "line_annotation",
+              "value": "2017-10-4"
+            },
+            {
+              "axisType": "domain",
+              "startLabel": "Oct 15",
+              "type": "line_annotation",
+              "value": "2017-10-15"
+            }
+          ],
+          "type": "range_annotation"
+        },
         "series": "{{series}}"
       }
     }

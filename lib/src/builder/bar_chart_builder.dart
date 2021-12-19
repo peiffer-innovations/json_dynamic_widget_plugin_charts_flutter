@@ -41,7 +41,7 @@ class BarChartBuilder extends JsonWidgetBuilder {
   final common.BarRendererDecorator<String>? barRendererDecorator;
   final List<charts.ChartBehavior<String>>? behaviors;
   final List<charts.SeriesRendererConfig<String>>? customSeriesRenderers;
-  final bool? defaultInteractions;
+  final bool defaultInteractions;
   final common.BarRendererConfig<String>? defaultRenderer;
   final LinkedHashMap<String, common.NumericAxisSpec>? disjointMeasureAxes;
   final common.AxisSpec? domainAxis;
@@ -53,7 +53,7 @@ class BarChartBuilder extends JsonWidgetBuilder {
   final List<charts.Series<dynamic, String>> series;
   final List<charts.SelectionModelConfig<String>>? selectionModels;
   final charts.UserManagedState<String>? userManagedState;
-  final bool? vertical;
+  final bool vertical;
 
   /// Builds the builder from a Map-like dynamic structure.  This expects the
   /// JSON format to be of the following structure:
@@ -103,14 +103,18 @@ class BarChartBuilder extends JsonWidgetBuilder {
         map['barRendererDecorator'],
         validate: false,
       ),
-      behaviors: map['behaviors'],
+      behaviors: JsonChartsDecoder.decodeChartBehaviorList(
+        map['behaviors'],
+        validate: false,
+      ),
       customSeriesRenderers: JsonChartsDecoder.decodeBarRendererConfigList(
         map['customSeriesRenderers'],
         validate: false,
       ),
-      defaultInteractions: map['defaultInteractions'] == null
-          ? null
-          : JsonClass.parseBool(map['defaultInteractions']),
+      defaultInteractions: JsonClass.parseBool(
+        map['defaultInteractions'],
+        whenNull: true,
+      ),
       defaultRenderer: JsonChartsDecoder.decodeBarRendererConfig<String>(
         map['defaultRenderer'],
         validate: false,
@@ -150,8 +154,10 @@ class BarChartBuilder extends JsonWidgetBuilder {
         validate: false,
       ),
       userManagedState: map['userManagedState'],
-      vertical:
-          map['vertical'] == null ? null : JsonClass.parseBool(map['vertical']),
+      vertical: JsonClass.parseBool(
+        map['vertical'],
+        whenNull: true,
+      ),
     );
   }
 
@@ -176,7 +182,7 @@ class BarChartBuilder extends JsonWidgetBuilder {
       barRendererDecorator: barRendererDecorator,
       behaviors: behaviors,
       customSeriesRenderers: customSeriesRenderers,
-      defaultInteractions: defaultInteractions ?? true,
+      defaultInteractions: defaultInteractions,
       defaultRenderer: defaultRenderer,
       disjointMeasureAxes: disjointMeasureAxes,
       domainAxis: domainAxis,
@@ -187,7 +193,7 @@ class BarChartBuilder extends JsonWidgetBuilder {
       secondaryMeasureAxis: secondaryMeasureAxis,
       selectionModels: selectionModels,
       userManagedState: userManagedState,
-      vertical: vertical ?? true,
+      vertical: vertical,
     );
   }
 }

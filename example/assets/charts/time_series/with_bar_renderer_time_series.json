@@ -1,0 +1,118 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/time_series_charts/with_bar_renderer",
+    "title": "With Bar Renderer",
+    "data": [
+      {
+        "date": "2017-9-1",
+        "value": 5
+      },
+      {
+        "date": "2017-9-2",
+        "value": 5
+      },
+      {
+        "date": "2017-9-3",
+        "value": 25
+      },
+      {
+        "date": "2017-9-4",
+        "value": 100
+      },
+      {
+        "date": "2017-9-5",
+        "value": 75
+      },
+      {
+        "date": "2017-9-6",
+        "value": 88
+      },
+      {
+        "date": "2017-9-7",
+        "value": 65
+      },
+      {
+        "date": "2017-9-8",
+        "value": 91
+      },
+      {
+        "date": "2017-9-9",
+        "value": 100
+      },
+      {
+        "date": "2017-9-10",
+        "value": 111
+      },
+      {
+        "date": "2017-9-11",
+        "value": 90
+      },
+      {
+        "date": "2017-9-12",
+        "value": 50
+      },
+      {
+        "date": "2017-9-13",
+        "value": 40
+      },
+      {
+        "date": "2017-9-14",
+        "value": 30
+      },
+      {
+        "date": "2017-9-15",
+        "value": 40
+      },
+      {
+        "date": "2017-9-16",
+        "value": 50
+      },
+      {
+        "date": "2017-9-17",
+        "value": 30
+      },
+      {
+        "date": "2017-9-18",
+        "value": 35
+      },
+      {
+        "date": "2017-9-19",
+        "value": 40
+      },
+      {
+        "date": "2017-9-20",
+        "value": 32
+      },
+      {
+        "date": "2017-9-21",
+        "value": 31
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value)##"
+    },
+    "child": {
+      "type": "time_series_chart",
+      "args": {
+        "animate": false,
+        "behaviors": [
+          {
+            "type": "select_nearest"
+          },
+          {
+            "type": "domain_highlighter"
+          }
+        ],
+        "defaultInteractions": null,
+        "defaultRenderer": {
+          "type": "bar"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:example/src/custom_functions/confidence_interval_functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kDebugMode) {
-    Logger.root.level = Level.FINEST;
+    Logger.root.level = Level.FINE;
     Logger.root.onRecord.listen((record) {
       debugPrint(
         '[${record.loggerName}]: ${record.message}',
@@ -47,12 +48,16 @@ void main() async {
       args![0],
     ),
   );
+  ConfidenceIntervalFunctions.functions.forEach(
+    (key, value) => registry.setValue(key, value),
+  );
 
   JsonChartsFlutterPlugin.bind(registry);
 
   registry.navigatorKey = navigatorKey;
 
   var templates = {
+    // bar
     'simple_bar_chart': 'bar',
     'stacked_bar_chart': 'bar',
     'grouped_bar_chart': 'bar',
@@ -70,7 +75,16 @@ void main() async {
     'horizontal_pattern_forward_hatch_bar_chart': 'bar',
     'grouped_stacked_weight_pattern_bar_chart': 'bar',
     'custom_rounded_bar_chart': 'bar',
+
+    // time series
     'simple_time_series': 'time_series',
+    'end_points_axis_time_series': 'time_series',
+    'confidence_interval_time_series': 'time_series',
+    'line_annotation_time_series': 'time_series',
+    'range_annotation_time_series': 'time_series',
+    'range_annotation_margin_time_series': 'time_series',
+    'symbol_annotation_time_series': 'time_series',
+    'with_bar_renderer_time_series': 'time_series',
   };
   var futures = <Future>[];
   for (var entry in templates.entries) {

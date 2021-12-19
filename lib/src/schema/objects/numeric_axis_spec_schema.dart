@@ -1,3 +1,4 @@
+import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
 import 'package:json_theme/json_theme_schemas.dart';
 
 class NumericAxisSpecSchema {
@@ -13,11 +14,17 @@ class NumericAxisSpecSchema {
     'type': 'object',
     'additionalProperties': false,
     'properties': {
-      'renderSpec': SchemaHelper.stringSchema,
+      'renderSpec': SchemaHelper.objectSchema(RenderSpecSchema.id),
       'scaleSpec': SchemaHelper.stringSchema,
       'showAxisLine': SchemaHelper.boolSchema,
       'tickFormatterSpec': SchemaHelper.stringSchema,
       'tickProviderSpec': SchemaHelper.stringSchema,
+      'type': {
+        'type': 'string',
+        'enum': [
+          'numeric',
+        ],
+      },
       'viewport': SchemaHelper.stringSchema,
     },
   };

@@ -1,4 +1,4 @@
-import 'package:json_dynamic_widget_plugin_charts_flutter/src/schema/all.dart';
+import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
 import 'package:json_theme/json_theme_schemas.dart';
 
 class BarRendererConfigSchema {
@@ -12,9 +12,6 @@ class BarRendererConfigSchema {
         'https://pub.dev/documentation/charts_common/latest/common/BarRendererConfig-class.html',
     'title': 'BarRendererConfig',
     'oneOf': [
-      {
-        'type': 'number',
-      },
       {
         'type': 'string',
       },
@@ -39,10 +36,13 @@ class BarRendererConfigSchema {
               'overDrawPx': SchemaHelper.numberSchema,
               'roundEndCaps': SchemaHelper.numberSchema,
               'strokeWidthPx': SchemaHelper.numberSchema,
-              'symbolRenderer': SchemaHelper.stringSchema,
+              'symbolRenderer': SchemaHelper.objectSchema(
+                SymbolRendererSchema.id,
+              ),
               'type': {
                 'type': 'string',
                 'enum': [
+                  'bar_target_line',
                   'target_line',
                 ],
               },
@@ -81,7 +81,9 @@ class BarRendererConfigSchema {
               'minBarLengthPx': SchemaHelper.numberSchema,
               'stackedBarPaddingPx': SchemaHelper.numberSchema,
               'strokeWidthPx': SchemaHelper.numberSchema,
-              'symbolRenderer': SchemaHelper.stringSchema,
+              'symbolRenderer': SchemaHelper.objectSchema(
+                SymbolRendererSchema.id,
+              ),
               'weightPattern': {
                 'anyOf': [
                   {

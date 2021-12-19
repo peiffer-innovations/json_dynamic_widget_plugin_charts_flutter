@@ -37,7 +37,7 @@ class TimeSeriesChartBuilder extends JsonWidgetBuilder {
   final List<charts.ChartBehavior<DateTime>>? behaviors;
   final List<charts.SeriesRendererConfig<DateTime>>? customSeriesRenderers;
   final common.DateTimeFactory? dateTimeFactory;
-  final bool? defaultInteractions;
+  final bool defaultInteractions;
   final common.SeriesRendererConfig<DateTime>? defaultRenderer;
   final LinkedHashMap<String, common.NumericAxisSpec>? disjointMeasureAxes;
   final common.AxisSpec? domainAxis;
@@ -85,8 +85,12 @@ class TimeSeriesChartBuilder extends JsonWidgetBuilder {
           map['animate'] == null ? null : JsonClass.parseBool(map['animate']),
       animationDuration:
           JsonClass.parseDurationFromMillis(map['animationDuration']),
-      behaviors: map['behaviors'],
-      customSeriesRenderers: JsonChartsDecoder.decodeBarRendererConfigList(
+      behaviors: JsonChartsDecoder.decodeChartBehaviorList<DateTime>(
+        map['behaviors'],
+        validate: false,
+      ),
+      customSeriesRenderers:
+          JsonChartsDecoder.decodeSeriesRendererConfigList<DateTime>(
         map['customSeriesRenderers'],
         validate: false,
       ),
@@ -94,14 +98,14 @@ class TimeSeriesChartBuilder extends JsonWidgetBuilder {
         map['dateTimeFactory'],
         validate: false,
       ),
-      defaultInteractions: map['defaultInteractions'] == null
-          ? null
-          : JsonClass.parseBool(map['defaultInteractions']),
-      defaultRenderer: null,
-      // JsonChartsDecoder.decodeBarRendererConfig<String>(
-      //   map['defaultRenderer'],
-      //   validate: false,
-      // ) as charts.BarRendererConfig<String>?,
+      defaultInteractions: JsonClass.parseBool(
+        map['defaultInteractions'],
+        whenNull: true,
+      ),
+      defaultRenderer: JsonChartsDecoder.decodeSeriesRendererConfig<DateTime>(
+        map['defaultRenderer'],
+        validate: false,
+      ),
       disjointMeasureAxes: map['disjointMeasureAxes'] == null
           ? null
           : LinkedHashMap.from(map['disjointMeasureAxes']),
@@ -157,7 +161,7 @@ class TimeSeriesChartBuilder extends JsonWidgetBuilder {
       dateTimeFactory: dateTimeFactory,
       behaviors: behaviors,
       customSeriesRenderers: customSeriesRenderers,
-      defaultInteractions: defaultInteractions ?? true,
+      defaultInteractions: defaultInteractions,
       defaultRenderer: defaultRenderer,
       disjointMeasureAxes: disjointMeasureAxes,
       domainAxis: domainAxis,

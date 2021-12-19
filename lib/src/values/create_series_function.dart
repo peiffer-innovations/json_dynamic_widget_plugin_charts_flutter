@@ -45,7 +45,7 @@ class CreateSeriesFunction {
         value = registry.processDynamicArgs(value).values;
 
         switch (key) {
-          case 'domainType':
+          case 'type':
             if (value == 'DateTime') {
               domainType = DateTime;
             } else if (value == 'int') {
@@ -70,7 +70,9 @@ class CreateSeriesFunction {
           category: values['category'],
           color: values['color'],
           domain: values['domain'],
+          domainLowerBound: values['domainLowerBound'],
           domainParser: (value) => JsonClass.parseDateTime(value)!,
+          domainUpperBound: values['domainUpperBound'],
           fillColor: values['fillColor'],
           fillPattern: JsonChartsDecoder.decodeFillPatternType(
             values['fillPattern'],
@@ -79,6 +81,8 @@ class CreateSeriesFunction {
           items: values['items'],
           label: values['label'],
           measure: values['measure'],
+          measureLowerBoundFn: values['measureLowerBoundFn'],
+          measureUpperBoundFn: values['measureUpperBoundFn'],
           name: values['name'],
           registry: registry,
         );
@@ -89,7 +93,9 @@ class CreateSeriesFunction {
           category: values['category'],
           color: values['color'],
           domain: values['domain'],
+          domainLowerBound: values['domainLowerBound'],
           domainParser: (value) => JsonClass.parseInt(value) ?? 0,
+          domainUpperBound: values['domainUpperBound'],
           fillColor: values['fillColor'],
           fillPattern: JsonChartsDecoder.decodeFillPatternType(
             values['fillPattern'],
@@ -98,6 +104,8 @@ class CreateSeriesFunction {
           items: values['items'],
           label: values['label'],
           measure: values['measure'],
+          measureLowerBoundFn: values['measureLowerBoundFn'],
+          measureUpperBoundFn: values['measureUpperBoundFn'],
           name: values['name'],
           registry: registry,
         );
@@ -108,7 +116,9 @@ class CreateSeriesFunction {
           category: values['category'],
           color: values['color'],
           domain: values['domain'],
+          domainLowerBound: values['domainLowerBound'],
           domainParser: (value) => JsonClass.parseDouble(value) ?? 0.0,
+          domainUpperBound: values['domainUpperBound'],
           fillColor: values['fillColor'],
           fillPattern: JsonChartsDecoder.decodeFillPatternType(
             values['fillPattern'],
@@ -117,6 +127,8 @@ class CreateSeriesFunction {
           items: values['items'],
           label: values['label'],
           measure: values['measure'],
+          measureLowerBoundFn: values['measureLowerBoundFn'],
+          measureUpperBoundFn: values['measureUpperBoundFn'],
           name: values['name'],
           registry: registry,
         );
@@ -127,7 +139,9 @@ class CreateSeriesFunction {
           category: values['category'],
           color: values['color'],
           domain: values['domain'],
+          domainLowerBound: values['domainLowerBound'],
           domainParser: ((value) => value?.toString() ?? ''),
+          domainUpperBound: values['domainUpperBound'],
           fillColor: values['fillColor'],
           fillPattern: JsonChartsDecoder.decodeFillPatternType(
             values['fillPattern'],
@@ -136,13 +150,22 @@ class CreateSeriesFunction {
           items: values['items'],
           label: values['label'],
           measure: values['measure'],
+          measureLowerBoundFn: values['measureLowerBoundFn'],
+          measureUpperBoundFn: values['measureUpperBoundFn'],
           name: values['name'],
           registry: registry,
         );
         break;
     }
 
-    if (values['rendererIdKey'] != id) {
+    if (values['boundsLineRadiusPxKey'] != null) {
+      series.setAttribute(
+        boundsLineRadiusPxKey,
+        JsonClass.parseDouble(values['boundsLineRadiusPxKey']),
+      );
+    }
+
+    if (values['rendererIdKey'] != null) {
       series.setAttribute(rendererIdKey, values['rendererIdKey']);
     }
 
@@ -153,13 +176,17 @@ class CreateSeriesFunction {
     String? category,
     dynamic color,
     String? domain,
+    String? domainLowerBound,
     required dynamic Function(dynamic value) domainParser,
+    String? domainUpperBound,
     dynamic fillColor,
     FillPatternType? fillPattern,
     String? id,
     dynamic items,
     String? label,
     String? measure,
+    TypedAccessorFn<ChartPoint<D>, num?>? measureLowerBoundFn,
+    TypedAccessorFn<ChartPoint<D>, num?>? measureUpperBoundFn,
     required String name,
     required JsonWidgetRegistry registry,
   }) {
@@ -167,43 +194,75 @@ class CreateSeriesFunction {
       items = json.decode(items);
     }
 
-    var mColor = ThemeDecoder.decodeColor(color);
-    var mFillColor = ThemeDecoder.decodeColor(fillColor);
-
     Color? chartsColor;
-    if (mColor != null) {
-      chartsColor = JsonChartsDecoder.fromColor(mColor);
+    if (color is Color) {
+      chartsColor = color;
+    } else {
+      var mColor = ThemeDecoder.decodeColor(color);
+
+      if (mColor != null) {
+        chartsColor = JsonChartsDecoder.fromColor(mColor);
+      }
     }
 
     Color? chartsFillColor;
-    if (mFillColor != null) {
-      chartsFillColor = JsonChartsDecoder.fromColor(mFillColor);
+    if (fillColor is Color) {
+      chartsFillColor = fillColor;
+    } else {
+      var mFillColor = ThemeDecoder.decodeColor(fillColor);
+      if (mFillColor != null) {
+        chartsFillColor = JsonChartsDecoder.fromColor(mFillColor);
+      }
     }
 
     var data = <ChartPoint<D>>[];
+    var hasDomainLowerBound = false;
+    var hasDomainUpperBound = false;
     var hasLabels = false;
 
     if (items is Map) {
       items = items.values;
     }
     if (items is Iterable) {
+      domainLowerBound ??= r'$.xLowerBound';
+      domainUpperBound ??= r'$.xUpperBound';
       domain ??= r'$.x';
       label ??= r'$.label';
       measure ??= r'$.y';
 
+      var domainLowerBoundPath = JsonPath(domainLowerBound);
       var domainPath = JsonPath(domain);
+      var domainUpperBoundPath = JsonPath(domainUpperBound);
       var labelPath = JsonPath(label);
       var measurePath = JsonPath(measure);
       for (var point in items) {
-        var d = domainParser(domainPath.read(point).first.value);
+        var dRead = domainPath.read(point);
+        if (dRead.isEmpty) {
+          throw Exception(
+            'No domain entry found for point: [$point] inside items: [$items]',
+          );
+        }
+        var d = domainParser(dRead.first.value);
+
+        var dlbRead = domainLowerBoundPath.read(point);
+        var dlb = dlbRead.isEmpty ? null : domainParser(dlbRead.first.value);
+
+        var dubRead = domainUpperBoundPath.read(point);
+        var dub = dubRead.isEmpty ? null : domainParser(dubRead.first.value);
         var labels = labelPath.read(point);
         var l = labels.isNotEmpty ? labels.first.value : null;
 
+        hasDomainLowerBound = hasDomainLowerBound || dlb != null;
+        hasDomainUpperBound = hasDomainUpperBound || dub != null;
         hasLabels = hasLabels || l != null;
 
-        var m = JsonClass.parseDouble(measurePath.read(point).first.value)!;
+        var mRead = measurePath.read(point);
+        var m =
+            mRead.isEmpty ? null : JsonClass.parseDouble(mRead.first.value)!;
         data.add(ChartPoint<D>(
+          domainLowerBound: dlb,
           domain: d,
+          domainUpperBound: dub,
           label: l,
           measure: m,
         ));
@@ -215,12 +274,18 @@ class CreateSeriesFunction {
       colorFn: chartsColor == null ? null : (_, __) => chartsColor!,
       data: data,
       displayName: name,
+      domainLowerBoundFn:
+          hasDomainLowerBound ? (point, _) => point.domainLowerBound : null,
       domainFn: (point, index) => point.domain,
+      domainUpperBoundFn:
+          hasDomainUpperBound ? (point, _) => point.domainUpperBound : null,
       fillColorFn: chartsFillColor == null ? null : (_, __) => chartsFillColor!,
       fillPatternFn: fillPattern == null ? null : (_, __) => fillPattern,
       id: id ?? name,
       labelAccessorFn: hasLabels ? (point, index) => point.label ?? '' : null,
       measureFn: (point, index) => point.measure,
+      measureLowerBoundFn: measureLowerBoundFn,
+      measureUpperBoundFn: measureUpperBoundFn,
     );
 
     return result;
