@@ -1,8 +1,8 @@
 {
   "type": "set_value",
   "args": {
-    "url": "https://google.github.io/charts/flutter/example/time_series_charts/simple",
-    "title": "Simple",
+    "url": "https://google.github.io/charts/flutter/example/time_series_charts/confidence_interval",
+    "title": "Confidence Interval",
     "data": [
       {
         "date": "2017-9-19",
@@ -25,7 +25,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value)##"
+      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value, measureLowerBoundFn:{{confidence_interval_measure_lower_bound}}, measureUpperBoundFn:{{confidence_interval_measure_upper_bound}})##"
     },
     "child": {
       "type": "time_series_chart",

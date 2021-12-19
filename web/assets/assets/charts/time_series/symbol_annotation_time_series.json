@@ -1,0 +1,92 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/time_series_charts/symbol_annotation",
+    "title": "Symbol Annotation",
+    "data": {
+      "annotation1": [
+        {
+          "timeCurrent": "2017-9-24",
+          "timePrevious": "2017-9-19",
+          "timeTarget": "2017-9-24"
+        },
+        {
+          "timeCurrent": "2017-9-29",
+          "timePrevious": "2017-9-29",
+          "timeTarget": "2017-10-4"
+        }
+      ],
+      "annotation2": [
+        {
+          "timeCurrent": "2017-9-25",
+          "timePrevious": "2017-9-21",
+          "timeTarget": "2017-9-25"
+        },
+        {
+          "timeCurrent": "2017-9-31"
+        },
+        {
+          "timeCurrent": "2017-10-5"
+        }
+      ],
+      "desktop": [
+        {
+          "timeCurrent": "2017-9-19",
+          "sales": 5
+        },
+        {
+          "timeCurrent": "2017-9-26",
+          "sales": 25
+        },
+        {
+          "timeCurrent": "2017-10-3",
+          "sales": 100
+        },
+        {
+          "timeCurrent": "2017-10-10",
+          "sales": 75
+        }
+      ],
+      "tablet": [
+        {
+          "timeCurrent": "2017-9-19",
+          "sales": 10
+        },
+        {
+          "timeCurrent": "2017-9-26",
+          "sales": 50
+        },
+        {
+          "timeCurrent": "2017-10-3",
+          "sales": 200
+        },
+        {
+          "timeCurrent": "2017-10-10",
+          "sales": 150
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(type:DateTime, items:{{data;$.desktop}}, name:Desktop, domain:$.timeCurrent, measure:$.sales, color:!{{charts.MaterialPalette.blue}})##",
+        "tablet": "##create_series(type:DateTime, items:{{data;$.tablet}}, name:Tablet, domain:$.timeCurrent, measure:$.sales, color:!{{charts.MaterialPalette.green}})##",
+        "annotationSeries1": "##create_series(boundsLineRadiusPxKey:3.5, rendererIdKey:customSymbolAnnotation, type:DateTime, items:{{data;$.annotation1}}, name:Annotation Series 1, domain:$.timeCurrent, domainLowerBound:$.timePrevious, domainUpperBound:$.timeTarget, color:!{{charts.MaterialPalette.gray}})##",
+        "annotationSeries2": "##create_series(boundsLineRadiusPxKey:3.5, rendererIdKey:customSymbolAnnotation, type:DateTime, items:{{data;$.annotation2}}, name:Annotation Series 2, domain:$.timeCurrent, domainLowerBound:$.timePrevious, domainUpperBound:$.timeTarget, color:!{{charts.MaterialPalette.red}})##"
+      }
+    },
+    "child": {
+      "type": "time_series_chart",
+      "args": {
+        "animate": false,
+        "customSeriesRenderers": {
+          "customRendererId": "customSymbolAnnotation",
+          "type": "symbol_annotation"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

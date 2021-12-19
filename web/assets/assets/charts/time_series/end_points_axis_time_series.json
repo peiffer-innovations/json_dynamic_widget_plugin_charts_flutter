@@ -1,8 +1,8 @@
 {
   "type": "set_value",
   "args": {
-    "url": "https://google.github.io/charts/flutter/example/time_series_charts/simple",
-    "title": "Simple",
+    "url": "https://google.github.io/charts/flutter/example/time_series_charts/end_points_axis",
+    "title": "End Points Axis",
     "data": [
       {
         "date": "2017-9-19",
@@ -31,6 +31,9 @@
       "type": "time_series_chart",
       "args": {
         "animate": false,
+        "domainAxis": {
+          "type": "end_points_time"
+        },
         "series": "{{series}}"
       }
     }

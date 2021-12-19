@@ -22,7 +22,14 @@
         "custom_rounded_bar_chart"
       ],
       "time_series": [
-        "simple_time_series"
+        "simple_time_series",
+        "end_points_axis_time_series",
+        "confidence_interval_time_series",
+        "line_annotation_time_series",
+        "range_annotation_time_series",
+        "range_annotation_margin_time_series",
+        "symbol_annotation_time_series",
+        "with_bar_renderer_time_series"
       ]
     },
     "template": {
