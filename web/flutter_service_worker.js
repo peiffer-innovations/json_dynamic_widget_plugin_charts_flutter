@@ -101,8 +101,8 @@ const RESOURCES = {
 "assets/assets/charts/scatter_plot/shapes_scatter_plot_chart.json": "b5f854dc194045afb3460cd687ff1d22",
 "assets/assets/charts/scatter_plot/simple_scatter_plot_chart.json": "7bede91c56cc15efe927fa632be9801a",
 "assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
-"index.html": "c17324b84f394bea9a967ce66bc3ee8f",
-"/": "c17324b84f394bea9a967ce66bc3ee8f",
+"index.html": "ffde7b44d06921f8aab9e3ff0e67c06d",
+"/": "ffde7b44d06921f8aab9e3ff0e67c06d",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796"
 };
 
