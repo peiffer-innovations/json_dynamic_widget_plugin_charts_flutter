@@ -19,6 +19,7 @@ dependencies:
   intl: ^0.17.0
   json_class: ^2.1.2+1
   json_dynamic_widget: ^3.6.0
+  json_path: ^0.3.1
   json_theme: ^3.2.2
   logging: ^1.0.2
   meta: ^1.7.0
