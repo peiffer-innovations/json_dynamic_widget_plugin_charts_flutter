@@ -40,7 +40,7 @@ class TimeSeriesChartBuilder extends JsonWidgetBuilder {
   final bool defaultInteractions;
   final common.SeriesRendererConfig<DateTime>? defaultRenderer;
   final LinkedHashMap<String, common.NumericAxisSpec>? disjointMeasureAxes;
-  final common.AxisSpec? domainAxis;
+  final common.AxisSpec<DateTime>? domainAxis;
   final bool? flipVerticalAxis;
   final charts.LayoutConfig? layoutConfig;
   final common.NumericAxisSpec? primaryMeasureAxis;
@@ -108,8 +108,15 @@ class TimeSeriesChartBuilder extends JsonWidgetBuilder {
       ),
       disjointMeasureAxes: map['disjointMeasureAxes'] == null
           ? null
-          : LinkedHashMap.from(map['disjointMeasureAxes']),
-      domainAxis: JsonChartsDecoder.decodeAxisSpec(
+          : LinkedHashMap.from(
+              map['disjointMeasureAxes'].map(
+                (k, v) => MapEntry<String, common.NumericAxisSpec>(
+                  k.toString(),
+                  JsonChartsDecoder.decodeNumericAxisSpec(v)!,
+                ),
+              ),
+            ),
+      domainAxis: JsonChartsDecoder.decodeDateTimeAxisSpec(
         map['domainAxis'],
         validate: false,
       ),

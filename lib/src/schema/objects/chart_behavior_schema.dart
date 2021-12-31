@@ -15,13 +15,46 @@ class ChartBehaviorSchema {
         'type': 'string',
       },
       {
+        r'$ref': ChartTitleSchema.id,
+      },
+      {
+        r'$ref': DatumLegendSchema.id,
+      },
+      {
         r'$ref': DomainHighlighterSchema.id,
+      },
+      {
+        r'$ref': InitialHintBehaviorSchema.id,
+      },
+      {
+        r'$ref': InitialSelectionSchema.id,
+      },
+      {
+        r'$ref': LinePointHighlighterSchema.id,
       },
       {
         r'$ref': SelectNearestSchema.id,
       },
       {
+        r'$ref': PanAndZoomBehaviorSchema.id,
+      },
+      {
+        r'$ref': PercentInjectorSchema.id,
+      },
+      {
         r'$ref': RangeAnnotationSchema.id,
+      },
+      {
+        r'$ref': SelectNearestSchema.id,
+      },
+      {
+        r'$ref': SeriesLegendSchema.id,
+      },
+      {
+        r'$ref': SliderSchema.id,
+      },
+      {
+        r'$ref': SlidingViewportSchema.id,
       },
     ],
   };

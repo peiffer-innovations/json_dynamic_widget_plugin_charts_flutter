@@ -1,48 +1,48 @@
-# name: Flutter Publisher
+name: Flutter Publisher
 
-# on:
-#   push:
-#     branches: [main]
+on:
+  push:
+    branches: [main]
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Validate
-#         uses: peiffer-innovations/actions-flutter-validate@v1.1.1
-#         with:
-#           flutter_package: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Validate
+        uses: peiffer-innovations/actions-flutter-validate@v1.1.2
+        with:
+          flutter_package: true
 
-#       - name: Checkout Schemas
-#         uses: actions/checkout@v2
-#         with:
-#           repository: peiffer-innovations/flutter_json_schemas
-#           token: ${{ secrets.REPO_TOKEN }}
-#           fetch-depth: 0
-#           ref: gh-pages
-#           path: schemas
+      - name: Checkout Schemas
+        uses: actions/checkout@v2
+        with:
+          repository: peiffer-innovations/flutter_json_schemas
+          token: ${{ secrets.REPO_TOKEN }}
+          fetch-depth: 0
+          ref: gh-pages
+          path: schemas
 
-#       - name: Update Schemas
-#         run: |
-#           git config --global user.name "action"
-#           git config --global user.email "noop@github.com"
-#           git config --global url."https://action:${{secrets.REPO_TOKEN}}@github.com/".insteadOf https://github.com/
-#           rm -rf schemas/schemas/json_dynamic_widget_plugin_charts_flutter
-#           mkdir schemas/schemas/json_dynamic_widget_plugin_charts_flutter
-#           cp output/* schemas/schemas/json_dynamic_widget_plugin_charts_flutter
-#           cd schemas
-#           git add .
-#           git commit --allow-empty -m "json_dynamic_widget_plugin_charts_flutter: schema update"
-#           git push origin HEAD:gh-pages
-#           cd ..
+      - name: Update Schemas
+        run: |
+          git config --global user.name "action"
+          git config --global user.email "noop@github.com"
+          git config --global url."https://action:${{secrets.REPO_TOKEN}}@github.com/".insteadOf https://github.com/
+          rm -rf schemas/schemas/json_dynamic_widget_plugin_charts_flutter
+          mkdir schemas/schemas/json_dynamic_widget_plugin_charts_flutter
+          cp output/* schemas/schemas/json_dynamic_widget_plugin_charts_flutter
+          cd schemas
+          git add .
+          git commit --allow-empty -m "json_dynamic_widget_plugin_charts_flutter: schema update"
+          git push origin HEAD:gh-pages
+          cd ..
 
-#       - name: Publish
-#         uses: peiffer-innovations/actions-pub-publish@v1.0.0
-#         with:
-#           credentials: ${{ secrets.CREDENTIAL_JSON }}
+      - name: Publish
+        uses: peiffer-innovations/actions-pub-publish@v1.0.0
+        with:
+          credentials: ${{ secrets.CREDENTIAL_JSON }}
 
-#       - uses: CDDelta/dart-version-auto-tag@v1.0.1
-#         with:
-#           token: ${{ secrets.REPO_TOKEN }}
+      - uses: CDDelta/dart-version-auto-tag@v1.0.1
+        with:
+          token: ${{ secrets.REPO_TOKEN }}

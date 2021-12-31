@@ -1,0 +1,128 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/behaviors/slider",
+    "title": "Slider",
+    "data": [
+      {
+        "x": 0,
+        "y": 5
+      },
+      {
+        "x": 1,
+        "y": 25
+      },
+      {
+        "x": 2,
+        "y": 100
+      },
+      {
+        "x": 3,
+        "y": 75
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "column",
+      "children": [
+        {
+          "type": "expanded",
+          "child": {
+            "type": "line_chart",
+            "args": {
+              "animate": false,
+              "behaviors": [
+                {
+                  "initialDomainValue": 1.0,
+                  "onChangeCallback": "!{{on_slider_change}}",
+                  "type": "slider"
+                }
+              ],
+              "series": "{{series}}"
+            }
+          }
+        },
+        {
+          "type": "padding",
+          "args": {
+            "padding": {
+              "top": 5.0
+            }
+          },
+          "child": {
+            "type": "row",
+            "children": [
+              {
+                "type": "text",
+                "args": {
+                  "text": "Slider domain value: "
+                }
+              },
+              {
+                "type": "text",
+                "args": {
+                  "text": "{{sliderDomainValue}}"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "padding",
+          "args": {
+            "padding": {
+              "top": 5.0
+            }
+          },
+          "child": {
+            "type": "row",
+            "children": [
+              {
+                "type": "text",
+                "args": {
+                  "text": "Slider position: "
+                }
+              },
+              {
+                "type": "text",
+                "args": {
+                  "text": "{{sliderPosition}}"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "padding",
+          "args": {
+            "padding": {
+              "top": 5.0
+            }
+          },
+          "child": {
+            "type": "row",
+            "children": [
+              {
+                "type": "text",
+                "args": {
+                  "text": "Slider drag state: "
+                }
+              },
+              {
+                "type": "text",
+                "args": {
+                  "text": "{{sliderDragState}}"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -17,27 +17,39 @@ class TimeSeriesChartSchema {
     'properties': {
       'animate': SchemaHelper.boolSchema,
       'animationDuration': SchemaHelper.numberSchema,
-      'barGroupingType': SchemaHelper.objectSchema(BarGroupingTypeSchema.id),
-      'barRendererDecorator': SchemaHelper.anySchema,
-      'behaviors': SchemaHelper.anySchema,
-      'customSeriesRenderers': SchemaHelper.anySchema,
+      'behaviors': SchemaHelper.arraySchema(
+        ChartBehaviorSchema.id,
+        includeObject: true,
+      ),
+      'customSeriesRenderers': SchemaHelper.arraySchema(
+        SeriesRendererConfigSchema.id,
+        includeObject: true,
+      ),
+      'dateTimeFactory': SchemaHelper.stringSchema,
       'defaultInteractions': SchemaHelper.boolSchema,
       'defaultRenderer': SchemaHelper.objectSchema(
-        BarRendererConfigSchema.id,
+        SeriesRendererConfigSchema.id,
       ),
       'disjointMeasureAxes': SchemaHelper.anySchema,
-      'domainAxis': SchemaHelper.objectSchema(AxisSpecSchema.id),
+      'domainAxis': SchemaHelper.objectSchema(
+        AxisSpecSchema.id,
+      ),
       'flipVerticalAxis': SchemaHelper.boolSchema,
-      'layoutConfig': SchemaHelper.objectSchema(LayoutConfigSchema.id),
-      'primaryMeasureAxis': SchemaHelper.objectSchema(NumericAxisSpecSchema.id),
-      'rtlSpec': SchemaHelper.objectSchema(RTLSpecSchema.id),
+      'layoutConfig': SchemaHelper.objectSchema(
+        LayoutConfigSchema.id,
+      ),
+      'primaryMeasureAxis': SchemaHelper.objectSchema(
+        NumericAxisSpecSchema.id,
+      ),
       'secondaryMeasureAxis': SchemaHelper.objectSchema(
         NumericAxisSpecSchema.id,
       ),
       'series': SchemaHelper.arraySchema(SeriesSchema.id),
-      'selectionModels': SchemaHelper.arraySchema(SelectionModelTypeSchema.id),
+      'selectionModels': SchemaHelper.arraySchema(
+        SelectionModelSchema.id,
+        includeObject: true,
+      ),
       'userManagedState': SchemaHelper.stringSchema,
-      'vertical': SchemaHelper.boolSchema,
     },
   };
 }

@@ -1,0 +1,107 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/behaviors/initial_hint_animation",
+    "title": "Initial Selection",
+    "data": [
+      {
+        "year": 2014,
+        "sales": 5
+      },
+      {
+        "year": 2015,
+        "sales": 25
+      },
+      {
+        "year": 2016,
+        "sales": 100
+      },
+      {
+        "year": 2017,
+        "sales": 75
+      },
+      {
+        "year": 2018,
+        "sales": 33
+      },
+      {
+        "year": 2019,
+        "sales": 80
+      },
+      {
+        "year": 2020,
+        "sales": 21
+      },
+      {
+        "year": 2021,
+        "sales": 77
+      },
+      {
+        "year": 2022,
+        "sales": 8
+      },
+      {
+        "year": 2023,
+        "sales": 12
+      },
+      {
+        "year": 2024,
+        "sales": 42
+      },
+      {
+        "year": 2025,
+        "sales": 70
+      },
+      {
+        "year": 2026,
+        "sales": 77
+      },
+      {
+        "year": 2027,
+        "sales": 55
+      },
+      {
+        "year": 2028,
+        "sales": 19
+      },
+      {
+        "year": 2029,
+        "sales": 66
+      },
+      {
+        "year": 2030,
+        "sales": 27
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(items:{{data}}, name:Sales, domain:$.year, measure:$.sales)##"
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "animationDuration": 0,
+        "behaviors": [
+          {
+            "maxHintTranslate": 4.0,
+            "type": "initial_hint_behavior"
+          },
+          {
+            "type": "pan_and_zoom_behavior"
+          }
+        ],
+        "domainAxis": {
+          "type": "ordinal",
+          "viewport": {
+            "dataSize": 4,
+            "start": "2018"
+          }
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

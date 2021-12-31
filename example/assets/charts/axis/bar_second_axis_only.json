@@ -1,0 +1,42 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/bar_secondary_axis_only",
+    "title": "Bar Second Axis Only",
+    "data": {
+      "global": [
+        {
+          "year": "2014",
+          "sales": 500
+        },
+        {
+          "year": "2015",
+          "sales": 2500
+        },
+        {
+          "year": "2016",
+          "sales": 1000
+        },
+        {
+          "year": "2017",
+          "sales": 7500
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "global": "##create_series(measureAxisIdKey:secondaryMeasureAxisId, items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "series": "{{series}}"
+      }
+    }
+  }
+}

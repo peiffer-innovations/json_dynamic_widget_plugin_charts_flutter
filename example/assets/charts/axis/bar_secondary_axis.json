@@ -1,0 +1,76 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/bar_secondary_axis",
+    "title": "Bar Secondary Axis",
+    "data": {
+      "global": [
+        {
+          "year": "2014",
+          "sales": 5000
+        },
+        {
+          "year": "2015",
+          "sales": 25000
+        },
+        {
+          "year": "2016",
+          "sales": 1000000
+        },
+        {
+          "year": "2017",
+          "sales": 750000
+        }
+      ],
+      "losAngeles": [
+        {
+          "year": "2014",
+          "sales": 25
+        },
+        {
+          "year": "2015",
+          "sales": 50
+        },
+        {
+          "year": "2016",
+          "sales": 10
+        },
+        {
+          "year": "2017",
+          "sales": 20
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "global": "##create_series(items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##",
+        "losAngeles": "##create_series(measureAxisIdKey:secondaryMeasureAxisId, items:{{data;$.losAngeles}}, name:LosAngeles, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "barGroupingType": "grouped",
+        "primaryMeasureAxis": {
+          "tickProviderSpec": {
+            "desiredTickCount": 3,
+            "type": "basic"
+          },
+          "type": "numeric"
+        },
+        "secondaryMeasureAxis": {
+          "tickProviderSpec": {
+            "desiredTickCount": 3,
+            "type": "basic"
+          },
+          "type": "numeric"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

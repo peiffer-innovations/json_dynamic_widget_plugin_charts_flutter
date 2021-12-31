@@ -1,0 +1,63 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/behaviors/percent_of_series",
+    "title": "Percent of Series",
+    "data": [
+      {
+        "year": "2011",
+        "sales": 5
+      },
+      {
+        "year": "2012",
+        "sales": 25
+      },
+      {
+        "year": "2013",
+        "sales": 50
+      },
+      {
+        "year": "2014",
+        "sales": 75
+      },
+      {
+        "year": "2015",
+        "sales": 100
+      },
+      {
+        "year": "2016",
+        "sales": 125
+      },
+      {
+        "year": "2017",
+        "sales": 200
+      },
+      {
+        "year": "2018",
+        "sales": 150
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(items:{{data}}, name:Sales, domain:$.year, measure:$.sales)##"
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "behaviors": [
+          {
+            "totalType": "series",
+            "type": "percent_injector"
+          }
+        ],
+        "primaryMeasureAxis": {
+          "type": "percent"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

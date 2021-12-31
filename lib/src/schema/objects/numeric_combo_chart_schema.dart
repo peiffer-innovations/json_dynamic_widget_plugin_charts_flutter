@@ -1,0 +1,47 @@
+import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
+import 'package:json_theme/json_theme_schemas.dart';
+
+class NumericComboChartSchema {
+  static const id =
+      'https://peiffer-innovations.github.io/flutter_json_schemas/schemas/json_dynamic_widget_plugin_charts_flutter/numeric_combo_chart.json';
+
+  static final schema = {
+    r'$schema': 'http://json-schema.org/draft-06/schema#',
+    r'$id': '$id',
+    r'$comment':
+        'https://pub.dev/documentation/charts_flutter/latest/flutter/NumericComboChart-class.html',
+    'title': 'NumericComboChart',
+    'type': 'object',
+    'additionalProperties': false,
+    'required': ['series'],
+    'properties': {
+      'animate': SchemaHelper.boolSchema,
+      'animationDuration': SchemaHelper.numberSchema,
+      'behaviors': SchemaHelper.arraySchema(
+        ChartBehaviorSchema.id,
+        includeObject: true,
+      ),
+      'customSeriesRenderers': SchemaHelper.anySchema,
+      'defaultInteractions': SchemaHelper.boolSchema,
+      'defaultRenderer': SchemaHelper.objectSchema(
+        SeriesRendererConfigSchema.id,
+      ),
+      'disjointMeasureAxes': SchemaHelper.anySchema,
+      'domainAxis': SchemaHelper.objectSchema(AxisSpecSchema.id),
+      'layoutConfig': SchemaHelper.objectSchema(LayoutConfigSchema.id),
+      'primaryMeasureAxis': SchemaHelper.objectSchema(NumericAxisSpecSchema.id),
+      'rtlSpec': SchemaHelper.objectSchema(RTLSpecSchema.id),
+      'secondaryMeasureAxis': SchemaHelper.objectSchema(
+        NumericAxisSpecSchema.id,
+      ),
+      'series': SchemaHelper.arraySchema(
+        SeriesSchema.id,
+        includeObject: true,
+      ),
+      'selectionModels': SchemaHelper.arraySchema(
+        SelectionModelTypeSchema.id,
+        includeObject: true,
+      ),
+    },
+  };
+}

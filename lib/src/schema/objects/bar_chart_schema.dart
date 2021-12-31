@@ -19,7 +19,10 @@ class BarChartSchema {
       'animationDuration': SchemaHelper.numberSchema,
       'barGroupingType': SchemaHelper.objectSchema(BarGroupingTypeSchema.id),
       'barRendererDecorator': SchemaHelper.anySchema,
-      'behaviors': SchemaHelper.anySchema,
+      'behaviors': SchemaHelper.arraySchema(
+        ChartBehaviorSchema.id,
+        includeObject: true,
+      ),
       'customSeriesRenderers': SchemaHelper.anySchema,
       'defaultInteractions': SchemaHelper.boolSchema,
       'defaultRenderer': SchemaHelper.objectSchema(
@@ -34,8 +37,14 @@ class BarChartSchema {
       'secondaryMeasureAxis': SchemaHelper.objectSchema(
         NumericAxisSpecSchema.id,
       ),
-      'series': SchemaHelper.arraySchema(SeriesSchema.id),
-      'selectionModels': SchemaHelper.arraySchema(SelectionModelTypeSchema.id),
+      'series': SchemaHelper.arraySchema(
+        SeriesSchema.id,
+        includeObject: true,
+      ),
+      'selectionModels': SchemaHelper.arraySchema(
+        SelectionModelTypeSchema.id,
+        includeObject: true,
+      ),
       'userManagedState': SchemaHelper.stringSchema,
       'vertical': SchemaHelper.boolSchema,
     },

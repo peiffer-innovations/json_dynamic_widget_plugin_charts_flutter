@@ -1,0 +1,82 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/numeric_initial_viewport",
+    "title": "Numeric Initial Viewport",
+    "data": {
+      "global": [
+        {
+          "year": 0,
+          "sales": 5
+        },
+        {
+          "year": 1,
+          "sales": 25
+        },
+        {
+          "year": 2,
+          "sales": 100
+        },
+        {
+          "year": 3,
+          "sales": 75
+        },
+        {
+          "year": 4,
+          "sales": 55
+        },
+        {
+          "year": 5,
+          "sales": 66
+        },
+        {
+          "year": 6,
+          "sales": 110
+        },
+        {
+          "year": 7,
+          "sales": 70
+        },
+        {
+          "year": 8,
+          "sales": 20
+        },
+        {
+          "year": 9,
+          "sales": 25
+        },
+        {
+          "year": 10,
+          "sales": 45
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "global": "##create_series(type:int, items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "line_chart",
+      "args": {
+        "animate": false,
+        "behaviors": [
+          {
+            "type": "pan_and_zoom_behavior"
+          }
+        ],
+        "domainAxis": {
+          "type": "numeric",
+          "viewport": {
+            "min": 3.0,
+            "max": 7.0
+          }
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

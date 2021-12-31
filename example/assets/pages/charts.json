@@ -30,6 +30,79 @@
         "range_annotation_margin_time_series",
         "symbol_annotation_time_series",
         "with_bar_renderer_time_series"
+      ],
+      "line": [
+        "simple_line_chart",
+        "points_line_chart",
+        "stacked_area_line_chart",
+        "stacked_area_custom_color_line_chart",
+        "area_and_line_line_chart",
+        "simple_nulls_line_chart",
+        "stacked_area_nulls_line_chart",
+        "dash_pattern_line_chart"
+      ],
+      "scatter_plot": [
+        "simple_scatter_plot_chart",
+        "shapes_scatter_plot_chart",
+        "comparison_points_scatter_plot_chart",
+        "bucketing_axis_scatter_plot_chart"
+      ],
+      "combo": [
+        "ordinal_bar_line_combo_chart",
+        "numeric_line_bar_combo_chart",
+        "numeric_line_point_combo_chart",
+        "date_time_line_point_combo_chart",
+        "scatter_plot_line_combo_chart"
+      ],
+      "pie": [
+        "simple_pie_chart",
+        "inside_label_pie_chart",
+        "partial_pie_chart",
+        "donut_pie_chart",
+        "auto_label_pie_chart",
+        "gauge_pie_chart"
+      ],
+      "axis": [
+        "bar_secondary_axis",
+        "bar_second_axis_only",
+        "horizontal_bar_secondary_axis",
+        "flipped_vertical_axis",
+        "short_tick_length_axis",
+        "custom_font_size_and_color",
+        "measure_axis_label_alignment",
+        "hidden_ticks_and_labels",
+        "custom_axis_tick_formatters",
+        "custom_measure_tick_count",
+        "integer_only_measure_axis",
+        "nonzero_bound_measure_axis",
+        "statically_provided_ticks",
+        "ordinal_initial_viewport",
+        "numeric_initial_viewport",
+        "gridline_dash_pattern",
+        "line_disjoint_axis"
+      ],
+      "legend": [
+        "simple_series_legend",
+        "series_legend_options",
+        "series_legend_with_measures",
+        "legend_custom_symbol",
+        "default_hidden_series_legend",
+        "simple_datum_legend",
+        "datum_legend_options",
+        "datum_legend_with_measures"
+      ],
+      "behavior": [
+        "initial_selection",
+        "selection_bar_highlight",
+        "selection_line_highlight",
+        "selection_callback_example",
+        "chart_title",
+        "slider",
+        "sliding_viewport_on_selection",
+        "percent_of_domain",
+        "percent_of_domain_by_category",
+        "percent_of_series",
+        "initial_hint_animation"
       ]
     },
     "template": {
@@ -65,79 +138,384 @@
         }
       },
       "body": {
-        "type": "list_view",
-        "children": [
-          {
+        "type": "primary_scroll_controller",
+        "child": {
+          "type": "scrollbar",
+          "child": {
             "type": "padding",
             "args": {
               "padding": {
                 "left": 16.0,
-                "right": 16.0,
-                "top": 16.0
+                "right": 16.0
               }
             },
             "child": {
-              "type": "text",
+              "type": "scroll_configuration",
               "args": {
-                "text": "Bar Charts",
-                "style": {
-                  "fontSize": 16.0,
-                  "fontWeight": "bold"
-                }
+                "scrollbars": false
+              },
+              "child": {
+                "type": "custom_scroll_view",
+                "args": {
+                  "primary": true
+                },
+                "children": [
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Bar Charts",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.bar}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Time Series Charts",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.time_series}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Line Charts",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.line}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Scatter Plot Charts",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.scatter_plot}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Combo Charts",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.combo}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Pie",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.pie}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Axis",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.axis}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "sized_box",
+                      "args": {
+                        "height": 16.0
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Legends",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.legend}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "sized_box",
+                      "args": {
+                        "height": 16.0
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "padding",
+                      "args": {
+                        "padding": {
+                          "left": 16.0,
+                          "right": 16.0,
+                          "top": 16.0
+                        }
+                      },
+                      "child": {
+                        "type": "text",
+                        "args": {
+                          "text": "Behaviors",
+                          "style": {
+                            "fontSize": 16.0,
+                            "fontWeight": "bold"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "sliver_grid",
+                    "args": {
+                      "gridDelegate": {
+                        "childAspectRatio": 1,
+                        "crossAxisSpacing": 16.0,
+                        "mainAxisSpacing": 16.0,
+                        "maxCrossAxisExtent": 420,
+                        "type": "max_cross_axis_extent"
+                      }
+                    },
+                    "children": "##for_each({{charts;$.behavior}}, template)##"
+                  },
+                  {
+                    "type": "sliver_to_box_adapter",
+                    "child": {
+                      "type": "sized_box",
+                      "args": {
+                        "height": 16.0
+                      }
+                    }
+                  }
+                ]
               }
             }
-          },
-          {
-            "type": "grid_view",
-            "args": {
-              "gridDelegate": {
-                "childAspectRatio": 1,
-                "crossAxisSpacing": 16.0,
-                "mainAxisSpacing": 16.0,
-                "maxCrossAxisExtent": 420,
-                "type": "max_cross_axis_extent"
-              },
-              "padding": 16.0,
-              "shrinkWrap": true
-            },
-            "children": "##for_each({{charts;$.bar}}, template)##"
-          },
-          {
-            "type": "padding",
-            "args": {
-              "padding": {
-                "left": 16.0,
-                "right": 16.0,
-                "top": 16.0
-              }
-            },
-            "child": {
-              "type": "text",
-              "args": {
-                "text": "Time Series Charts",
-                "style": {
-                  "fontSize": 16.0,
-                  "fontWeight": "bold"
-                }
-              }
-            }
-          },
-          {
-            "type": "grid_view",
-            "args": {
-              "gridDelegate": {
-                "childAspectRatio": 1,
-                "crossAxisSpacing": 16.0,
-                "mainAxisSpacing": 16.0,
-                "maxCrossAxisExtent": 420,
-                "type": "max_cross_axis_extent"
-              },
-              "padding": 16.0,
-              "shrinkWrap": true
-            },
-            "children": "##for_each({{charts;$.time_series}}, template)##"
           }
-        ]
+        }
       }
     }
   }

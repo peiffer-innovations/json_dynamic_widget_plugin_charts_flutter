@@ -39,5 +39,6 @@ void main() {
 
   // ...
 }
-
 ```
+
+See the extensive [examples](https://github.com/peiffer-innovations/json_dynamic_widget_plugin_charts_flutter/tree/main/example/assets/charts) for usage information via the JSON renderers.  All examples were borrowed from the official [charts_flutter online gallery](https://google.github.io/charts/flutter/gallery.html)

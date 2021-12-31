@@ -1,0 +1,139 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/behaviors/selection_callback_example",
+    "title": "Selection Callback Example",
+    "data": {
+      "us": [
+        {
+          "x": "2017-09-19",
+          "y": 5
+        },
+        {
+          "x": "2017-09-26",
+          "y": 25
+        },
+        {
+          "x": "2017-10-3",
+          "y": 78
+        },
+        {
+          "x": "2017-10-10",
+          "y": 54
+        }
+      ],
+      "uk": [
+        {
+          "x": "2017-09-19",
+          "y": 15
+        },
+        {
+          "x": "2017-09-26",
+          "y": 33
+        },
+        {
+          "x": "2017-10-3",
+          "y": 68
+        },
+        {
+          "x": "2017-10-10",
+          "y": 48
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "us": "##create_series(type:DateTime, items:{{data;$.us}}, name:US)##",
+        "uk": "##create_series(type:DateTime, items:{{data;$.uk}}, name:UK)##"
+      }
+    },
+    "child": {
+      "type": "column",
+      "children": [
+        {
+          "type": "expanded",
+          "child": {
+            "type": "time_series_chart",
+            "args": {
+              "animate": false,
+              "selectionModels": [
+                {
+                  "changedListener": "!{{on_selection_callback_change}}",
+                  "type": "info"
+                }
+              ],
+              "series": "{{series}}"
+            }
+          }
+        },
+        {
+          "type": "padding",
+          "args": {
+            "padding": {
+              "top": 5.0
+            }
+          },
+          "child": {
+            "type": "text",
+            "args": {
+              "text": "{{selectionCallbackTime}}"
+            }
+          }
+        },
+        {
+          "type": "padding",
+          "args": {
+            "padding": {
+              "top": 5.0
+            }
+          },
+          "child": {
+            "type": "row",
+            "children": [
+              {
+                "type": "text",
+                "args": {
+                  "text": "US Sales: "
+                }
+              },
+              {
+                "type": "text",
+                "args": {
+                  "text": "{{selectionCallbackSalesUS}}"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "padding",
+          "args": {
+            "padding": {
+              "top": 5.0
+            }
+          },
+          "child": {
+            "type": "row",
+            "children": [
+              {
+                "type": "text",
+                "args": {
+                  "text": "UK Sales: "
+                }
+              },
+              {
+                "type": "text",
+                "args": {
+                  "text": "{{selectionCallbackSalesUK}}"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/behaviors/percent_of_domain",
+    "title": "Percent of Domain",
+    "data": {
+      "desktop": [
+        {
+          "year": "2014",
+          "sales": 5
+        },
+        {
+          "year": "2015",
+          "sales": 25
+        },
+        {
+          "year": "2016",
+          "sales": 100
+        },
+        {
+          "year": "2017",
+          "sales": 75
+        }
+      ],
+      "tablet": [
+        {
+          "year": "2014",
+          "sales": 25
+        },
+        {
+          "year": "2015",
+          "sales": 50
+        },
+        {
+          "year": "2016",
+          "sales": 10
+        },
+        {
+          "year": "2017",
+          "sales": 20
+        }
+      ],
+      "mobile": [
+        {
+          "year": "2014",
+          "sales": 10
+        },
+        {
+          "year": "2015",
+          "sales": 15
+        },
+        {
+          "year": "2016",
+          "sales": 50
+        },
+        {
+          "year": "2017",
+          "sales": 45
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales)##",
+        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales)##",
+        "mobile": "##create_series(items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "behaviors": [
+          {
+            "totalType": "domain",
+            "type": "percent_injector"
+          }
+        ],
+        "barGroupingType": "stacked",
+        "primaryMeasureAxis": {
+          "type": "percent"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

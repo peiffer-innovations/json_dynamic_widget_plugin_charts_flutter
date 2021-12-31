@@ -44,7 +44,7 @@ class BarChartBuilder extends JsonWidgetBuilder {
   final bool defaultInteractions;
   final common.BarRendererConfig<String>? defaultRenderer;
   final LinkedHashMap<String, common.NumericAxisSpec>? disjointMeasureAxes;
-  final common.AxisSpec? domainAxis;
+  final common.AxisSpec<String>? domainAxis;
   final bool? flipVerticalAxis;
   final charts.LayoutConfig? layoutConfig;
   final common.NumericAxisSpec? primaryMeasureAxis;
@@ -121,8 +121,15 @@ class BarChartBuilder extends JsonWidgetBuilder {
       ) as charts.BarRendererConfig<String>?,
       disjointMeasureAxes: map['disjointMeasureAxes'] == null
           ? null
-          : LinkedHashMap.from(map['disjointMeasureAxes']),
-      domainAxis: JsonChartsDecoder.decodeAxisSpec(
+          : LinkedHashMap.from(
+              map['disjointMeasureAxes'].map(
+                (k, v) => MapEntry<String, common.NumericAxisSpec>(
+                  k.toString(),
+                  JsonChartsDecoder.decodeNumericAxisSpec(v)!,
+                ),
+              ),
+            ),
+      domainAxis: JsonChartsDecoder.decodeAxisSpec<String>(
         map['domainAxis'],
         validate: false,
       ),

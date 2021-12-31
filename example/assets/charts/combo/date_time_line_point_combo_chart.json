@@ -1,0 +1,87 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/combo_charts/date_time_line_point",
+    "title": "Date Time Line Point",
+    "data": {
+      "desktop": [
+        {
+          "date": "2017-9-19",
+          "value": 5
+        },
+        {
+          "date": "2017-9-26",
+          "value": 25
+        },
+        {
+          "date": "2017-10-3",
+          "value": 100
+        },
+        {
+          "date": "2017-10-10",
+          "value": 75
+        }
+      ],
+      "tablet": [
+        {
+          "date": "2017-9-19",
+          "value": 10
+        },
+        {
+          "date": "2017-9-26",
+          "value": 50
+        },
+        {
+          "date": "2017-10-3",
+          "value": 200
+        },
+        {
+          "date": "2017-10-10",
+          "value": 150
+        }
+      ],
+      "mobile": [
+        {
+          "date": "2017-9-19",
+          "value": 10
+        },
+        {
+          "date": "2017-9-26",
+          "value": 50
+        },
+        {
+          "date": "2017-10-3",
+          "value": 200
+        },
+        {
+          "date": "2017-10-10",
+          "value": 150
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(type:DateTime, items:{{data;$.desktop}}, name:Desktop, domain:$.date, measure:$.value, color:!{{charts.MaterialPalette.blue}})##",
+        "tablet": "##create_series(type:DateTime, items:{{data;$.tablet}}, name:Tablet, domain:$.date, measure:$.value, color:!{{charts.MaterialPalette.red}})##",
+        "mobile": "##create_series(type:DateTime, rendererIdKey:customPoint, items:{{data;$.mobile}}, name:Mobile, domain:$.date, measure:$.value, color:!{{charts.MaterialPalette.green}})##"
+      }
+    },
+    "child": {
+      "type": "time_series_chart",
+      "args": {
+        "animate": false,
+        "customSeriesRenderers": {
+          "customRendererId": "customPoint",
+          "type": "point"
+        },
+        "defaultRenderer": {
+          "type": "line"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

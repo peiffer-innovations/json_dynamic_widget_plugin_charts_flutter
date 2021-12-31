@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   json_dynamic_widget_plugin_charts_flutter:
     path: ../
+  json_dynamic_widget_plugin_expressions: ^1.0.0+1
 
 # dependency_overrides:
 #   json_class:
@@ -28,6 +29,13 @@ flutter:
   uses-material-design: true
   assets:
     - assets/charts/
+    - assets/charts/axis/
     - assets/charts/bar/
+    - assets/charts/behavior/
+    - assets/charts/combo/
+    - assets/charts/legend/
+    - assets/charts/line/
+    - assets/charts/pie/
+    - assets/charts/scatter_plot/
     - assets/charts/time_series/
     - assets/pages/

@@ -1,0 +1,143 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/line_disjoint_axis",
+    "title": "Line Disjoint Axis",
+    "data": {
+      "empty": [],
+      "desktop": [
+        {
+          "x": 0,
+          "y": 25
+        },
+        {
+          "x": 1,
+          "y": 125
+        },
+        {
+          "x": 2,
+          "y": 920
+        },
+        {
+          "x": 3,
+          "y": 375
+        }
+      ],
+      "tablet": [
+        {
+          "x": 0,
+          "y": 375
+        },
+        {
+          "x": 1,
+          "y": 1850
+        },
+        {
+          "x": 2,
+          "y": 9700
+        },
+        {
+          "x": 3,
+          "y": 5000
+        }
+      ],
+      "mobile": [
+        {
+          "x": 0,
+          "y": 5000
+        },
+        {
+          "x": 1,
+          "y": 25000
+        },
+        {
+          "x": 2,
+          "y": 100000
+        },
+        {
+          "x": 3,
+          "y": 75000
+        }
+      ],
+      "fakeClick": [
+        {
+          "x": 0,
+          "y": 0.25
+        },
+        {
+          "x": 1,
+          "y": 0.65
+        },
+        {
+          "x": 2,
+          "y": 0.50
+        },
+        {
+          "x": 3,
+          "y": 0.30
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(measureAxisIdKey:axis 1, type:int, items:{{data;$.desktop}}, name:Desktop, color:!{{charts.MaterialPalette.blue}})##",
+        "tablet": "##create_series(measureAxisIdKey:axis 2, type:int, items:{{data;$.tablet}}, name:Tablet, color:!{{charts.MaterialPalette.red}})##",
+        "mobile": "##create_series(measureAxisIdKey:axis 3, type:int, items:{{data;$.mobile}}, name:Mobile, color:!{{charts.MaterialPalette.green}})##",
+        "fakeClick": "##create_series(measureAxisIdKey:axis 4, type:int, items:{{data;$.fakeClick}}, name:FakeClick, color:!{{charts.MaterialPalette.purple}})##",
+        "empty": "##create_series(type:int, items:{{data;$.empty}}, name:Empty)##"
+      }
+    },
+    "child": {
+      "type": "line_chart",
+      "args": {
+        "animate": false,
+        "disjointMeasureAxes": {
+          "axis 1": {
+            "type": "numeric"
+          },
+          "axis 2": {
+            "type": "numeric"
+          },
+          "axis 3": {
+            "type": "numeric"
+          },
+          "axis 4": {
+            "type": "numeric"
+          }
+        },
+        "primaryMeasureAxis": {
+          "tickProviderSpec": {
+            "ticks": [
+              {
+                "value": 0,
+                "label": ""
+              },
+              {
+                "value": 1,
+                "label": ""
+              },
+              {
+                "value": 2,
+                "label": ""
+              },
+              {
+                "value": 3,
+                "label": ""
+              },
+              {
+                "value": 4,
+                "label": ""
+              }
+            ],
+            "type": "static"
+          },
+          "type": "numeric"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

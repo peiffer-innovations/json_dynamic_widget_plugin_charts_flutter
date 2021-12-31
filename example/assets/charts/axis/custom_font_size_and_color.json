@@ -1,0 +1,67 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/custom_font_size_and_color",
+    "title": "Custom Font Size and Color",
+    "data": {
+      "global": [
+        {
+          "year": "2014",
+          "sales": 50000
+        },
+        {
+          "year": "2015",
+          "sales": 25000
+        },
+        {
+          "year": "2016",
+          "sales": 100000
+        },
+        {
+          "year": "2017",
+          "sales": 750000
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "global": "##create_series(items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "domainAxis": {
+          "renderSpec": {
+            "labelStyle": {
+              "color": "!{{charts.MaterialPalette.black}}",
+              "fontSize": 18
+            },
+            "lineStyle": {
+              "color": "!{{charts.MaterialPalette.black}}"
+            },
+            "type": "small_tick"
+          }
+        },
+        "primaryMeasureAxis": {
+          "renderSpec": {
+            "labelStyle": {
+              "color": "!{{charts.MaterialPalette.black}}",
+              "fontSize": 18
+            },
+            "lineStyle": {
+              "color": "!{{charts.MaterialPalette.black}}"
+            },
+            "type": "gridline"
+          },
+          "type": "numeric"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/behaviors/percent_of_domain_by_category",
+    "title": "Percent of Domain by Category",
+    "data": {
+      "desktop": [
+        {
+          "year": "2014",
+          "sales": 5
+        },
+        {
+          "year": "2015",
+          "sales": 25
+        },
+        {
+          "year": "2016",
+          "sales": 100
+        },
+        {
+          "year": "2017",
+          "sales": 75
+        }
+      ],
+      "tablet": [
+        {
+          "year": "2014",
+          "sales": 25
+        },
+        {
+          "year": "2015",
+          "sales": 50
+        },
+        {
+          "year": "2016",
+          "sales": 10
+        },
+        {
+          "year": "2017",
+          "sales": 20
+        }
+      ],
+      "mobile": [
+        {
+          "year": "2014",
+          "sales": 10
+        },
+        {
+          "year": "2015",
+          "sales": 15
+        },
+        {
+          "year": "2016",
+          "sales": 50
+        },
+        {
+          "year": "2017",
+          "sales": 45
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktopA": "##create_series(seriesCategory:A, items:{{data;$.desktop}}, name:DesktopA, domain:$.year, measure:$.sales)##",
+        "tabletA": "##create_series(seriesCategory:A, items:{{data;$.tablet}}, name:TabletA, domain:$.year, measure:$.sales)##",
+        "mobileA": "##create_series(seriesCategory:A, items:{{data;$.mobile}}, name:MobileA, domain:$.year, measure:$.sales)##",
+        "desktopB": "##create_series(seriesCategory:B, items:{{data;$.desktop}}, name:DesktopB, domain:$.year, measure:$.sales)##",
+        "tabletB": "##create_series(seriesCategory:B, items:{{data;$.tablet}}, name:TabletB, domain:$.year, measure:$.sales)##",
+        "mobileB": "##create_series(seriesCategory:B, items:{{data;$.mobile}}, name:MobileB, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "behaviors": [
+          {
+            "totalType": "domainBySeriesCategory",
+            "type": "percent_injector"
+          }
+        ],
+        "barGroupingType": "groupedStacked",
+        "primaryMeasureAxis": {
+          "type": "percent"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

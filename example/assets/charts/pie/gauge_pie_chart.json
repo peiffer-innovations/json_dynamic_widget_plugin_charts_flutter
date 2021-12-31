@@ -1,0 +1,44 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/bar_charts/gauge",
+    "title": "Gauge",
+    "data": [
+      {
+        "x": "Low",
+        "y": 75
+      },
+      {
+        "x": "Acceptable",
+        "y": 100
+      },
+      {
+        "x": "High",
+        "y": 50
+      },
+      {
+        "x": "Unusual",
+        "y": 5
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "pie_chart",
+      "args": {
+        "animate": false,
+        "defaultRenderer": {
+          "arcWidth": 30,
+          "arcLength": "##expression(7 / 5 * pi)##",
+          "startAngle": "##expression(4 / 5 * pi)##",
+          "type": "arc"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

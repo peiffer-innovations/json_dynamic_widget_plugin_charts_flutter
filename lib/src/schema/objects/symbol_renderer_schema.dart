@@ -13,12 +13,21 @@ class SymbolRendererSchema {
     'type': 'object',
     'additionalProperties': false,
     'properties': {
+      'dashPattern': SchemaHelper.anySchema,
+      'icon': SchemaHelper.stringSchema,
       'isSolid': SchemaHelper.boolSchema,
+      'radius': SchemaHelper.numberSchema,
+      'size': SchemaHelper.numberSchema,
+      'strokeWidth': SchemaHelper.numberSchema,
       'type': {
         'type': 'string',
         'enum': [
           'circle',
+          'icon',
+          'line',
           'rect',
+          'rounded_rect',
+          'triangle',
         ],
       },
     },

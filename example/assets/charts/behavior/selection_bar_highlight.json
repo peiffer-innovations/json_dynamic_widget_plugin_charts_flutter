@@ -1,0 +1,39 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/behaviors/selection_bar_highlight",
+    "title": "Selection Bar Highlight",
+    "data": [
+      {
+        "year": "2014",
+        "sales": 5
+      },
+      {
+        "year": "2015",
+        "sales": 25
+      },
+      {
+        "year": "2016",
+        "sales": 100
+      },
+      {
+        "year": "2017",
+        "sales": 75
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(items:{{data}}, name:Sales, domain:$.year, measure:$.sales)##"
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "defaultInteractions": true,
+        "series": "{{series}}"
+      }
+    }
+  }
+}

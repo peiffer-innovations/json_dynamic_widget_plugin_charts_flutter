@@ -27,6 +27,30 @@ class JsonChartsFlutterPlugin {
         builder: BarChartBuilder.fromDynamic,
         schemaId: BarChartSchema.id,
       ),
+      LineChartBuilder.type: JsonWidgetBuilderContainer(
+        builder: LineChartBuilder.fromDynamic,
+        schemaId: LineChartSchema.id,
+      ),
+      NumericPieChartBuilder.type: JsonWidgetBuilderContainer(
+        builder: NumericPieChartBuilder.fromDynamic,
+        schemaId: PieChartSchema.id,
+      ),
+      NumericComboChartBuilder.type: JsonWidgetBuilderContainer(
+        builder: NumericComboChartBuilder.fromDynamic,
+        schemaId: NumericComboChartSchema.id,
+      ),
+      OrdinalComboChartBuilder.type: JsonWidgetBuilderContainer(
+        builder: OrdinalComboChartBuilder.fromDynamic,
+        schemaId: OrdinalComboChartSchema.id,
+      ),
+      ScatterPlotChartBuilder.type: JsonWidgetBuilderContainer(
+        builder: ScatterPlotChartBuilder.fromDynamic,
+        schemaId: ScatterPlotChartSchema.id,
+      ),
+      StringPieChartBuilder.type: JsonWidgetBuilderContainer(
+        builder: StringPieChartBuilder.fromDynamic,
+        schemaId: PieChartSchema.id,
+      ),
       TimeSeriesChartBuilder.type: JsonWidgetBuilderContainer(
         builder: TimeSeriesChartBuilder.fromDynamic,
         schemaId: TimeSeriesChartSchema.id,

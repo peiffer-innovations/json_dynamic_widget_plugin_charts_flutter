@@ -22,9 +22,12 @@ class AxisSpecSchema {
       'type': {
         'type': 'string',
         'enum': [
+          'bucketing',
+          'date_time',
           'end_points_time',
           'numeric',
           'ordinal',
+          'percent',
         ],
       },
     },

@@ -3,13 +3,18 @@ import 'dart:math';
 import 'package:charts_common/common.dart' as common;
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:json_class/json_class.dart';
+import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
 import 'package:json_theme/json_theme.dart';
 import 'package:json_theme/json_theme_schemas.dart';
+import 'package:logging/logging.dart';
 
 class JsonChartsDecoder {
   static const _baseSchemaUrl =
       'https://peiffer-innovations.github.io/flutter_json_schemas/schemas/json_dynamic_widget_plugin_charts_flutter';
+
+  static final _logger = Logger('JsonChartsDecoder');
 
   /// Expects the [map] to be either a [common.AnnotationLabelAnchor] or a
   /// [String] containing one of the following values:
@@ -225,7 +230,9 @@ class JsonChartsDecoder {
             ),
             dashPattern: map['dashPattern'] == null
                 ? null
-                : map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+                : List<int>.from(
+                    map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+                  ),
             endLabel: map['endLabel']?.toString(),
             labelAnchor: decodeAnnotationLabelAnchor(
               map['labelAnchor'],
@@ -298,9 +305,187 @@ class JsonChartsDecoder {
   ///
   /// ```json
   /// {
+  ///   "insideLabelStyleSpec": <TextStyleSpec>,
+  ///   "labelPadding": <int>,
+  ///   "labelPosition": <ArcLabelPosition>,
+  ///   "leaderLineColor": <Color>,
+  ///   "leaderLineStyleSpec": <ArcLabelLeaderLineStyleSpec>,
+  ///   "outsideLabelStyleSpec": <TextStyleSpec>,
+  ///   "showLeaderLines": <bool>
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeArcLabelLeaderLineStyleSpec]
+  /// * [decodeArcLabelPosition]
+  /// * [decodeColor]
+  /// * [decodeTextStyleSpec]
+  static common.ArcLabelDecorator<D>? decodeArcLabelDecorator<D>(
+    dynamic map, {
+    bool validate = false,
+  }) {
+    common.ArcLabelDecorator<D>? result;
+
+    if (map is common.ArcLabelDecorator<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/arc_label_decorator',
+        value: map,
+        validate: validate,
+      ));
+
+      result = common.ArcLabelDecorator<D>(
+        insideLabelStyleSpec: decodeTextStyleSpec(
+          map['insideLabelStyleSpec'],
+          validate: false,
+        ),
+        labelPadding: JsonClass.parseInt(map['labelPadding']) ?? 5,
+        labelPosition: decodeArcLabelPosition(
+              map['labelPosition'],
+              validate: false,
+            ) ??
+            common.ArcLabelPosition.auto,
+        leaderLineColor: decodeColor(
+          map['leaderLineColor'],
+          validate: false,
+        ),
+        leaderLineStyleSpec: decodeArcLabelLeaderLineStyleSpec(
+          map['leaderLineStyleSpec'],
+          validate: false,
+        ),
+        outsideLabelStyleSpec: decodeTextStyleSpec(
+          map['outsideLabelStyleSpec'],
+          validate: false,
+        ),
+        showLeaderLines: JsonClass.parseBool(
+          map['showLeaderLines'],
+          whenNull: true,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  static List<common.ArcLabelDecorator<D>> decodeArcLabelDecoratorList<D>(
+    dynamic map, {
+    bool validate = false,
+  }) {
+    var result = <common.ArcLabelDecorator<D>>[];
+
+    if (map is List) {
+      result = <common.ArcLabelDecorator<D>>[];
+      for (var item in map) {
+        result.add(decodeArcLabelDecorator<D>(
+          item,
+          validate: false,
+        )!);
+      }
+    } else if (map is common.ArcLabelDecorator<D>) {
+      result = <common.ArcLabelDecorator<D>>[map];
+    } else if (map is Map) {
+      result = <common.ArcLabelDecorator<D>>[
+        decodeArcLabelDecorator<D>(
+          map,
+          validate: false,
+        )!,
+      ];
+    } else if (map != null) {
+      throw Exception('[decodeArcLabelDecoratorList]: unknown object: [$map]');
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "color": <Color>,
+  ///   "length": <double>,
+  ///   "thickness": <double>
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeColor]
+  static common.ArcLabelLeaderLineStyleSpec? decodeArcLabelLeaderLineStyleSpec(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.ArcLabelLeaderLineStyleSpec? result;
+
+    if (map is common.ArcLabelLeaderLineStyleSpec) {
+      result = map;
+    } else if (map != null) {
+      result = common.ArcLabelLeaderLineStyleSpec(
+        color: decodeColor(
+              map['color'],
+              validate: false,
+            ) ??
+            charts.MaterialPalette.black,
+        length: JsonClass.parseDouble(map['length']) ?? 10.0,
+        thickness: JsonClass.parseDouble(map['thickness']) ?? 1.0,
+      );
+    }
+
+    return result;
+  }
+
+  /// Expects the [map] to be either a [common.ArcLabelPosition] or a [String]
+  /// containing one of the following values:
+  ///
+  /// * `auto`
+  /// * `inside`
+  /// * `outside`
+  static common.ArcLabelPosition? decodeArcLabelPosition(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.ArcLabelPosition? result;
+
+    if (map is common.ArcLabelPosition) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/arc_label_position',
+        value: map,
+        validate: validate,
+      ));
+
+      switch (map) {
+        case 'auto':
+          result = charts.ArcLabelPosition.auto;
+          break;
+
+        case 'inside':
+          result = charts.ArcLabelPosition.inside;
+          break;
+
+        case 'outside':
+          result = charts.ArcLabelPosition.outside;
+          break;
+
+        default:
+          throw Exception(
+            '[decodeArcLabelPosition]: unknown type: [$map]',
+          );
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
   ///   "arcLength": <double>,
   ///   "arcRatio": <double>,
-  ///   "arcRendererDecorators": <ArcRendererDecoder>,
+  ///   "arcRendererDecorators": <List<ArcLabelDecorator>>,
   ///   "arcWidth": <int>,
   ///   "customRendererId": <String>,
   ///   "layoutPaintOrder": <int>,
@@ -312,6 +497,7 @@ class JsonChartsDecoder {
   /// ```
   ///
   /// See also:
+  /// * [decodeArcLabelDecorator]
   /// * [decodeSymbolRenderer]
   static charts.ArcRendererConfig<D>? decodeArcRendererConfig<D>(
     dynamic map, {
@@ -331,7 +517,8 @@ class JsonChartsDecoder {
       result = charts.ArcRendererConfig<D>(
         arcLength: JsonClass.parseDouble(map['arcLength']) ?? (2 * pi),
         arcRatio: JsonClass.parseDouble(map['arcRatio']),
-        arcRendererDecorators: map['arcRendererDecoders'],
+        arcRendererDecorators:
+            decodeArcLabelDecoratorList<D>(map['arcRendererDecorators']),
         arcWidth: JsonClass.parseInt(map['arcWidth']),
         customRendererId: map['customRendererId'],
         layoutPaintOrder: JsonClass.parseInt(map['layoutPaintOrder']) ??
@@ -393,21 +580,25 @@ class JsonChartsDecoder {
   ///   "scaleSpec": <ScaleSpec>,
   ///   "showAxisLine": <bool>,
   ///   "tickFormatterSpec": <TickFormatterSpec>,
-  ///   "tickProviderSpec": <TickProviderSpec>
+  ///   "tickProviderSpec": <TickProviderSpec>,
+  ///   "type": <String>
   /// }
   /// ```
   ///
   /// See also:
+  /// * [decodeBucketingAxisSpec]
   /// * [decodeEndPointsTimeAxisSpec]
-  /// * [decodeNumericAxisSpec]x
+  /// * [decodeDateTimeAxisSpec]
+  /// * [decodeNumericAxisSpec]
   /// * [decodeOrdinalAxisSpec]
-  static charts.AxisSpec? decodeAxisSpec(
+  /// * [decodePercentAxisSpec]
+  static charts.AxisSpec<D>? decodeAxisSpec<D>(
     dynamic map, {
     bool validate = true,
   }) {
     charts.AxisSpec? result;
 
-    if (map is charts.AxisSpec) {
+    if (map is charts.AxisSpec<D>) {
       result = map;
     } else if (map != null) {
       assert(SchemaValidator.validate(
@@ -419,21 +610,51 @@ class JsonChartsDecoder {
       var type = map['type'];
 
       switch (type) {
+        case 'bucketing':
+          result = decodeBucketingAxisSpec(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'date_time':
+          result = decodeDateTimeAxisSpec(
+            map,
+            validate: false,
+          );
+          break;
+
         case 'end_points_time':
-          result = decodeEndPointsTimeAxisSpec(map);
+          result = decodeEndPointsTimeAxisSpec(
+            map,
+            validate: false,
+          );
           break;
 
         case 'numeric':
-          result = decodeNumericAxisSpec(map);
+          result = decodeNumericAxisSpec(
+            map,
+            validate: false,
+          );
           break;
 
         case 'ordinal':
-          result = decodeOrdinalAxisSpec(map);
+          result = decodeOrdinalAxisSpec(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'percent':
+          result = decodePercentAxisSpec<D>(
+            map,
+            validate: false,
+          );
           break;
 
         default:
-          result = charts.AxisSpec(
-            renderSpec: decodeRenderSpec(
+          result = charts.AxisSpec<D>(
+            renderSpec: decodeRenderSpec<D>(
               map['renderSpec'],
               validate: false,
             ),
@@ -441,13 +662,16 @@ class JsonChartsDecoder {
             showAxisLine: map['showAxisLine'] == null
                 ? null
                 : JsonClass.parseBool(map['showAxisLine']),
-            tickFormatterSpec: map['tickFormatterSpec'],
+            tickFormatterSpec: decodeTickFormatterSpec<D>(
+              map['tickFormatterSpec'],
+              validate: false,
+            ),
             tickProviderSpec: map['tickProviderSpec'],
           );
       }
     }
 
-    return result;
+    return result as common.AxisSpec<D>?;
   }
 
   /// Expects the [map] to be either a [charts.BarGroupingType] or a [String]
@@ -811,7 +1035,9 @@ class JsonChartsDecoder {
         customRendererId: map['customRendererId']?.toString(),
         dashPattern: map['dashPattern'] == null
             ? null
-            : map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+            : List<int>.from(
+                map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+              ),
         groupingType: decodeBarGroupingType(map['groupingType']) ??
             charts.BarGroupingType.grouped,
         layoutPaintOrder: JsonClass.parseInt(map['layoutPaintOrder']) ??
@@ -942,13 +1168,138 @@ class JsonChartsDecoder {
     return result;
   }
 
+  /// Expects the [map] to be either a [charts.BehaviorPosition] or a [String]
+  /// containing one of the following values:
+  ///
+  /// * `bottom`
+  /// * `end`
+  /// * `inside`
+  /// * `start`
+  /// * `top`
+  static charts.BehaviorPosition? decodeBehaviorPosition(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.BehaviorPosition? result;
+
+    if (map is charts.BehaviorPosition) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/behavior_position',
+        value: map,
+        validate: validate,
+      ));
+
+      switch (map) {
+        case 'bottom':
+          result = charts.BehaviorPosition.bottom;
+          break;
+
+        case 'end':
+          result = charts.BehaviorPosition.end;
+          break;
+
+        case 'inside':
+          result = charts.BehaviorPosition.inside;
+          break;
+
+        case 'start':
+          result = charts.BehaviorPosition.start;
+          break;
+
+        case 'top':
+          result = charts.BehaviorPosition.top;
+          break;
+
+        default:
+          throw Exception(
+            '[decodeBehaviorPosition]: map is not supported: [$map]',
+          );
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "renderSpec": <RenderSpec<num>>,
+  ///   "showAxisLine": <bool>,
+  ///   "showBucket": <bool>,
+  ///   "threshold": <double>,
+  ///   "tickFormatterSpec": <NumericTickFormatterSpec>,
+  ///   "tickProviderSpec": <NumericTickProviderSpec>,
+  ///   "viewport": <NumericExtents>
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeNumericTickProviderSpec]
+  static charts.BucketingAxisSpec? decodeBucketingAxisSpec(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.BucketingAxisSpec? result;
+
+    if (map is charts.BucketingAxisSpec) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/bucketing_axis_spec',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.BucketingAxisSpec(
+        renderSpec: decodeRenderSpec<num>(
+          map['renderSpec'],
+          validate: false,
+        ),
+        showAxisLine: map['showAxisLine'] == null
+            ? null
+            : JsonClass.parseBool(map['showAxisLine']),
+        showBucket: map['showBucket'] == null
+            ? null
+            : JsonClass.parseBool(map['showBucket']),
+        threshold: JsonClass.parseDouble(map['threshold']),
+        tickFormatterSpec: decodeNumericTickFormatterSpec(
+          map['tickFormatterSpec'],
+          validate: false,
+        ),
+        tickProviderSpec: decodeNumericTickProviderSpec(
+          map['tickProviderSpec'],
+          validate: false,
+        ),
+        viewport: decodeNumericExtents(
+          map['viewport'],
+          validate: false,
+        ),
+      );
+    }
+
+    return result;
+  }
+
   /// Decodes a dynamic value to an appropriate [charts.ChartBehavior].
   /// Which renderer is used is determined by the "type", and the schema is then
   /// specific to that type.  The following types are supported:
   ///
+  /// * "chart_title": [decodeChartTitle]
+  /// * "datum_legend": [decodeDatumLegend]
   /// * "domain_highlighter": [decodeDomainHighlighter]
+  /// * "initial_hint_behavior": [decodeInitialHintBehavior]
+  /// * "initial_selection": [decodeInitialSelection]
+  /// * "line_point_highlighter": [decodeLinePointHighlighter]
+  /// * "pan_and_zoom_behavior": [decodePanAndZoomBehavior]
+  /// * "percent_injector": [decodePercentInjector]
   /// * "range_annotation": [decodeRangeAnnotation]
   /// * "select_nearest": [decodeSelectNearest]
+  /// * "series_legend": [decodeSeriesLegend]
+  /// * "slider": [decodeSlider]
+  /// * "sliding_viewport": [decodeSlidingViewport]
   static charts.ChartBehavior<D>? decodeChartBehavior<D>(
     dynamic map, {
     bool validate = true,
@@ -967,8 +1318,57 @@ class JsonChartsDecoder {
       var type = map['type'];
 
       switch (type) {
+        case 'chart_title':
+          result = decodeChartTitle<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'datum_legend':
+          result = decodeDatumLegend<D>(
+            map,
+            validate: false,
+          );
+          break;
+
         case 'domain_highlighter':
           result = decodeDomainHighlighter<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'initial_hint_behavior':
+          result = decodeInitialHintBehavior<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'initial_selection':
+          result = decodeInitialSelection<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'line_point_highlighter':
+          result = decodeLinePointHighlighter<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'pan_and_zoom_behavior':
+          result = decodePanAndZoomBehavior<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'percent_injector':
+          result = decodePercentInjector<D>(
             map,
             validate: false,
           );
@@ -983,6 +1383,27 @@ class JsonChartsDecoder {
 
         case 'select_nearest':
           result = decodeSelectNearest<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'series_legend':
+          result = decodeSeriesLegend<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'slider':
+          result = decodeSlider<D>(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'sliding_viewport':
+          result = decodeSlidingViewport<D>(
             map,
             validate: false,
           );
@@ -1007,7 +1428,7 @@ class JsonChartsDecoder {
     if (map is List<charts.ChartBehavior<T>>) {
       result = map;
     } else if (map is charts.ChartBehavior<T>) {
-      result = [map];
+      result = <charts.ChartBehavior<T>>[map];
     } else if (map is Map) {
       result = [
         decodeChartBehavior<T>(
@@ -1023,6 +1444,129 @@ class JsonChartsDecoder {
           item,
           validate: false,
         )!);
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "behaviorPosition": <BehaviorPosition>,
+  ///   "innerPadding": <int>,
+  ///   "layoutMinSize": <int>,
+  ///   "layoutPreferredSize": <int>,
+  ///   "maxWidthStrategy": <MaxWidthStrategy>,
+  ///   "outerPadding": <int>,
+  ///   "subTitle": <String>,
+  ///   "subTitleStyleSpec": <TextStyleSpec>,
+  ///   "text": <String>,
+  ///   "titleDirection": <ChartTitleDirection>,
+  ///   "titleOutsideJustification": <TitleOutsideJustification>,
+  ///   "titlePadding": <int>,
+  ///   "titleStyleSpec": <TextStyleSpec>
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeBehaviorPosition]
+  /// * [decodeChartTitleDirection]
+  /// * [decodeMaxWidthStrategy]
+  /// * [decodeOutsideJustification]
+  /// * [decodeTextStyleSpec]
+  static charts.ChartTitle<D>? decodeChartTitle<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.ChartTitle<D>? result;
+
+    if (map is charts.ChartTitle<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/chart_title',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.ChartTitle<D>(
+        map['text'],
+        behaviorPosition: decodeBehaviorPosition(
+          map['behaviorPosition'],
+          validate: false,
+        ),
+        innerPadding: JsonClass.parseInt(map['innerPadding']),
+        layoutMinSize: JsonClass.parseInt(map['layoutMinSize']),
+        layoutPreferredSize: JsonClass.parseInt(map['layoutPreferredSize']),
+        maxWidthStrategy: decodeMaxWidthStrategy(
+          map['maxWidthStrategy'],
+          validate: false,
+        ),
+        outerPadding: JsonClass.parseInt(map['outerPadding']),
+        subTitle: map['subTitle'],
+        subTitleStyleSpec: decodeTextStyleSpec(
+          map['subTitleStyleSpec'],
+          validate: false,
+        ),
+        titleDirection: decodeChartTitleDirection(
+          map['titleDirection'],
+          validate: false,
+        ),
+        titleOutsideJustification: decodeOutsideJustification(
+          map['titleOutsideJustification'],
+          validate: false,
+        ),
+        titlePadding: JsonClass.parseInt(map['titlePadding']),
+        titleStyleSpec: decodeTextStyleSpec(
+          map['titleStyleSpec'],
+          validate: false,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  /// Expects the [map] to be either a [common.ChartTitleDirection] or a
+  /// [String] containing one of the following values:
+  ///
+  /// * `auto`
+  /// * `horizontal`
+  /// * `vertical`
+  static common.ChartTitleDirection? decodeChartTitleDirection(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.ChartTitleDirection? result;
+
+    if (map is common.ChartTitleDirection) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/chart_title_direction',
+        value: map,
+        validate: validate,
+      ));
+
+      switch (map) {
+        case 'auto':
+          result = common.ChartTitleDirection.auto;
+          break;
+
+        case 'horizontal':
+          result = common.ChartTitleDirection.horizontal;
+          break;
+
+        case 'vertical':
+          result = common.ChartTitleDirection.vertical;
+          break;
+
+        default:
+          throw Exception(
+            '[decodeChartTitleDirection]: map is not supported: [$map]',
+          );
       }
     }
 
@@ -1048,6 +1592,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
+
       result = fromColor(ThemeDecoder.decodeColor(
         map,
         validate: false,
@@ -1108,6 +1653,142 @@ class JsonChartsDecoder {
     return result;
   }
 
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "renderSpec": <RenderSpec<DateTime>>,
+  ///   "showAxisLine": <bool>,
+  ///   "tickFormatterSpec": <DateTimeTickFormatterSpec>,
+  ///   "tickProviderSpec": <DateTimeTickProviderSpec>,
+  ///   "viewport": <DateTimeExtents>
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeDateTimeTickFormatterSpec]
+  /// * [decodeDateTimeTickProviderSpec]
+  /// * [decodeRendererSpec]
+  static charts.DateTimeAxisSpec? decodeDateTimeAxisSpec(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.DateTimeAxisSpec? result;
+
+    if (map is charts.DateTimeAxisSpec) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/date_time_axis_spec',
+        value: map,
+        validate: validate,
+      ));
+
+      result = charts.DateTimeAxisSpec(
+        renderSpec: decodeRenderSpec<DateTime>(
+          map['renderSpec'],
+          validate: false,
+        ),
+        showAxisLine: map['showAxisLine'] == null
+            ? null
+            : JsonClass.parseBool(map['showAxisLine']),
+        tickFormatterSpec: decodeDateTimeTickFormatterSpec(
+          map['tickFormatterSpec'],
+          validate: false,
+        ),
+        tickProviderSpec: decodeDateTimeTickProviderSpec(
+          map['tickProviderSpec'],
+          validate: false,
+        ),
+        viewport: decodeDateTimeExtents(
+          map['viewport'],
+          validate: false,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "end": <DateTime>,
+  ///   "start": <DateTime>
+  /// }
+  /// ```
+  static common.DateTimeExtents? decodeDateTimeExtents(
+    dynamic map, {
+    bool validate = false,
+  }) {
+    common.DateTimeExtents? result;
+
+    if (map is common.DateTimeExtents) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/date_time_extents',
+        value: map,
+        validate: validate,
+      ));
+
+      result = common.DateTimeExtents(
+        end: JsonClass.parseDateTime(map['end'])!,
+        start: JsonClass.parseDateTime(map['start'])!,
+      );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "includeTime": <bool>,
+  ///   "type": "auto"
+  /// }
+  /// ```
+  static common.DateTimeTickProviderSpec? decodeDateTimeTickProviderSpec(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.DateTimeTickProviderSpec? result;
+
+    if (map is common.DateTimeTickProviderSpec) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/date_time_tick_provider_spec',
+        value: map,
+        validate: validate,
+      ));
+      var type = map['type'];
+
+      switch (type) {
+        case 'auto':
+          result = common.AutoDateTimeTickProviderSpec(
+            includeTime: JsonClass.parseBool(
+              map['includeTime'],
+              whenNull: true,
+            ),
+          );
+          break;
+
+        default:
+          throw Exception(
+            '[decodeDateTimeTickProviderSpec]: unknown type encountered: [$type]',
+          );
+      }
+    }
+
+    return result;
+  }
+
   /// Expects the [map] to be either a [common.DateTimeFactory] or a [String]
   /// containing one of the following values:
   ///
@@ -1139,6 +1820,128 @@ class JsonChartsDecoder {
         default:
           throw Exception('Unknown [DateTimeFactory] encountered: [$map]');
       }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "format": <String>
+  /// }
+  /// ```
+  static charts.DateTimeTickFormatterSpec? decodeDateTimeTickFormatterSpec<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.DateTimeTickFormatterSpec? result;
+
+    if (map is charts.DateTimeTickFormatterSpec) {
+      result = map;
+    } else if (map is DateFormat) {
+      charts.BasicDateTimeTickFormatterSpec.fromDateFormat(map);
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/tick_formatter_spec',
+        value: map,
+        validate: validate,
+      ));
+
+      var type = map['type'];
+      if (type == 'auto_date_time') {
+        result = charts.AutoDateTimeTickFormatterSpec(
+          day: decodeTimeFormatterSpec(map['day']),
+          hour: decodeTimeFormatterSpec(map['hour']),
+          minute: decodeTimeFormatterSpec(map['minute']),
+          month: decodeTimeFormatterSpec(map['month']),
+          year: decodeTimeFormatterSpec(map['year']),
+        );
+      } else {
+        result = charts.BasicDateTimeTickFormatterSpec.fromDateFormat(
+          DateFormat(map['format'] ?? 'MM/dd/yyyy'),
+        );
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "cellPadding": <EdgeInsets>,
+  ///   "desiredMaxColumns": <int>,
+  ///   "desiredMaxRows": <int>,
+  ///   "horizontalFirst": <bool>,
+  ///   "entryTextStyle": <common.TextStyleSpec>,
+  ///   "insideJustification": <charts.InsideJustification>,
+  ///   "legendDefaultMeasure": <charts.LegendDefaultMeasure>,
+  ///   "measureFormatter": <common.MeasureFormatter>,
+  ///   "outsideJustification": <charts.OutsideJustification>,
+  ///   "position": <BehaviorPosition>,
+  ///   "secondaryMeasureFormatter": <common.MeasureFormatter>,
+  ///   "showMeasures": <bool>,
+  ///   "type": "series_legend"
+  /// }
+  /// ```
+  ///
+  /// See also
+  /// * [decodeBehaviorPosition]
+  /// * [decodeInsideJustification]
+  /// * [decodeLegendDefaultMeasure]
+  /// * [decodeOutsideJustification]
+  /// * [decodeTextStyleSpec]
+  /// * [ThemeDecoder.decodeEdgeInsetsGeometry]
+  static charts.DatumLegend<D>? decodeDatumLegend<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.DatumLegend<D>? result;
+
+    if (map is charts.DatumLegend<D>) {
+      result = map;
+    } else if (map != null) {
+      result = charts.DatumLegend<D>(
+        cellPadding: ThemeDecoder.decodeEdgeInsetsGeometry(
+          map['cellPadding'],
+          validate: false,
+        ) as EdgeInsets?,
+        desiredMaxColumns: JsonClass.parseInt(map['desiredMaxColumns']),
+        desiredMaxRows: JsonClass.parseInt(map['desiredMaxRows']),
+        horizontalFirst: map['horizontalFirst'] == null
+            ? null
+            : JsonClass.parseBool(map['horizontalFirst']),
+        entryTextStyle: decodeTextStyleSpec(
+          map['entryTextStyle'],
+          validate: false,
+        ),
+        insideJustification: decodeInsideJustification(
+          map['insideJustification'],
+          validate: false,
+        ),
+        legendDefaultMeasure: decodeLegendDefaultMeasure(
+          map['legendDefaultMeasure'],
+          validate: false,
+        ),
+        measureFormatter: map['measureFormatter'],
+        outsideJustification: decodeOutsideJustification(
+          map['outsideJustification'],
+          validate: false,
+        ),
+        position: decodeBehaviorPosition(
+          map['position'],
+          validate: false,
+        ),
+        secondaryMeasureFormatter: map['secondaryMeasureFormatter'],
+        showMeasures: map['showMeasures'] == null
+            ? null
+            : JsonClass.parseBool(map['showMeasures']),
+      );
     }
 
     return result;
@@ -1212,16 +2015,22 @@ class JsonChartsDecoder {
         showAxisLine: map['showAxisLine'] == null
             ? null
             : JsonClass.parseBool(map['showAxisLine']),
-        tickFormatterSpec: map['tickFormatterSpec'],
+        tickFormatterSpec: decodeDateTimeTickFormatterSpec(
+          map['tickFormatterSpec'],
+          validate: false,
+        ),
         tickProviderSpec: map['tickProviderSpec'],
-        viewport: map['viewport'],
+        viewport: decodeDateTimeExtents(
+          map['viewport'],
+          validate: false,
+        ),
       );
     }
 
     return result;
   }
 
-  /// Expects the [map] to be either a [charts.BarGroupingType] or a [String]
+  /// Expects the [map] to be either a [charts.FillPatternType] or a [String]
   /// containing one of the following values:
   ///
   /// * `forwardHatch`
@@ -1251,6 +2060,127 @@ class JsonChartsDecoder {
 
         default:
           throw Exception('Unknown [FillPatternType] encountered: [$map]');
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "hintDuration": <Duration>,
+  ///   "maxHintScaleFactor": <double>,
+  ///   "maxHintTranslate": <double>
+  /// }
+  /// ```
+  static charts.InitialHintBehavior<D>? decodeInitialHintBehavior<D>(
+    dynamic map, {
+    bool validate = false,
+  }) {
+    charts.InitialHintBehavior<D>? result;
+
+    if (map is charts.InitialHintBehavior<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/initial_hint_behavior',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.InitialHintBehavior<D>(
+        hintDuration: JsonClass.parseDurationFromMillis(map['hintDuration']),
+        maxHintScaleFactor: JsonClass.parseDouble(map['maxHintScaleFactor']),
+        maxHintTranslate: JsonClass.parseDouble(map['maxHintTranslate']),
+      );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "selectedDataConfig": <List<SeriesDatumConfig>>,
+  ///   "selectedSeriesConfig": <List<String>>,
+  ///   "selectionModelType": <SelectionModelType>,
+  ///   "shouldPreserveSelectionOnDraw": <bool>
+  /// }
+  /// ```
+  ///
+  /// See also
+  /// * [decodeSeriesDatumConfigList]
+  /// * [decodeSelectionModelType]
+  static charts.InitialSelection<D>? decodeInitialSelection<D>(
+    dynamic map, {
+    bool validate = false,
+  }) {
+    charts.InitialSelection<D>? result;
+
+    if (map is charts.InitialSelection<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/initial_selection',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.InitialSelection<D>(
+        selectedDataConfig: decodeSeriesDatumConfigList(
+          map['selectedDataConfig'],
+          validate: false,
+        ),
+        selectedSeriesConfig: map['selectedSeriesConfig'] == null
+            ? null
+            : List<String>.from(map['selectedSeriesConfig']),
+        selectionModelType: decodeSelectionModelType(
+              map['selectionModelType'],
+              validate: false,
+            ) ??
+            common.SelectionModelType.info,
+        shouldPreserveSelectionOnDraw: JsonClass.parseBool(
+          map['shouldPreserveSelectionOnDraw'],
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  /// Expects the [map] to be either a [charts.InsideJustification] or a
+  /// [String] containing one of the following values:
+  ///
+  /// * `topEnd`
+  /// * `topStart`
+  static charts.InsideJustification? decodeInsideJustification(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.InsideJustification? result;
+
+    if (map is charts.InsideJustification) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/inside_justification',
+        value: map,
+        validate: validate,
+      ));
+      switch (map) {
+        case 'topEnd':
+          result = charts.InsideJustification.topEnd;
+          break;
+
+        case 'topStart':
+          result = charts.InsideJustification.topStart;
+          break;
+
+        default:
+          throw Exception('Unknown [InsideJustification] encountered: [$map]');
       }
     }
 
@@ -1329,6 +2259,169 @@ class JsonChartsDecoder {
     return result;
   }
 
+  /// Expects the [map] to be either a [charts.LegendDefaultMeasure] or a
+  /// [String] containing one of the following values:
+  ///
+  /// * `average`
+  /// * `firstValue`
+  /// * `lastValue`
+  /// * `none`
+  /// * `sum`
+  static charts.LegendDefaultMeasure? decodeLegendDefaultMeasure(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.LegendDefaultMeasure? result;
+
+    if (map is charts.LegendDefaultMeasure) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/legend_default_measure',
+        value: map,
+        validate: validate,
+      ));
+      switch (map) {
+        case 'average':
+          result = charts.LegendDefaultMeasure.average;
+          break;
+
+        case 'firstValue':
+          result = charts.LegendDefaultMeasure.firstValue;
+          break;
+
+        case 'lastValue':
+          result = charts.LegendDefaultMeasure.lastValue;
+          break;
+
+        case 'none':
+          result = charts.LegendDefaultMeasure.none;
+          break;
+
+        case 'sum':
+          result = charts.LegendDefaultMeasure.sum;
+          break;
+
+        default:
+          throw Exception('Unknown [LegendDefaultMeasure] encountered: [$map]');
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "dashPattern": <List<int>>,
+  ///   "defaultRadiusPx": <double>,
+  ///   "drawFollowLinesAcrossChart": <bool>,
+  ///   "radiusPaddingPx": <double>,
+  ///   "selectionModelType": <SelectionModelType>,
+  ///   "showHorizontalFollowLine": <LinePointHighlighterFollowLineType>,
+  ///   "showVerticalFollowLine": <LinePointHighlighterFollowLineType>,
+  ///   "symbolRenderer": <SymbolRenderer>
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeLinePointHighlighterFollowLineType]
+  /// * [decodeSelectionModelType]
+  static charts.LinePointHighlighter<D>? decodeLinePointHighlighter<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.LinePointHighlighter<D>? result;
+
+    if (map is charts.LinePointHighlighter<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/line_point_highlighter',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.LinePointHighlighter<D>(
+        dashPattern: map['dashPattern'] == null
+            ? null
+            : List<int>.from(
+                map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+              ),
+        defaultRadiusPx: JsonClass.parseDouble(map['defaultRadiusPx']),
+        drawFollowLinesAcrossChart: map['drawFollowLinesAcrossChart'] == null
+            ? null
+            : JsonClass.parseBool(map['drawFollowLinesAcrossChart']),
+        radiusPaddingPx: JsonClass.parseDouble(map['radiusPaddingPx']),
+        selectionModelType: decodeSelectionModelType(
+          map['selectionModelType'],
+          validate: false,
+        ),
+        showHorizontalFollowLine: decodeLinePointHighlighterFollowLineType(
+          map['showHorizontalFollowLine'],
+          validate: false,
+        ),
+        showVerticalFollowLine: decodeLinePointHighlighterFollowLineType(
+          map['showVerticalFollowLine'],
+          validate: false,
+        ),
+        symbolRenderer: decodeSymbolRenderer(
+          map['symbolRenderer'],
+          validate: false,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  /// Expects the [map] to be either a
+  /// [charts.LinePointHighlighterFollowLineType] or a [String] containing one
+  /// of the following values:
+  ///
+  /// * `all`
+  /// * `nearest`
+  /// * `none`
+  static common.LinePointHighlighterFollowLineType?
+      decodeLinePointHighlighterFollowLineType(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.LinePointHighlighterFollowLineType? result;
+
+    if (map is common.LinePointHighlighterFollowLineType) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/line_point_highlighter_follow_line_type',
+        value: map,
+        validate: validate,
+      ));
+
+      switch (map) {
+        case 'all':
+          result = common.LinePointHighlighterFollowLineType.all;
+          break;
+
+        case 'nearest':
+          result = common.LinePointHighlighterFollowLineType.nearest;
+          break;
+
+        case 'none':
+          result = common.LinePointHighlighterFollowLineType.none;
+          break;
+
+        default:
+          throw Exception(
+            '[decodeLinePointHighlighterFollowLineType]: unknown type encountered: [$map]',
+          );
+      }
+    }
+
+    return result;
+  }
+
   /// Decodes the object from a Map-like dynamic structure.  This expects the
   /// JSON format to be of the following structure:
   ///
@@ -1370,7 +2463,9 @@ class JsonChartsDecoder {
         customRendererId: map['customRendererId']?.toString(),
         dashPattern: map['dashPattern'] == null
             ? null
-            : map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+            : List<int>.from(
+                map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+              ),
         includeArea: JsonClass.parseBool(map['includeArea']),
         includeLine: JsonClass.parseBool(
           map[''],
@@ -1424,7 +2519,9 @@ class JsonChartsDecoder {
         color: decodeColor(map['color'], validate: false),
         dashPattern: map['dashPattern'] == null
             ? null
-            : map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+            : List<int>.from(
+                map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+              ),
         thickness: JsonClass.parseInt(map['thickness']),
       );
     }
@@ -1495,6 +2592,45 @@ class JsonChartsDecoder {
     return result;
   }
 
+  /// Expects the [map] to be either a [common.MaxWidthStrategy] or a
+  /// [String] containing one of the following values:
+  ///
+  /// * `ellipsize`
+  /// * `truncate`
+  static common.MaxWidthStrategy? decodeMaxWidthStrategy(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.MaxWidthStrategy? result;
+
+    if (map is common.MaxWidthStrategy) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/max_width_strategy',
+        value: map,
+        validate: validate,
+      ));
+
+      switch (map) {
+        case 'ellipsize':
+          result = common.MaxWidthStrategy.ellipsize;
+          break;
+
+        case 'truncate':
+          result = common.MaxWidthStrategy.truncate;
+          break;
+
+        default:
+          throw Exception(
+            '[decodeMaxWidthStrategy]: map is not supported: [$map]',
+          );
+      }
+    }
+
+    return result;
+  }
+
   /// Decodes the object from a Map-like dynamic structure.  This expects the
   /// JSON format to be of the following structure:
   ///
@@ -1517,24 +2653,186 @@ class JsonChartsDecoder {
     if (map is charts.NumericAxisSpec) {
       result = map;
     } else if (map != null) {
+      var type = map['type'];
+
+      if (type == 'bucketing') {
+        result = decodeBucketingAxisSpec(
+          map,
+          validate: false,
+        );
+      } else if (type == 'percent') {
+        result = decodePercentAxisSpec<num>(
+          map,
+          validate: false,
+        );
+      } else {
+        assert(SchemaValidator.validate(
+          schemaId: '$_baseSchemaUrl/numeric_axis_spec',
+          value: map,
+          validate: validate,
+        ));
+
+        result = charts.NumericAxisSpec(
+          renderSpec: decodeRenderSpec<num>(
+            map['renderSpec'],
+            validate: false,
+          ),
+          scaleSpec: map['scaleSpec'],
+          showAxisLine: map['showAxisLine'] == null
+              ? null
+              : JsonClass.parseBool(map['showAxisLine']),
+          tickFormatterSpec: decodeNumericTickFormatterSpec(
+            map['tickFormatterSpec'],
+            validate: false,
+          ),
+          tickProviderSpec: decodeNumericTickProviderSpec(
+            map['tickProviderSpec'],
+          ),
+          viewport: decodeNumericExtents(
+            map['viewport'],
+            validate: false,
+          ),
+        );
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "max": <double>,
+  ///   "min": <double>
+  /// }
+  /// ```
+  static common.NumericExtents? decodeNumericExtents(
+    dynamic map, {
+    bool validate = false,
+  }) {
+    common.NumericExtents? result;
+
+    if (map is common.NumericExtents) {
+      result = map;
+    } else if (map != null) {
       assert(SchemaValidator.validate(
-        schemaId: '$_baseSchemaUrl/numeric_axis_spec',
+        schemaId: '$_baseSchemaUrl/numeric_extents',
         value: map,
         validate: validate,
       ));
-      result = charts.NumericAxisSpec(
-        renderSpec: decodeRenderSpec<num>(
-          map['renderSpec'],
-          validate: false,
-        ),
-        scaleSpec: map['scaleSpec'],
-        showAxisLine: map['showAxisLine'] == null
-            ? null
-            : JsonClass.parseBool(map['showAxisLine']),
-        tickFormatterSpec: map['tickFormatterSpec'],
-        tickProviderSpec: map['tickProviderSpec'],
-        viewport: map['viewport'],
+
+      result = common.NumericExtents(
+        JsonClass.parseInt(map['min'])!,
+        JsonClass.parseInt(map['max'])!,
       );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "format": <String>
+  /// }
+  /// ```
+  static charts.NumericTickFormatterSpec? decodeNumericTickFormatterSpec<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.NumericTickFormatterSpec? result;
+
+    if (map is charts.NumericTickFormatterSpec) {
+      result = map;
+    } else if (map is NumberFormat) {
+      result = charts.BasicNumericTickFormatterSpec.fromNumberFormat(map);
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/tick_formatter_spec',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.BasicNumericTickFormatterSpec.fromNumberFormat(
+        NumberFormat(map['format']?.toString() ?? '###,##0'),
+      );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "dataIsInWholeNumbers": <bool>,
+  ///   "desiredMaxTickCount": <int>,
+  ///   "desiredMinTickCount": <int>,
+  ///   "desiredTickCount": <int>,
+  ///   "ticks": <List<TickSpec<num>>,
+  ///   "type": <"basic" | "bucketing" | "end_points" | "static">,
+  ///   "zeroBound": <bool>
+  /// }
+  /// ```
+  static common.NumericTickProviderSpec? decodeNumericTickProviderSpec(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.NumericTickProviderSpec? result;
+
+    if (map is common.NumericTickProviderSpec) {
+      result = map;
+    } else if (map != null) {
+      var type = map['type'];
+
+      switch (type) {
+        case 'basic':
+          result = common.BasicNumericTickProviderSpec(
+            dataIsInWholeNumbers: map['dataIsInWholeNumbers'] == null
+                ? null
+                : JsonClass.parseBool(map['dataIsInWholeNumbers']),
+            desiredMaxTickCount: JsonClass.parseInt(map['desiredMaxTickCount']),
+            desiredMinTickCount: JsonClass.parseInt(map['desiredMinTickCount']),
+            desiredTickCount: JsonClass.parseInt(map['desiredTickCount']),
+            zeroBound: map['zeroBound'] == null
+                ? null
+                : JsonClass.parseBool(map['zeroBound']),
+          );
+          break;
+
+        case 'bucketing':
+          result = common.BucketingNumericTickProviderSpec(
+            dataIsInWholeNumbers: map['dataIsInWholeNumbers'] == null
+                ? null
+                : JsonClass.parseBool(map['dataIsInWholeNumbers']),
+            desiredMaxTickCount: JsonClass.parseInt(map['desiredMaxTickCount']),
+            desiredMinTickCount: JsonClass.parseInt(map['desiredMinTickCount']),
+            desiredTickCount: JsonClass.parseInt(map['desiredTickCount']),
+            zeroBound: map['zeroBound'] == null
+                ? null
+                : JsonClass.parseBool(map['zeroBound']),
+          );
+          break;
+
+        case 'end_points':
+          result = common.NumericEndPointsTickProviderSpec();
+          break;
+
+        case 'static':
+          result = common.StaticNumericTickProviderSpec(
+            decodeTickSpecList<num>(map['ticks'])!,
+          );
+          break;
+
+        default:
+          throw Exception(
+            '[decodeNumericTickProviderSpec]: unknown type encountered: [$type]',
+          );
+      }
     }
 
     return result;
@@ -1550,9 +2848,15 @@ class JsonChartsDecoder {
   ///   "showAxisLine": <bool>,
   ///   "tickFormatterSpec": <OrdinalTickFormatterSpec>,
   ///   "tickProviderSpec": <OrdinalTickProviderSpec>,
-  ///   "viewport": <OrdinalExtents>
+  ///   "viewport": <OrdinalViewport>
   /// }
   /// ```
+  ///
+  /// See also:
+  /// * [decodeOrdinalTickFormatterSpec]
+  /// * [decodeOrdinalTickProviderSpec]
+  /// * [decodeOrdinalViewport]
+  /// * [decodeRenderSpec]
   static charts.OrdinalAxisSpec? decodeOrdinalAxisSpec(
     dynamic map, {
     bool validate = true,
@@ -1577,10 +2881,346 @@ class JsonChartsDecoder {
         showAxisLine: map['showAxisLine'] == null
             ? null
             : JsonClass.parseBool(map['showAxisLine']),
-        tickFormatterSpec: map['tickFormatterSpec'],
-        tickProviderSpec: map['tickProviderSpec'],
-        viewport: map['viewport'],
+        tickFormatterSpec: decodeOrdinalTickFormatterSpec(
+          map['tickFormatterSpec'],
+          validate: false,
+        ),
+        tickProviderSpec: decodeOrdinalTickProviderSpec(
+          map['tickProviderSpec'],
+          validate: false,
+        ),
+        viewport: decodeOrdinalViewport(
+          map['viewport'],
+          validate: false,
+        ),
       );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  /// }
+  /// ```
+  static charts.OrdinalTickFormatterSpec? decodeOrdinalTickFormatterSpec(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.OrdinalTickFormatterSpec? result;
+
+    if (map is charts.OrdinalTickFormatterSpec) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/tick_formatter_spec',
+        value: map,
+        validate: validate,
+      ));
+
+      result = charts.BasicOrdinalTickFormatterSpec();
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "ticks": <List<TickSpec>>,
+  ///   "type": <"basic" | "static">
+  /// }
+  /// ```
+  static charts.OrdinalTickProviderSpec? decodeOrdinalTickProviderSpec(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.OrdinalTickProviderSpec? result;
+
+    if (map is charts.OrdinalTickProviderSpec) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/ordinal_tick_provider_spec',
+        value: map,
+        validate: validate,
+      ));
+
+      var type = map['type'];
+
+      switch (type) {
+        case 'basic':
+          result = charts.BasicOrdinalTickProviderSpec();
+          break;
+
+        case 'static':
+          result = charts.StaticOrdinalTickProviderSpec(
+            decodeTickSpecList<String>(
+              map['ticks'],
+              validate: false,
+            )!,
+          );
+          break;
+
+        default:
+          throw Exception(
+            '[decodeOrdinalTickProviderSpec]: unknown type encountered: [$type]',
+          );
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "dataSize": <int>,
+  ///   "startingDomain": <String>
+  /// }
+  /// ```
+  static common.OrdinalViewport? decodeOrdinalViewport(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.OrdinalViewport? result;
+
+    if (map is common.OrdinalViewport) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/ordinal_viewport',
+        value: map,
+        validate: validate,
+      ));
+
+      result = common.OrdinalViewport(
+        map['start']!.toString(),
+        JsonClass.parseInt(map['dataSize'])!,
+      );
+    }
+
+    return result;
+  }
+
+  /// Expects the [map] to be either a [charts.OutsideJustification] or a
+  /// [String] containing one of the following values:
+  ///
+  /// * `end`
+  /// * `endDrawArea`
+  /// * `middle`
+  /// * `middleDrawArea`
+  /// * `start`
+  /// * `startDrawArea`
+  static charts.OutsideJustification? decodeOutsideJustification(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.OutsideJustification? result;
+
+    if (map is charts.OutsideJustification) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/outside_justification',
+        value: map,
+        validate: validate,
+      ));
+      switch (map) {
+        case 'end':
+          result = charts.OutsideJustification.end;
+          break;
+
+        case 'endDrawArea':
+          result = charts.OutsideJustification.endDrawArea;
+          break;
+
+        case 'middle':
+          result = charts.OutsideJustification.middle;
+          break;
+
+        case 'middleDrawArea':
+          result = charts.OutsideJustification.middleDrawArea;
+          break;
+
+        case 'start':
+          result = charts.OutsideJustification.start;
+          break;
+
+        case 'startDrawArea':
+          result = charts.OutsideJustification.startDrawArea;
+          break;
+
+        default:
+          throw Exception('Unknown [OutsideJustification] encountered: [$map]');
+      }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "panningCompletedCallback": <VoidCallback>
+  /// }
+  /// ```
+  static charts.PanAndZoomBehavior<D>? decodePanAndZoomBehavior<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.PanAndZoomBehavior<D>? result;
+
+    if (map is charts.PanAndZoomBehavior<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/pan_and_zoom_behavior',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.PanAndZoomBehavior<D>(
+        panningCompletedCallback: map['panningCompletedCallback'],
+      );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "renderSpec": <RenderSpec>,
+  ///   "showAxisLine": <bool>,
+  ///   "tickFormatterSpec": <NumericTickFormatterSpec>,
+  ///   "tickProviderSpec": <NumericTickProviderSpec>,
+  ///   "viewport": <NumericExtents>
+  /// }
+  /// ```
+  static charts.PercentAxisSpec? decodePercentAxisSpec<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.PercentAxisSpec? result;
+
+    if (map is charts.PercentAxisSpec) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/percent_axis_spec',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.PercentAxisSpec(
+        renderSpec: decodeRenderSpec(
+          map['renderSpec'],
+          validate: false,
+        ),
+        showAxisLine: map['showAxisLine'] == null
+            ? null
+            : JsonClass.parseBool(map['showAxisLine']),
+        tickFormatterSpec: decodeNumericTickFormatterSpec(
+          map['tickFormatterSpec'],
+          validate: false,
+        ),
+        tickProviderSpec: decodeNumericTickProviderSpec(
+          map['tickProviderSpec'],
+          validate: false,
+        ),
+        viewport: decodeNumericExtents(
+          map['viewport'],
+          validate: false,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "totalType": <PercentInjectorTotalType>
+  /// }
+  /// ```
+  static charts.PercentInjector<D>? decodePercentInjector<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.PercentInjector<D>? result;
+
+    if (map is charts.PercentInjector<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/percent_injector',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.PercentInjector<D>(
+        totalType: decodePercentInjectorTotalType(
+              map['totalType'],
+              validate: false,
+            ) ??
+            common.PercentInjectorTotalType.domain,
+      );
+    }
+
+    return result;
+  }
+
+  /// Expects the [map] to be either a [common.PercentInjectorTotalType] or a
+  /// [String] containing one of the following values:
+  ///
+  /// * `domain`
+  /// * `domainBySeriesCategory`
+  /// * `series`
+  static common.PercentInjectorTotalType? decodePercentInjectorTotalType(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.PercentInjectorTotalType? result;
+
+    if (map is common.PercentInjectorTotalType) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/percent_injector_total_type',
+        value: map,
+        validate: validate,
+      ));
+
+      switch (map) {
+        case 'domain':
+          result = common.PercentInjectorTotalType.domain;
+          break;
+
+        case 'domainBySeriesCategory':
+          result = common.PercentInjectorTotalType.domainBySeriesCategory;
+          break;
+
+        case 'series':
+          result = common.PercentInjectorTotalType.series;
+          break;
+
+        default:
+          throw Exception(
+            '[decodePercentInjectorTotalType]: unknown type: [$map]',
+          );
+      }
     }
 
     return result;
@@ -1634,7 +3274,9 @@ class JsonChartsDecoder {
               ),
         layoutPaintOrder: JsonClass.parseInt(map['layoutPaintOrder']) ??
             charts.LayoutViewPaintOrder.point,
-        pointRendererDecorators: map['pointRendererDecorators'],
+        pointRendererDecorators: decodePointRendererDecoratorList<D>(
+                map['pointRendererDecorators']) ??
+            const [],
         radiusPx: JsonClass.parseDouble(map['radiusPx']) ?? 5.0,
         strokeWidthPx: JsonClass.parseDouble(map['strokeWidthPx']) ?? 0.0,
         symbolRenderer: decodeSymbolRenderer(
@@ -1642,6 +3284,125 @@ class JsonChartsDecoder {
           validate: false,
         ),
       );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "symbolRenderer": <PointSymbolRenderer>,
+  ///   "type": "comparison_points"
+  /// }
+  /// ```
+  ///
+  /// See also
+  /// * [decodePointSymbolRenderer]
+  static common.PointRendererDecorator<D>? decodePointRendererDecorator<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.PointRendererDecorator<D>? result;
+
+    if (map is common.PointRendererDecorator<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/point_renderer_decorator',
+        value: map,
+        validate: validate,
+      ));
+
+      var type = map['type'];
+
+      switch (type) {
+        case 'comparison_points':
+          result = common.ComparisonPointsDecorator(
+            symbolRenderer: decodePointSymbolRenderer(map['symbolRenderer']),
+          );
+          break;
+
+        default:
+          throw Exception(
+            '[decodePointRendererDecorator]: unknown type: [$type]',
+          );
+      }
+    }
+
+    return result;
+  }
+
+  static List<common.PointRendererDecorator<D>>?
+      decodePointRendererDecoratorList<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    List<common.PointRendererDecorator<D>>? result;
+
+    if (map is List) {
+      result = [];
+      for (var item in map) {
+        result.add(
+          decodePointRendererDecorator<D>(
+            item,
+            validate: false,
+          )!,
+        );
+      }
+    } else if (map is common.PointRendererDecorator<D>) {
+      result = <common.PointRendererDecorator<D>>[map];
+    } else if (map is Map) {
+      result = <common.PointRendererDecorator<D>>[
+        decodePointRendererDecorator(
+          map,
+          validate: false,
+        )!
+      ];
+    } else if (map != null) {
+      throw Exception(
+        '[decodePointRendererDecoratorList]: Unknown data: [$map]',
+      );
+    }
+
+    return result;
+  }
+
+  /// Expects the [map] to be either a [common.PointSymbolRenderer] or a
+  /// [String] containing one of the following values:
+  ///
+  /// * `cylinder`
+  /// * `rectangle`
+  static common.PointSymbolRenderer? decodePointSymbolRenderer(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.PointSymbolRenderer? result;
+
+    if (map is common.PointSymbolRenderer) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/point_symbol_renderer',
+        value: map,
+        validate: validate,
+      ));
+      switch (map) {
+        case 'cylinder':
+          result = common.CylinderSymbolRenderer();
+          break;
+
+        case 'rectangle':
+          result = common.RectangleRangeSymbolRenderer();
+          break;
+
+        default:
+          throw Exception(
+            '[decodePointSymbolRenderer]: unknown type: [$map]',
+          );
+      }
     }
 
     return result;
@@ -1815,7 +3576,7 @@ class JsonChartsDecoder {
       ));
       var type = map['type'];
       switch (type) {
-        case 'grid_line':
+        case 'gridline':
           result = charts.GridlineRendererSpec<D>(
             axisLineStyle: decodeLineStyleSpec(
               map['axisLineStyle'],
@@ -2074,7 +3835,7 @@ class JsonChartsDecoder {
     List<charts.SelectionModelConfig<T>>? result;
 
     if (map is List) {
-      result = [];
+      result = <charts.SelectionModelConfig<T>>[];
       for (var item in map) {
         result.add(
           decodeSelectionModelConfig(
@@ -2083,8 +3844,15 @@ class JsonChartsDecoder {
           )!,
         );
       }
+    } else if (map is charts.SelectionModelConfig<T>) {
+      result = <charts.SelectionModelConfig<T>>[map];
     } else if (map is Map) {
-      result = [decodeSelectionModelConfig(map, validate: false)!];
+      result = <charts.SelectionModelConfig<T>>[
+        decodeSelectionModelConfig(
+          map,
+          validate: false,
+        )!
+      ];
     } else if (map != null) {
       throw Exception('[decodeSelectionModelConfigList]: Unknown data: [$map]');
     }
@@ -2263,48 +4031,125 @@ class JsonChartsDecoder {
   }) {
     charts.Series<T, D>? result;
 
-    if (map is charts.Series<T, D>) {
+    try {
+      if (map is charts.Series<T, D>) {
+        result = map;
+      } else if (map is charts.Series<T, T>) {
+        throw Exception(
+          '[decodeSeries]: Expected a series of [charts.Series<${T.toString()}, ${D.toString()}>}] but received a series of [charts.Series<${T.toString()}, ${T.toString()}>}].',
+        );
+      } else if (map is charts.Series<D, D>) {
+        throw Exception(
+          '[decodeSeries]: Expected a series of [charts.Series<${T.runtimeType}, ${D.runtimeType}>}] but received a series of [charts.Series<${D.runtimeType}, ${D.runtimeType}>}].',
+        );
+      } else if (map == null) {
+        throw Exception('[decodeSeries]: map is null');
+      } else if (map is String) {
+        throw Exception(
+          '[decodeSeries]: Invalid series, encountered a String.\n$map',
+        );
+      } else {
+        assert(SchemaValidator.validate(
+          schemaId: '$_baseSchemaUrl/series',
+          value: map,
+          validate: validate,
+        ));
+        result = charts.Series<T, D>(
+          areaColorFn: map['areaColorFn'],
+          colorFn: map['colorFn'],
+          dashPatternFn: map['dashPatternFn'],
+          data: JsonClass.parseJson(map['data']),
+          displayName: map['displayName']?.toString(),
+          domainFormatterFn: map['domainFormatterFn'],
+          domainLowerBoundFn: map['domainLowerBoundFn'],
+          domainUpperBoundFn: map['domainUpperBoundFn'],
+          domainFn: map['domainFn'],
+          fillColorFn: map['fillColorFn'],
+          fillPatternFn: map['fillPatternFn'],
+          id: map['id'].toString(),
+          insideLabelStyleAccessorFn: map['insideLabelStyleAccessorFn'],
+          keyFn: map['keyFn'],
+          labelAccessorFn: map['labelAccessorFn'],
+          measureFn: map['measureFn'],
+          measureFormatterFn: map['measureFormatterFn'],
+          measureLowerBoundFn: map['measureLowerBoundFn'],
+          measureOffsetFn: map['measureOffsetFn'],
+          measureUpperBoundFn: map['measureUpperBoundFn'],
+          outsideLabelStyleAccessorFn: map['outsideLabelStyleAccessorFn'],
+          overlaySeries: JsonClass.parseBool(map['overlaySeries']),
+          patternColorFn: map['patternColorFn'],
+          radiusPxFn: map['radiusPxFn'],
+          seriesCategory: map['seriesCategory']?.toString(),
+          seriesColor: decodeColor(
+            map['seriesColor'],
+            validate: false,
+          ),
+          strokeWidthPxFn: map['strokeWidthPxFn'],
+        );
+      }
+    } catch (e, stack) {
+      _logger.severe('Error decoding series: $map', e, stack);
+      rethrow;
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "seriesId": <String>,
+  ///   "domainValue": <D>
+  /// }
+  /// ```
+  static common.SeriesDatumConfig<D>? decodeSeriesDatumConfig<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.SeriesDatumConfig<D>? result;
+
+    if (map is common.SeriesDatumConfig<D>) {
       result = map;
-    } else if (map == null) {
-      throw Exception('[decodeSeries]: map is null');
-    } else {
-      assert(SchemaValidator.validate(
-        schemaId: '$_baseSchemaUrl/series',
-        value: map,
-        validate: validate,
-      ));
-      result = charts.Series<T, D>(
-        areaColorFn: map['areaColorFn'],
-        colorFn: map['colorFn'],
-        dashPatternFn: map['dashPatternFn'],
-        data: JsonClass.parseJson(map['data']),
-        displayName: map['displayName']?.toString(),
-        domainFormatterFn: map['domainFormatterFn'],
-        domainLowerBoundFn: map['domainLowerBoundFn'],
-        domainUpperBoundFn: map['domainUpperBoundFn'],
-        domainFn: map['domainFn'],
-        fillColorFn: map['fillColorFn'],
-        fillPatternFn: map['fillPatternFn'],
-        id: map['id'].toString(),
-        insideLabelStyleAccessorFn: map['insideLabelStyleAccessorFn'],
-        keyFn: map['keyFn'],
-        labelAccessorFn: map['labelAccessorFn'],
-        measureFn: map['measureFn'],
-        measureFormatterFn: map['measureFormatterFn'],
-        measureLowerBoundFn: map['measureLowerBoundFn'],
-        measureOffsetFn: map['measureOffsetFn'],
-        measureUpperBoundFn: map['measureUpperBoundFn'],
-        outsideLabelStyleAccessorFn: map['outsideLabelStyleAccessorFn'],
-        overlaySeries: JsonClass.parseBool(map['overlaySeries']),
-        patternColorFn: map['patternColorFn'],
-        radiusPxFn: map['radiusPxFn'],
-        seriesCategory: map['seriesCategory']?.toString(),
-        seriesColor: decodeColor(
-          map['seriesColor'],
-          validate: false,
-        ),
-        strokeWidthPxFn: map['strokeWidthPxFn'],
+    } else if (map != null) {
+      result = common.SeriesDatumConfig<D>(
+        map['seriesId'],
+        JsonClass.parseValue<D>(map['domainValue'])!,
       );
+    }
+
+    return result;
+  }
+
+  static List<common.SeriesDatumConfig<D>>? decodeSeriesDatumConfigList<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    List<common.SeriesDatumConfig<D>>? result;
+
+    if (map is common.SeriesDatumConfig) {
+      result = <common.SeriesDatumConfig<D>>[
+        map as common.SeriesDatumConfig<D>
+      ];
+    } else if (map is Map) {
+      map = <common.SeriesDatumConfig<D>>[
+        decodeSeriesDatumConfig(
+          map,
+          validate: false,
+        )!
+      ];
+    } else if (map is Iterable) {
+      result = [];
+      for (var item in map) {
+        result.add(decodeSeriesDatumConfig<D>(
+          item,
+          validate: false,
+        )!);
+      }
+    } else {
+      throw Exception(
+          '[decodeSeriesDatumConfig]: map is not supported: [$map]');
     }
 
     return result;
@@ -2332,6 +4177,88 @@ class JsonChartsDecoder {
       }
     } else {
       throw Exception('[decodeSeriesList]: map is not supported: [$map]');
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "cellPadding": <EdgeInsets>,
+  ///   "defaultHiddenSeries": <List<String>>,
+  ///   "desiredMaxColumns": <int>,
+  ///   "desiredMaxRows": <int>,
+  ///   "horizontalFirst": <bool>,
+  ///   "entryTextStyle": <common.TextStyleSpec>,
+  ///   "insideJustification": <charts.InsideJustification>,
+  ///   "legendDefaultMeasure": <charts.LegendDefaultMeasure>,
+  ///   "measureFormatter": <common.MeasureFormatter>,
+  ///   "outsideJustification": <charts.OutsideJustification>,
+  ///   "position": <BehaviorPosition>,
+  ///   "secondaryMeasureFormatter": <common.MeasureFormatter>,
+  ///   "showMeasures": <bool>,
+  ///   "type": "series_legend"
+  /// }
+  /// ```
+  ///
+  /// See also
+  /// * [decodeBehaviorPosition]
+  /// * [decodeInsideJustification]
+  /// * [decodeLegendDefaultMeasure]
+  /// * [decodeOutsideJustification]
+  /// * [decodeTextStyleSpec]
+  /// * [ThemeDecoder.decodeEdgeInsetsGeometry]
+  static charts.SeriesLegend<D>? decodeSeriesLegend<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.SeriesLegend<D>? result;
+
+    if (map is charts.SeriesLegend<D>) {
+      result = map;
+    } else if (map != null) {
+      result = charts.SeriesLegend<D>(
+        cellPadding: ThemeDecoder.decodeEdgeInsetsGeometry(
+          map['cellPadding'],
+          validate: false,
+        ) as EdgeInsets?,
+        defaultHiddenSeries: map['defaultHiddenSeries'] == null
+            ? null
+            : List<String>.from(map['defaultHiddenSeries']),
+        desiredMaxColumns: JsonClass.parseInt(map['desiredMaxColumns']),
+        desiredMaxRows: JsonClass.parseInt(map['desiredMaxRows']),
+        horizontalFirst: map['horizontalFirst'] == null
+            ? null
+            : JsonClass.parseBool(map['horizontalFirst']),
+        entryTextStyle: decodeTextStyleSpec(
+          map['entryTextStyle'],
+          validate: false,
+        ),
+        insideJustification: decodeInsideJustification(
+          map['insideJustification'],
+          validate: false,
+        ),
+        legendDefaultMeasure: decodeLegendDefaultMeasure(
+          map['legendDefaultMeasure'],
+          validate: false,
+        ),
+        measureFormatter: map['measureFormatter'],
+        outsideJustification: decodeOutsideJustification(
+          map['outsideJustification'],
+          validate: false,
+        ),
+        position: decodeBehaviorPosition(
+          map['position'],
+          validate: false,
+        ),
+        secondaryMeasureFormatter: map['secondaryMeasureFormatter'],
+        showMeasures: map['showMeasures'] == null
+            ? null
+            : JsonClass.parseBool(map['showMeasures']),
+      );
     }
 
     return result;
@@ -2408,7 +4335,8 @@ class JsonChartsDecoder {
 
         default:
           throw Exception(
-              'Unknown [SeriesRendererConfig.type] encountered: [$type]');
+            'Unknown [SeriesRendererConfig.type] encountered: [$type]',
+          );
       }
     }
 
@@ -2425,16 +4353,16 @@ class JsonChartsDecoder {
     if (map is List<common.SeriesRendererConfig<T>>) {
       result = map;
     } else if (map is common.SeriesRendererConfig<T>) {
-      result = [map];
+      result = <common.SeriesRendererConfig<T>>[map];
     } else if (map is Map) {
-      result = [
+      result = <common.SeriesRendererConfig<T>>[
         decodeSeriesRendererConfig<T>(
           map,
           validate: false,
         )!
       ];
     } else if (map is List) {
-      result = [];
+      result = <common.SeriesRendererConfig<T>>[];
       for (var item in map) {
         result.add(decodeSeriesRendererConfig<T>(item, validate: false)!);
       }
@@ -2442,6 +4370,211 @@ class JsonChartsDecoder {
       throw Exception(
         '[decodeSeriesRendererConfigList]: unknown input data type encountered: [$map]',
       );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "eventTrigger": <SelectionTrigger>,
+  ///   "handleRenderer": <SymbolRenderer>,
+  ///   "initialDomainValue": <D>,
+  ///   "layoutPaintOrder": <int>,
+  ///   "onChangeCallback": <SliderListenerCallback>,
+  ///   "roleId": <String>,
+  ///   "snapToDatum": <bool>,
+  ///   "style": <SliderStyle>
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeSelectionTrigger]
+  /// * [decodeSymbolRenderer]
+  /// * [decodeSliderStyle]
+  static charts.Slider<D>? decodeSlider<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.Slider<D>? result;
+
+    if (map is charts.Slider<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/slider',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.Slider<D>(
+        eventTrigger: decodeSelectionTrigger(
+          map['eventTrigger'],
+          validate: false,
+        ),
+        handleRenderer: decodeSymbolRenderer(
+          map['handleRenderer'],
+          validate: false,
+        ),
+        initialDomainValue: JsonClass.parseValue<D>(map['initialDomainValue']),
+        layoutPaintOrder: JsonClass.parseInt(map['layoutPaintOrder']) ??
+            common.LayoutViewPaintOrder.slider,
+        onChangeCallback: map['onChangeCallback'],
+        roleId: map['roleId']?.toString(),
+        snapToDatum: JsonClass.parseBool(map['snapToDatum']),
+        style: decodeSliderStyle(
+          map['style'],
+          validate: false,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "fillColor": <Color>,
+  ///   "handleOffset": <Point>,
+  ///   "handlePosition": <SliderHandlePosition>,
+  ///   "handleSize": <Rectangle>,
+  ///   "strokeColor": <Color>,
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeSelectionTrigger]
+  /// * [decodeSymbolRenderer]
+  /// * [decodeSliderStyle]
+  static charts.SliderStyle? decodeSliderStyle(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.SliderStyle? result;
+
+    if (map is charts.SliderStyle) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/slider_style',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.SliderStyle(
+        fillColor: decodeColor(
+          map['fillColor'],
+          validate: false,
+        ),
+        handleOffset: map['point'] == null
+            ? Point<double>(0, 0)
+            : Point<double>(
+                JsonClass.parseDouble(map['point']['x'])!,
+                JsonClass.parseDouble(map['point']['y'])!,
+              ),
+        handlePosition: decodeSliderHandlePosition(
+              map['handlePosition'],
+              validate: false,
+            ) ??
+            common.SliderHandlePosition.middle,
+        handleSize: map['handleSize'] == null
+            ? Rectangle(0, 0, 10, 20)
+            : Rectangle(
+                JsonClass.parseInt(map['handleSize']['left'])!,
+                JsonClass.parseInt(map['handleSize']['top'])!,
+                JsonClass.parseInt(map['handleSize']['width'])!,
+                JsonClass.parseInt(map['handleSize']['height'])!,
+              ),
+        strokeColor: decodeColor(
+          map['strokeColor'],
+          validate: false,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "selectionModelType": <SelectionModelType>
+  /// }
+  /// ```
+  ///
+  /// See also:
+  /// * [decodeSelectionModelType]
+  static charts.SlidingViewport<D>? decodeSlidingViewport<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.SlidingViewport<D>? result;
+
+    if (map is charts.SlidingViewport<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/sliding_viewport',
+        value: map,
+        validate: validate,
+      ));
+      result = charts.SlidingViewport<D>(
+        decodeSelectionModelType(
+              map['selectionModelType'],
+              validate: false,
+            ) ??
+            common.SelectionModelType.info,
+      );
+    }
+
+    return result;
+  }
+
+  /// Expects the [map] to be either a [common.SliderHandlePosition] or a
+  /// [String] containing one of the following values:
+  ///
+  /// * `manual`
+  /// * `middle`
+  /// * `top`
+  static common.SliderHandlePosition? decodeSliderHandlePosition(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.SliderHandlePosition? result;
+
+    if (map is common.SliderHandlePosition) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/slider_handle_position',
+        value: map,
+        validate: validate,
+      ));
+
+      switch (map) {
+        case 'manual':
+          result = common.SliderHandlePosition.manual;
+          break;
+
+        case 'middle':
+          result = common.SliderHandlePosition.middle;
+          break;
+
+        case 'top':
+          result = common.SliderHandlePosition.top;
+          break;
+
+        default:
+          throw Exception(
+            '[decodeSliderHandlePosition]: map is not supported: [$map]',
+          );
+      }
     }
 
     return result;
@@ -2558,8 +4691,11 @@ class JsonChartsDecoder {
   ///
   /// ```json
   /// {
+  ///   "dashPattern": <List<int>>,
   ///   "isSolid": <bool>,
-  ///   "type": <"circle" | "rect">
+  ///   "radius": <double>,
+  ///   "strokeWidth": <double>,
+  ///   "type": <"circle" | "icon" | "line" | "rect" | "rounded_rect" | "triangle">
   /// }
   /// ```
   static common.SymbolRenderer? decodeSymbolRenderer(
@@ -2590,8 +4726,57 @@ class JsonChartsDecoder {
           );
           break;
 
+        case 'icon':
+          result = IconSymbolRenderer(
+            map['icon'],
+            JsonClass.parseDouble(
+              map['size'],
+            ),
+          );
+          break;
+
+        case 'line':
+          result = common.LineSymbolRenderer(
+            dashPattern: map['dashPattern'] == null
+                ? null
+                : List<int>.from(
+                    map['dashPattern'].map((e) => JsonClass.parseInt(e)!),
+                  ),
+            isSolid: map['isSolid'] == null
+                ? true
+                : JsonClass.parseBool(
+                    map['isSolid'],
+                    whenNull: true,
+                  ),
+            strokeWidth: JsonClass.parseDouble(map['strokeWidth']),
+          );
+          break;
+
         case 'rect':
           result = common.RectSymbolRenderer(
+            isSolid: map['isSolid'] == null
+                ? true
+                : JsonClass.parseBool(
+                    map['isSolid'],
+                    whenNull: true,
+                  ),
+          );
+          break;
+
+        case 'rounded_rect':
+          result = common.RoundedRectSymbolRenderer(
+            isSolid: map['isSolid'] == null
+                ? true
+                : JsonClass.parseBool(
+                    map['isSolid'],
+                    whenNull: true,
+                  ),
+            radius: JsonClass.parseDouble(map['radius']),
+          );
+          break;
+
+        case 'triangle':
+          result = common.TriangleSymbolRenderer(
             isSolid: map['isSolid'] == null
                 ? true
                 : JsonClass.parseBool(
@@ -2606,6 +4791,73 @@ class JsonChartsDecoder {
     }
 
     return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "format": <String>,
+  ///   "type": <"date_time" | "numeric" | "ordinal">
+  /// }
+  /// ```
+  static charts.TickFormatterSpec<D>? decodeTickFormatterSpec<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    charts.TickFormatterSpec? result;
+
+    if (map is charts.TickFormatterSpec<D>) {
+      result = map;
+    } else if (map is DateFormat) {
+      result = decodeDateTimeTickFormatterSpec(
+        map,
+        validate: false,
+      );
+    } else if (map is NumberFormat) {
+      result = decodeNumericTickFormatterSpec(
+        map,
+        validate: false,
+      );
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/tick_formatter_spec',
+        value: map,
+        validate: validate,
+      ));
+      var type = map['type'];
+      switch (type) {
+        case 'auto_date_time':
+        case 'date_time':
+          result = decodeDateTimeTickFormatterSpec(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'numeric':
+          result = decodeNumericTickFormatterSpec(
+            map,
+            validate: false,
+          );
+          break;
+
+        case 'ordinal':
+          result = decodeOrdinalTickFormatterSpec(
+            map,
+            validate: false,
+          );
+          break;
+
+        default:
+          throw Exception(
+            '[decodeTickFormatterSpec]: unknown type encountered: [$type]',
+          );
+      }
+    }
+
+    return result as charts.TickFormatterSpec<D>?;
   }
 
   /// Expects the [map] to be either a [charts.TickLabelAnchor] or a [String]
@@ -2657,8 +4909,8 @@ class JsonChartsDecoder {
     return result;
   }
 
-  /// Expects the [map] to be either a [charts.TickLabelJustification] or a [String]
-  /// containing one of the following values:
+  /// Expects the [map] to be either a [charts.TickLabelJustification] or a
+  /// [String] containing one of the following values:
   ///
   /// * `inside`
   /// * `outside`
@@ -2691,6 +4943,101 @@ class JsonChartsDecoder {
             '[decodeTickLabelJustification]: map is not supported: [$map]',
           );
       }
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "label": <String>,
+  ///   "style": <TextStyleSpec>,
+  ///   "value": <D>
+  /// }
+  /// ```
+  static common.TickSpec<D>? decodeTickSpec<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.TickSpec<D>? result;
+
+    if (map is common.TickSpec<D>) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/tick_spec',
+        value: map,
+        validate: validate,
+      ));
+      result = common.TickSpec<D>(
+        JsonClass.parseValue<D>(map['value']),
+        label: map['label'],
+        style: decodeTextStyleSpec(
+          map['style'],
+          validate: false,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  static List<common.TickSpec<D>>? decodeTickSpecList<D>(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    List<common.TickSpec<D>>? result;
+
+    if (map is List<common.TickSpec<D>>) {
+      result = map;
+    } else if (map is common.TickSpec<D>) {
+      result = <common.TickSpec<D>>[map];
+    } else if (map is List) {
+      result = <common.TickSpec<D>>[];
+      for (var item in map) {
+        result.add(decodeTickSpec(item, validate: false)!);
+      }
+    } else if (map is Map) {
+      result = <common.TickSpec<D>>[decodeTickSpec(map, validate: false)!];
+    } else if (map != null) {
+      throw Exception('[decodeTickSpecList]: unknown map type: [$map]');
+    }
+
+    return result;
+  }
+
+  /// Decodes the object from a Map-like dynamic structure.  This expects the
+  /// JSON format to be of the following structure:
+  ///
+  /// ```json
+  /// {
+  ///   "format": <String>,
+  ///   "noonFormat": <String>,
+  ///   "transitionFormat": <String>
+  /// }
+  /// ```
+  static common.TimeFormatterSpec? decodeTimeFormatterSpec(
+    dynamic map, {
+    bool validate = true,
+  }) {
+    common.TimeFormatterSpec? result;
+
+    if (map is common.TimeFormatterSpec) {
+      result = map;
+    } else if (map != null) {
+      assert(SchemaValidator.validate(
+        schemaId: '$_baseSchemaUrl/time_formatter_spec',
+        value: map,
+        validate: validate,
+      ));
+      result = common.TimeFormatterSpec(
+        format: map['format']?.toString(),
+        noonFormat: map['noonFormat']?.toString(),
+        transitionFormat: map['transitionFormat']?.toString(),
+      );
     }
 
     return result;

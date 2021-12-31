@@ -1,15 +1,26 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:example/src/custom_functions/confidence_interval_functions.dart';
+import 'package:example/src/custom_functions/selection_callback_functions.dart';
+import 'package:example/src/custom_functions/series_legend_with_measure_functions.dart';
+import 'package:example/src/custom_functions/slider_functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:json_dynamic_widget/json_dynamic_widget.dart';
 import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
+import 'package:json_dynamic_widget_plugin_expressions/json_dynamic_widget_plugin_expressions.dart';
+import 'package:json_theme/json_theme_schemas.dart';
 import 'package:logging/logging.dart';
+
+import 'src/custom_functions/confidence_interval_functions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SchemaValidator.enabled = false;
 
   if (kDebugMode) {
     Logger.root.level = Level.FINE;
@@ -42,6 +53,14 @@ void main() async {
   var navigatorKey = GlobalKey<NavigatorState>();
 
   var registry = JsonWidgetRegistry.instance;
+
+  registry.setValue(
+    'NumberFormat.compactSimpleCurrency',
+    NumberFormat.compactSimpleCurrency(),
+  );
+  registry.setValue('pi', math.pi);
+  registry.setValue('Icons.cloud', Icons.cloud);
+
   registry.registerFunction(
     'template',
     ({args, required registry}) => registry.getValue(
@@ -51,8 +70,18 @@ void main() async {
   ConfidenceIntervalFunctions.functions.forEach(
     (key, value) => registry.setValue(key, value),
   );
+  SelectionCallbackFunctions.functions.forEach(
+    (key, value) => registry.setValue(key, value),
+  );
+  SeriesLegendWithMeasuresFunctions.functions.forEach(
+    (key, value) => registry.setValue(key, value),
+  );
+  SliderFunctions.functions.forEach(
+    (key, value) => registry.setValue(key, value),
+  );
 
   JsonChartsFlutterPlugin.bind(registry);
+  JsonExpressionsPlugin.bind(registry);
 
   registry.navigatorKey = navigatorKey;
 
@@ -85,6 +114,79 @@ void main() async {
     'range_annotation_margin_time_series': 'time_series',
     'symbol_annotation_time_series': 'time_series',
     'with_bar_renderer_time_series': 'time_series',
+
+    // line
+    'simple_line_chart': 'line',
+    'points_line_chart': 'line',
+    'stacked_area_line_chart': 'line',
+    'stacked_area_custom_color_line_chart': 'line',
+    'area_and_line_line_chart': 'line',
+    'simple_nulls_line_chart': 'line',
+    'stacked_area_nulls_line_chart': 'line',
+    'dash_pattern_line_chart': 'line',
+
+    // scatter plot
+    'simple_scatter_plot_chart': 'scatter_plot',
+    'shapes_scatter_plot_chart': 'scatter_plot',
+    'comparison_points_scatter_plot_chart': 'scatter_plot',
+    'bucketing_axis_scatter_plot_chart': 'scatter_plot',
+
+    // combo
+    'ordinal_bar_line_combo_chart': 'combo',
+    'numeric_line_bar_combo_chart': 'combo',
+    'numeric_line_point_combo_chart': 'combo',
+    'date_time_line_point_combo_chart': 'combo',
+    'scatter_plot_line_combo_chart': 'combo',
+
+    // pie
+    'simple_pie_chart': 'pie',
+    'inside_label_pie_chart': 'pie',
+    'partial_pie_chart': 'pie',
+    'donut_pie_chart': 'pie',
+    'auto_label_pie_chart': 'pie',
+    'gauge_pie_chart': 'pie',
+
+    // axis
+    'bar_secondary_axis': 'axis',
+    'bar_second_axis_only': 'axis',
+    'horizontal_bar_secondary_axis': 'axis',
+    'flipped_vertical_axis': 'axis',
+    'short_tick_length_axis': 'axis',
+    'custom_font_size_and_color': 'axis',
+    'measure_axis_label_alignment': 'axis',
+    'hidden_ticks_and_labels': 'axis',
+    'custom_axis_tick_formatters': 'axis',
+    'custom_measure_tick_count': 'axis',
+    'integer_only_measure_axis': 'axis',
+    'nonzero_bound_measure_axis': 'axis',
+    'statically_provided_ticks': 'axis',
+    'ordinal_initial_viewport': 'axis',
+    'numeric_initial_viewport': 'axis',
+    'gridline_dash_pattern': 'axis',
+    'line_disjoint_axis': 'axis',
+
+    // legend
+    'simple_series_legend': 'legend',
+    'series_legend_options': 'legend',
+    'series_legend_with_measures': 'legend',
+    'legend_custom_symbol': 'legend',
+    'default_hidden_series_legend': 'legend',
+    'simple_datum_legend': 'legend',
+    'datum_legend_options': 'legend',
+    'datum_legend_with_measures': 'legend',
+
+    // behavior
+    'initial_selection': 'behavior',
+    'selection_bar_highlight': 'behavior',
+    'selection_line_highlight': 'behavior',
+    'selection_callback_example': 'behavior',
+    'chart_title': 'behavior',
+    'slider': 'behavior',
+    'sliding_viewport_on_selection': 'behavior',
+    'percent_of_domain': 'behavior',
+    'percent_of_domain_by_category': 'behavior',
+    'percent_of_series': 'behavior',
+    'initial_hint_animation': 'behavior',
   };
   var futures = <Future>[];
   for (var entry in templates.entries) {

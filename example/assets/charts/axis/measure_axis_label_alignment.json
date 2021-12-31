@@ -1,0 +1,50 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/measure_axis_label_alignment",
+    "title": "Measure Axis Label Alignment",
+    "data": {
+      "global": [
+        {
+          "year": "2014",
+          "sales": 50000
+        },
+        {
+          "year": "2015",
+          "sales": 25000
+        },
+        {
+          "year": "2016",
+          "sales": 100000
+        },
+        {
+          "year": "2017",
+          "sales": 750000
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "global": "##create_series(items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "primaryMeasureAxis": {
+          "renderSpec": {
+            "labelAnchor": "before",
+            "labelJustification": "outside",
+            "type": "gridline"
+          },
+          "type": "numeric"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

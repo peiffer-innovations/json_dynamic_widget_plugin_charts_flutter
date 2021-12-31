@@ -10,22 +10,37 @@ class NumericAxisSpecSchema {
     r'$id': '$id',
     r'$comment':
         'https://pub.dev/documentation/charts_common/latest/common/NumericAxisSpec-class.html',
-    'title': 'NumericAxisSpec',
-    'type': 'object',
-    'additionalProperties': false,
-    'properties': {
-      'renderSpec': SchemaHelper.objectSchema(RenderSpecSchema.id),
-      'scaleSpec': SchemaHelper.stringSchema,
-      'showAxisLine': SchemaHelper.boolSchema,
-      'tickFormatterSpec': SchemaHelper.stringSchema,
-      'tickProviderSpec': SchemaHelper.stringSchema,
-      'type': {
+    'oneOf': [
+      {
         'type': 'string',
-        'enum': [
-          'numeric',
-        ],
       },
-      'viewport': SchemaHelper.stringSchema,
-    },
+      {
+        r'$ref': BucketingAxisSpecSchema.id,
+      },
+      {
+        r'$ref': PercentAxisSpecSchema.id,
+      },
+      {
+        'title': 'NumericAxisSpec',
+        'type': 'object',
+        'additionalProperties': false,
+        'properties': {
+          'renderSpec': SchemaHelper.objectSchema(RenderSpecSchema.id),
+          'scaleSpec': SchemaHelper.stringSchema,
+          'showAxisLine': SchemaHelper.boolSchema,
+          'tickFormatterSpec': SchemaHelper.stringSchema,
+          'tickProviderSpec': SchemaHelper.objectSchema(
+            NumericTickProviderSpecSchema.id,
+          ),
+          'type': {
+            'type': 'string',
+            'enum': [
+              'numeric',
+            ],
+          },
+          'viewport': SchemaHelper.objectSchema(NumericExtentsSchema.id),
+        },
+      },
+    ],
   };
 }

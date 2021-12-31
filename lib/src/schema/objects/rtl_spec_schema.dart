@@ -9,7 +9,7 @@ class RTLSpecSchema {
     r'$schema': 'http://json-schema.org/draft-06/schema#',
     r'$id': '$id',
     r'$comment':
-        'https://pub.dev/documentation/charts_common/latest/common/NumericAxisSpec-class.html',
+        'https://pub.dev/documentation/charts_common/latest/common/RTLSpec-class.html',
     'title': 'RTLSpec',
     'type': 'object',
     'additionalProperties': false,

@@ -1,0 +1,90 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/combo_charts/numeric_line_bar",
+    "title": "Numeric Line Bar",
+    "data": {
+      "desktop": [
+        {
+          "year": 0,
+          "sales": 5
+        },
+        {
+          "year": 1,
+          "sales": 25
+        },
+        {
+          "year": 2,
+          "sales": 100
+        },
+        {
+          "year": 3,
+          "sales": 75
+        }
+      ],
+      "tablet": [
+        {
+          "year": 0,
+          "sales": 5
+        },
+        {
+          "year": 1,
+          "sales": 25
+        },
+        {
+          "year": 2,
+          "sales": 100
+        },
+        {
+          "year": 3,
+          "sales": 75
+        }
+      ],
+      "mobile": [
+        {
+          "year": 0,
+          "sales": 10
+        },
+        {
+          "year": 1,
+          "sales": 50
+        },
+        {
+          "year": 2,
+          "sales": 200
+        },
+        {
+          "year": 3,
+          "sales": 150
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(type:int, items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.blue}})##",
+        "tablet": "##create_series(type:int, items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.red}})##",
+        "mobile": "##create_series(type:int, rendererIdKey:customLine, items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.green}})##"
+      }
+    },
+    "child": {
+      "type": "numeric_combo_chart",
+      "args": {
+        "animate": false,
+        "customSeriesRenderers": [
+          {
+            "customRendererId": "customLine",
+            "type": "line"
+          }
+        ],
+        "defaultRenderer": {
+          "groupingType": "grouped",
+          "type": "bar"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

@@ -14,7 +14,10 @@ class RangeAnnotationSchema {
     'type': 'object',
     'additionalProperties': false,
     'properties': {
-      'annotations': SchemaHelper.arraySchema(AnnotationSegmentSchema.id),
+      'annotations': SchemaHelper.arraySchema(
+        AnnotationSegmentSchema.id,
+        includeObject: true,
+      ),
       'defaultColor': SchemaHelper.objectSchema(ColorSchema.id),
       'defaultLabelAnchor': SchemaHelper.objectSchema(
         AnnotationLabelAnchorSchema.id,
