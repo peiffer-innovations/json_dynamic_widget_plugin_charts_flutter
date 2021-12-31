@@ -1,0 +1,43 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/bar_secondary_axis_only",
+    "title": "Flipped Vertical Axis",
+    "data": {
+      "runners": [
+        {
+          "name": "Smith",
+          "rank": 1
+        },
+        {
+          "name": "Jones",
+          "rank": 2
+        },
+        {
+          "name": "Brown",
+          "rank": 3
+        },
+        {
+          "name": "Doe",
+          "rank": 4
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "global": "##create_series(measureAxisIdKey:secondaryMeasureAxisId, items:{{data;$.runners}}, name:Runners, domain:$.name, measure:$.rank)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "flipVerticalAxis": true,
+        "series": "{{series}}"
+      }
+    }
+  }
+}

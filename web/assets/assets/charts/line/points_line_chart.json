@@ -1,0 +1,41 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/line_charts/simple",
+    "title": "Simple",
+    "data": [
+      {
+        "x": 0,
+        "y": 5
+      },
+      {
+        "x": 1,
+        "y": 25
+      },
+      {
+        "x": 2,
+        "y": 100
+      },
+      {
+        "x": 3,
+        "y": 75
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "line_chart",
+      "args": {
+        "animate": false,
+        "defaultRenderer": {
+          "includePoints": true
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

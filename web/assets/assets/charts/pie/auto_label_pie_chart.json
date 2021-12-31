@@ -1,0 +1,47 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/bar_charts/auto_label",
+    "title": "Auto Label",
+    "data": [
+      {
+        "label": "0: 100",
+        "x": 0,
+        "y": 100
+      },
+      {
+        "label": "1: 75",
+        "x": 1,
+        "y": 75
+      },
+      {
+        "label": "2: 25",
+        "x": 2,
+        "y": 25
+      },
+      {
+        "label": "3: 5",
+        "x": 3,
+        "y": 5
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "pie_chart",
+      "args": {
+        "animate": false,
+        "defaultRenderer": {
+          "arcRendererDecorators": {},
+          "arcWidth": 60,
+          "type": "arc"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 {
   "type": "set_value",
   "args": {
-    "url": "https://google.github.io/charts/flutter/example/bar_charts/grouped_stacked_weight_pattern",
-    "title": "Grouped Stacked Weight Pattern",
+    "url": "https://google.github.io/charts/flutter/example/legends/default_hidden_series_legend",
+    "title": "Default Hidden Series Legend",
     "data": {
       "desktop": [
         {
@@ -57,6 +57,24 @@
           "year": "2017",
           "sales": 45
         }
+      ],
+      "other": [
+        {
+          "year": "2014",
+          "sales": 20
+        },
+        {
+          "year": "2015",
+          "sales": 35
+        },
+        {
+          "year": "2016",
+          "sales": 15
+        },
+        {
+          "year": "2017",
+          "sales": 10
+        }
       ]
     }
   },
@@ -64,25 +82,25 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktopA": "##create_series(seriesCategory:A, items:{{data;$.desktop}}, name:DesktopA, domain:$.year, measure:$.sales)##",
-        "tabletA": "##create_series(seriesCategory:A, items:{{data;$.tablet}}, name:TabletA, domain:$.year, measure:$.sales)##",
-        "mobileA": "##create_series(seriesCategory:A, items:{{data;$.mobile}}, name:MobileA, domain:$.year, measure:$.sales)##",
-        "desktopB": "##create_series(seriesCategory:B, items:{{data;$.desktop}}, name:DesktopB, domain:$.year, measure:$.sales)##",
-        "tabletB": "##create_series(seriesCategory:B, items:{{data;$.tablet}}, name:TabletB, domain:$.year, measure:$.sales)##",
-        "mobileB": "##create_series(seriesCategory:B, items:{{data;$.mobile}}, name:MobileB, domain:$.year, measure:$.sales)##"
+        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales)##",
+        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales)##",
+        "mobile": "##create_series(items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales)##",
+        "other": "##create_series(items:{{data;$.other}}, name:Other, domain:$.year, measure:$.sales)##"
       }
     },
     "child": {
       "type": "bar_chart",
       "args": {
         "animate": false,
-        "defaultRenderer": {
-          "groupingType": "groupedStacked",
-          "weightPattern": [
-            2,
-            1
-          ]
-        },
+        "barGroupingType": "grouped",
+        "behaviors": [
+          {
+            "defaultHiddenSeries": [
+              "Other"
+            ],
+            "type": "series_legend"
+          }
+        ],
         "series": "{{series}}"
       }
     }

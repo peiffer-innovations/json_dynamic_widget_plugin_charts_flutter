@@ -1,0 +1,49 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/short_tick_length_axis",
+    "title": "Short Tick Axis",
+    "data": {
+      "global": [
+        {
+          "year": "2014",
+          "sales": 5000
+        },
+        {
+          "year": "2015",
+          "sales": 25000
+        },
+        {
+          "year": "2016",
+          "sales": 1000000
+        },
+        {
+          "year": "2017",
+          "sales": 750000
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "global": "##create_series(items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "barGroupingType": "grouped",
+        "primaryMeasureAxis": {
+          "renderSpec": {
+            "type": "small_tick"
+          },
+          "type": "numeric"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 {
   "type": "set_value",
   "args": {
-    "url": "https://google.github.io/charts/flutter/example/bar_charts/grouped_stacked_weight_pattern",
-    "title": "Grouped Stacked Weight Pattern",
+    "url": "https://google.github.io/charts/flutter/example/behaviors/percent_of_domain_by_category",
+    "title": "Percent of Domain by Category",
     "data": {
       "desktop": [
         {
@@ -76,12 +76,15 @@
       "type": "bar_chart",
       "args": {
         "animate": false,
-        "defaultRenderer": {
-          "groupingType": "groupedStacked",
-          "weightPattern": [
-            2,
-            1
-          ]
+        "behaviors": [
+          {
+            "totalType": "domainBySeriesCategory",
+            "type": "percent_injector"
+          }
+        ],
+        "barGroupingType": "groupedStacked",
+        "primaryMeasureAxis": {
+          "type": "percent"
         },
         "series": "{{series}}"
       }

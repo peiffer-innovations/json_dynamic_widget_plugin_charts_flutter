@@ -1,0 +1,66 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/behaviors/chart_title",
+    "title": "Chart Title",
+    "data": [
+      {
+        "x": 0,
+        "y": 5
+      },
+      {
+        "x": 1,
+        "y": 25
+      },
+      {
+        "x": 2,
+        "y": 100
+      },
+      {
+        "x": 3,
+        "y": 75
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "line_chart",
+      "args": {
+        "animate": false,
+        "behaviors": [
+          {
+            "behaviorPosition": "top",
+            "innerPadding": 18,
+            "subTitle": "Top sub-title text",
+            "text": "Top title text",
+            "titleOutsideJustification": "start",
+            "type": "chart_title"
+          },
+          {
+            "behaviorPosition": "bottom",
+            "text": "Bottom title text",
+            "titleOutsideJustification": "middleDrawArea",
+            "type": "chart_title"
+          },
+          {
+            "behaviorPosition": "start",
+            "text": "Start title",
+            "titleOutsideJustification": "middleDrawArea",
+            "type": "chart_title"
+          },
+          {
+            "behaviorPosition": "end",
+            "text": "End title",
+            "titleOutsideJustification": "middleDrawArea",
+            "type": "chart_title"
+          }
+        ],
+        "series": "{{series}}"
+      }
+    }
+  }
+}

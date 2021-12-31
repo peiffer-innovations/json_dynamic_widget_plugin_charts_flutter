@@ -1,0 +1,73 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/nonzero_bound_measure_axis",
+    "title": "Nonzero Bound Measure Axis",
+    "data": [
+      {
+        "date": "2017-9-25",
+        "value": 106
+      },
+      {
+        "date": "2017-9-26",
+        "value": 108
+      },
+      {
+        "date": "2017-9-27",
+        "value": 106
+      },
+      {
+        "date": "2017-9-28",
+        "value": 109
+      },
+      {
+        "date": "2017-9-29",
+        "value": 111
+      },
+      {
+        "date": "2017-9-30",
+        "value": 115
+      },
+      {
+        "date": "2017-10-1",
+        "value": 125
+      },
+      {
+        "date": "2017-10-2",
+        "value": 133
+      },
+      {
+        "date": "2017-10-3",
+        "value": 127
+      },
+      {
+        "date": "2017-10-4",
+        "value": 131
+      },
+      {
+        "date": "2017-10-5",
+        "value": 123
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value)##"
+    },
+    "child": {
+      "type": "time_series_chart",
+      "args": {
+        "animate": false,
+        "primaryMeasureAxis": {
+          "tickProviderSpec": {
+            "type": "basic",
+            "zeroBound": false
+          },
+          "type": "numeric"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

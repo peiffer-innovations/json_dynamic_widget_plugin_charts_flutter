@@ -1,0 +1,66 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/statically_provided_ticks",
+    "title": "Statically Provided Ticks",
+    "data": {
+      "global": [
+        {
+          "year": "2014",
+          "sales": 50000
+        },
+        {
+          "year": "2015",
+          "sales": 25000
+        },
+        {
+          "year": "2016",
+          "sales": 100000
+        },
+        {
+          "year": "2017",
+          "sales": 750000
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "global": "##create_series(items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+      }
+    },
+    "child": {
+      "type": "bar_chart",
+      "args": {
+        "animate": false,
+        "domainAxis": {
+          "tickProviderSpec": {
+            "ticks": [
+              {
+                "label": "Year 2014",
+                "style": {
+                  "color": "#4caf50"
+                },
+                "value": "2014"
+              },
+              {
+                "value": "2015"
+              },
+              {
+                "value": "2016"
+              },
+              {
+                "value": "2017"
+              }
+            ],
+            "type": "static"
+          },
+          "type": "ordinal"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

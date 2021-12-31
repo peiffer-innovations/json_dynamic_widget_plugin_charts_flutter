@@ -1,0 +1,74 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/axes/integer_only_measure_axis",
+    "title": "Integer Only Measure Axis",
+    "data": [
+      {
+        "date": "2017-9-25",
+        "value": 0
+      },
+      {
+        "date": "2017-9-26",
+        "value": 0
+      },
+      {
+        "date": "2017-9-27",
+        "value": 0
+      },
+      {
+        "date": "2017-9-28",
+        "value": 0
+      },
+      {
+        "date": "2017-9-29",
+        "value": 0
+      },
+      {
+        "date": "2017-9-30",
+        "value": 0
+      },
+      {
+        "date": "2017-10-1",
+        "value": 1
+      },
+      {
+        "date": "2017-10-2",
+        "value": 1
+      },
+      {
+        "date": "2017-10-3",
+        "value": 1
+      },
+      {
+        "date": "2017-10-4",
+        "value": 1
+      },
+      {
+        "date": "2017-10-5",
+        "value": 1
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value)##"
+    },
+    "child": {
+      "type": "time_series_chart",
+      "args": {
+        "animate": false,
+        "primaryMeasureAxis": {
+          "tickProviderSpec": {
+            "dataIsInWholeNumbers": true,
+            "desiredTickCount": 5,
+            "type": "basic"
+          },
+          "type": "numeric"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

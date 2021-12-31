@@ -1,0 +1,53 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/legends/datum_legend_with_measures",
+    "title": "Datum Legend With Measures",
+    "data": [
+      {
+        "x": 0,
+        "y": 100
+      },
+      {
+        "x": 1,
+        "y": 75
+      },
+      {
+        "x": 2,
+        "y": 25
+      },
+      {
+        "x": 3,
+        "y": 5
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "numeric_pie_chart",
+      "args": {
+        "animate": false,
+        "behaviors": [
+          {
+            "cellPadding": {
+              "bottom": 4,
+              "right": 4
+            },
+            "desiredMaxRows": 2,
+            "horizontalFirst": false,
+            "legendDefaultMeasure": "firstValue",
+            "measureFormatter": "!{{series_legend_with_measures_measure_formatter}}",
+            "position": "end",
+            "showMeasures": true,
+            "type": "datum_legend"
+          }
+        ],
+        "series": "{{series}}"
+      }
+    }
+  }
+}

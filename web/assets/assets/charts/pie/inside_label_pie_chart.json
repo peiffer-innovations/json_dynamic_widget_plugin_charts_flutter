@@ -1,0 +1,59 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/bar_charts/outside_label",
+    "title": "Inside Label",
+    "data": [
+      {
+        "label": "0: 100",
+        "x": 0,
+        "y": 100
+      },
+      {
+        "label": "1: 75",
+        "x": 1,
+        "y": 75
+      },
+      {
+        "label": "2: 25",
+        "x": 2,
+        "y": 25
+      },
+      {
+        "label": "3: 5",
+        "x": 3,
+        "y": 5
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "comment",
+      "args": {
+        "comments": [
+          "There appears to be a bug in the outside label for the Pie Chart",
+          "when working inside grids that causes the label to fail because",
+          "there's not enough room.  So this example just swaps in the",
+          "'inside' label instead"
+        ]
+      },
+      "child": {
+        "type": "pie_chart",
+        "args": {
+          "animate": false,
+          "defaultRenderer": {
+            "arcRendererDecorators": {
+              "labelPosition": "inside"
+            },
+            "type": "arc"
+          },
+          "series": "{{series}}"
+        }
+      }
+    }
+  }
+}

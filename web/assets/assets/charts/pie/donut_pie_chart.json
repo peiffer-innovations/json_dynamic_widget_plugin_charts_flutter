@@ -1,0 +1,42 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/bar_charts/partial_pie",
+    "title": "Donut",
+    "data": [
+      {
+        "x": 0,
+        "y": 100
+      },
+      {
+        "x": 1,
+        "y": 75
+      },
+      {
+        "x": 2,
+        "y": 25
+      },
+      {
+        "x": 3,
+        "y": 5
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "numeric_pie_chart",
+      "args": {
+        "animate": false,
+        "defaultRenderer": {
+          "arcWidth": 60,
+          "type": "arc"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

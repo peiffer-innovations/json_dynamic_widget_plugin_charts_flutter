@@ -1,8 +1,8 @@
 {
   "type": "set_value",
   "args": {
-    "url": "https://google.github.io/charts/flutter/example/bar_charts/grouped_stacked_weight_pattern",
-    "title": "Grouped Stacked Weight Pattern",
+    "url": "https://google.github.io/charts/flutter/example/behaviors/percent_of_domain",
+    "title": "Percent of Domain",
     "data": {
       "desktop": [
         {
@@ -64,24 +64,24 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktopA": "##create_series(seriesCategory:A, items:{{data;$.desktop}}, name:DesktopA, domain:$.year, measure:$.sales)##",
-        "tabletA": "##create_series(seriesCategory:A, items:{{data;$.tablet}}, name:TabletA, domain:$.year, measure:$.sales)##",
-        "mobileA": "##create_series(seriesCategory:A, items:{{data;$.mobile}}, name:MobileA, domain:$.year, measure:$.sales)##",
-        "desktopB": "##create_series(seriesCategory:B, items:{{data;$.desktop}}, name:DesktopB, domain:$.year, measure:$.sales)##",
-        "tabletB": "##create_series(seriesCategory:B, items:{{data;$.tablet}}, name:TabletB, domain:$.year, measure:$.sales)##",
-        "mobileB": "##create_series(seriesCategory:B, items:{{data;$.mobile}}, name:MobileB, domain:$.year, measure:$.sales)##"
+        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales)##",
+        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales)##",
+        "mobile": "##create_series(items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales)##"
       }
     },
     "child": {
       "type": "bar_chart",
       "args": {
         "animate": false,
-        "defaultRenderer": {
-          "groupingType": "groupedStacked",
-          "weightPattern": [
-            2,
-            1
-          ]
+        "behaviors": [
+          {
+            "totalType": "domain",
+            "type": "percent_injector"
+          }
+        ],
+        "barGroupingType": "stacked",
+        "primaryMeasureAxis": {
+          "type": "percent"
         },
         "series": "{{series}}"
       }

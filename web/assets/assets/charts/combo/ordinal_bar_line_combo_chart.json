@@ -1,0 +1,90 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/combo_charts/ordinal_bar_line",
+    "title": "Ordinal Bar Line",
+    "data": {
+      "desktop": [
+        {
+          "year": "2014",
+          "sales": 5
+        },
+        {
+          "year": "2015",
+          "sales": 25
+        },
+        {
+          "year": "2016",
+          "sales": 100
+        },
+        {
+          "year": "2017",
+          "sales": 75
+        }
+      ],
+      "tablet": [
+        {
+          "year": "2014",
+          "sales": 5
+        },
+        {
+          "year": "2015",
+          "sales": 25
+        },
+        {
+          "year": "2016",
+          "sales": 100
+        },
+        {
+          "year": "2017",
+          "sales": 75
+        }
+      ],
+      "mobile": [
+        {
+          "year": "2014",
+          "sales": 10
+        },
+        {
+          "year": "2015",
+          "sales": 50
+        },
+        {
+          "year": "2016",
+          "sales": 200
+        },
+        {
+          "year": "2017",
+          "sales": 150
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.blue}})##",
+        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.red}})##",
+        "mobile": "##create_series(rendererIdKey:customLine, items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.green}})##"
+      }
+    },
+    "child": {
+      "type": "ordinal_combo_chart",
+      "args": {
+        "animate": false,
+        "customSeriesRenderers": [
+          {
+            "customRendererId": "customLine",
+            "type": "line"
+          }
+        ],
+        "defaultRenderer": {
+          "groupingType": "grouped",
+          "type": "bar"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

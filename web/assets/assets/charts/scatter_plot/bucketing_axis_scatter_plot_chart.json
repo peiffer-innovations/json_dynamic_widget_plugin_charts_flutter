@@ -1,0 +1,121 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/scatter_plot_charts/bucketing_axis",
+    "title": "Bucketing Axis",
+    "data": {
+      "desktop": [
+        {
+          "color": "!{{charts.MaterialPalette.blue}}",
+          "x": 52,
+          "y": 0.75,
+          "radius": 14.0
+        }
+      ],
+      "tablet": [
+        {
+          "color": "!{{charts.MaterialPalette.red}}",
+          "x": 45,
+          "y": 0.3,
+          "radius": 18.0
+        }
+      ],
+      "mobile": [
+        {
+          "color": "!{{charts.MaterialPalette.green}}",
+          "x": 56,
+          "y": 0.8,
+          "radius": 17.0
+        }
+      ],
+      "chromebook": [
+        {
+          "color": "!{{charts.MaterialPalette.purple}}",
+          "x": 25,
+          "y": 0.6,
+          "radius": 13.0
+        }
+      ],
+      "home": [
+        {
+          "color": "!{{charts.MaterialPalette.indigo}}",
+          "x": 34,
+          "y": 0.5,
+          "radius": 15.0
+        }
+      ],
+      "other": [
+        {
+          "color": "!{{charts.MaterialPalette.gray}}",
+          "x": 10,
+          "y": 0.25,
+          "radius": 15.0
+        },
+        {
+          "color": "!{{charts.MaterialPalette.gray}}",
+          "x": 12,
+          "y": 0.075,
+          "radius": 14.0
+        },
+        {
+          "color": "!{{charts.MaterialPalette.gray}}",
+          "x": 13,
+          "y": 0.225,
+          "radius": 15.0
+        },
+        {
+          "color": "!{{charts.MaterialPalette.gray}}",
+          "x": 16,
+          "y": 0.03,
+          "radius": 14.0
+        },
+        {
+          "color": "!{{charts.MaterialPalette.gray}}",
+          "x": 24,
+          "y": 0.04,
+          "radius": 13.0
+        },
+        {
+          "color": "!{{charts.MaterialPalette.gray}}",
+          "x": 37,
+          "y": 0.1,
+          "radius": 14.5
+        }
+      ]
+    }
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": {
+        "desktop": "##create_series(type:int, items:{{data;$.desktop}}, name:Desktop)##",
+        "tablet": "##create_series(type:int, items:{{data;$.tablet}}, name:Tablet)##",
+        "mobile": "##create_series(type:int, items:{{data;$.mobile}}, name:Mobile)##",
+        "chromebook": "##create_series(type:int, items:{{data;$.chromebook}}, name:Chromebook)##",
+        "home": "##create_series(type:int, items:{{data;$.home}}, name:Home)##",
+        "other": "##create_series(type:int, items:{{data;$.other}}, name:Other)##"
+      }
+    },
+    "child": {
+      "type": "scatter_plot_chart",
+      "args": {
+        "animate": false,
+        "behaviors": [
+          {
+            "position": "end",
+            "type": "series_legend"
+          }
+        ],
+        "primaryMeasureAxis": {
+          "threshold": 0.1,
+          "tickProviderSpec": {
+            "desiredTickCount": 3,
+            "type": "bucketing"
+          },
+          "type": "bucketing"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}

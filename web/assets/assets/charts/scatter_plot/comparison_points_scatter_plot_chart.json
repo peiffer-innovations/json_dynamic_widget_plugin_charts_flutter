@@ -1,0 +1,91 @@
+{
+  "type": "set_value",
+  "args": {
+    "url": "https://google.github.io/charts/flutter/example/scatter_plot_charts/comparison_points",
+    "title": "Comparison Points",
+    "data": [
+      {
+        "color": "!{{charts.MaterialPalette.blue}}",
+        "radius": 5.0,
+        "x": 10,
+        "xLowerBound": 7,
+        "xUpperBound": 10,
+        "y": 25,
+        "yLowerBound": 20,
+        "yUpperBound": 25
+      },
+      {
+        "color": "!{{charts.MaterialPalette.green}}",
+        "radius": 5.0,
+        "x": 13,
+        "xLowerBound": 11,
+        "xUpperBound": 13,
+        "y": 225,
+        "yLowerBound": 205,
+        "yUpperBound": 225
+      },
+      {
+        "color": "!{{charts.MaterialPalette.red}}",
+        "radius": 5.0,
+        "x": 34,
+        "xLowerBound": 34,
+        "xUpperBound": 24,
+        "y": 150,
+        "yLowerBound": 150,
+        "yUpperBound": 130
+      },
+      {
+        "color": "!{{charts.MaterialPalette.blue}}",
+        "radius": 6.5,
+        "x": 37,
+        "xLowerBound": 37,
+        "xUpperBound": 57,
+        "y": 10,
+        "yLowerBound": 10,
+        "yUpperBound": 12
+      },
+      {
+        "color": "!{{charts.MaterialPalette.green}}",
+        "radius": 8.0,
+        "x": 45,
+        "xLowerBound": 35,
+        "xUpperBound": 45,
+        "y": 260,
+        "yLowerBound": 300,
+        "yUpperBound": 260
+      },
+      {
+        "color": "!{{charts.MaterialPalette.green}}",
+        "radius": 7.0,
+        "x": 56,
+        "xLowerBound": 46,
+        "xUpperBound": 56,
+        "y": 200,
+        "yLowerBound": 170,
+        "yUpperBound": 200
+      }
+    ]
+  },
+  "child": {
+    "type": "set_value",
+    "args": {
+      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+    },
+    "child": {
+      "type": "scatter_plot_chart",
+      "args": {
+        "animate": false,
+        "defaultRenderer": {
+          "pointRendererDecorators": [
+            {
+              "symbolRenderer": "cylinder",
+              "type": "comparison_points"
+            }
+          ],
+          "type": "point"
+        },
+        "series": "{{series}}"
+      }
+    }
+  }
+}
