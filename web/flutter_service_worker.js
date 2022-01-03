@@ -12,7 +12,7 @@ const RESOURCES = {
 "manifest.json": "15f73b7e8a8209c2206210b3ac8dea1b",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"assets/NOTICES": "195017d11a905592cee73b9b4b8137ff",
+"assets/NOTICES": "79c0e8489c6b03c4c767aec1658a6df0",
 "assets/AssetManifest.json": "b97d25056a3ab0415453fe73e632dcd5",
 "assets/FontManifest.json": "7b2a36307916a9721811788013e65289",
 "assets/assets/pages/charts.json": "307dedadd247309c32318797a3c6fc06",
@@ -101,8 +101,8 @@ const RESOURCES = {
 "assets/assets/charts/scatter_plot/shapes_scatter_plot_chart.json": "b5f854dc194045afb3460cd687ff1d22",
 "assets/assets/charts/scatter_plot/simple_scatter_plot_chart.json": "7bede91c56cc15efe927fa632be9801a",
 "assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
-"index.html": "ffde7b44d06921f8aab9e3ff0e67c06d",
-"/": "ffde7b44d06921f8aab9e3ff0e67c06d",
+"index.html": "d4d80eb3edc84a386e7c2f8808aac8ff",
+"/": "d4d80eb3edc84a386e7c2f8808aac8ff",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796"
 };
 
