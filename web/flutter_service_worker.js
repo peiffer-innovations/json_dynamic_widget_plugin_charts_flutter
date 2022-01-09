@@ -7,12 +7,12 @@ const RESOURCES = {
 "canvaskit/profiling/canvaskit.js": "f3bfccc993a1e0bfdd3440af60d99df4",
 "canvaskit/profiling/canvaskit.wasm": "a9610cf39260f60fbe7524a785c66101",
 "canvaskit/canvaskit.wasm": "04ed3c745ff1dee16504be01f9623498",
-"main.dart.js": "18fa35c2956d4758c633f1da359d4568",
+"main.dart.js": "77046ae3b4926b10420d068f9ed0637a",
 "version.json": "ff966ab969ba381b900e61629bfb9789",
 "manifest.json": "15f73b7e8a8209c2206210b3ac8dea1b",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"assets/NOTICES": "79c0e8489c6b03c4c767aec1658a6df0",
+"assets/NOTICES": "e493a8ffbb6cb747f1d0affc19b34d25",
 "assets/AssetManifest.json": "b97d25056a3ab0415453fe73e632dcd5",
 "assets/FontManifest.json": "7b2a36307916a9721811788013e65289",
 "assets/assets/pages/charts.json": "307dedadd247309c32318797a3c6fc06",
@@ -101,8 +101,8 @@ const RESOURCES = {
 "assets/assets/charts/scatter_plot/shapes_scatter_plot_chart.json": "b5f854dc194045afb3460cd687ff1d22",
 "assets/assets/charts/scatter_plot/simple_scatter_plot_chart.json": "7bede91c56cc15efe927fa632be9801a",
 "assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
-"index.html": "d4d80eb3edc84a386e7c2f8808aac8ff",
-"/": "d4d80eb3edc84a386e7c2f8808aac8ff",
+"index.html": "3d435652ef12ce3fa2dc0fd6c350dc62",
+"/": "3d435652ef12ce3fa2dc0fd6c350dc62",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796"
 };
 
