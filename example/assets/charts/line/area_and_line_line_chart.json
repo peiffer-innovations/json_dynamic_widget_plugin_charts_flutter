@@ -46,8 +46,8 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(rendererIdKey:customArea, type:int, items:{{data;$.desktop}}, name:Desktop, color:!{{charts.MaterialPalette.blue}})##",
-        "tablet": "##create_series(type:int, items:{{data;$.tablet}}, name:Tablet, color:!{{charts.MaterialPalette.green}})##"
+        "desktop": "${create_series({'rendererIdKey':'customArea', 'type':'int', 'items':data['desktop'], 'name':'Desktop', 'color':charts.MaterialPalette.blue})}",
+        "tablet": "${create_series({'type':'int', 'items':data['tablet'], 'name':'Tablet', 'color':charts.MaterialPalette.green})}"
       }
     },
     "child": {
@@ -60,8 +60,12 @@
           "type": "line",
           "stacked": true
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
-    }
+    },
+    "listen": [
+      "series",
+      "data"
+    ]
   }
 }

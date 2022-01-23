@@ -28,7 +28,7 @@
     "type": "set_value",
     "args": {
       "series": {
-        "global": "##create_series(items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+        "global": "${create_series({'items':data['global'], 'name':'Global', 'domain':'$.year', 'measure':'$.sales'})}"
       }
     },
     "child": {
@@ -42,7 +42,7 @@
           "showAxisLine": true,
           "type": "ordinal"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

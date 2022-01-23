@@ -25,13 +25,13 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(items:{{data}}, name:Sales, domain:$.year, measure:$.sales, color:#ff0000)##"
+      "series": "${create_series({'items':data, 'name':'Sales', 'domain':'$.year', 'measure':'$.sales', 'color':'#ff0000'})}"
     },
     "child": {
       "type": "bar_chart",
       "args": {
         "animate": false,
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

@@ -25,7 +25,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(items:{{data}}, name:Sales)##"
+      "series": "${create_series({'items':data, 'name':'Sales'})}"
     },
     "child": {
       "type": "pie_chart",
@@ -33,11 +33,11 @@
         "animate": false,
         "defaultRenderer": {
           "arcWidth": 30,
-          "arcLength": "##expression(7 / 5 * pi)##",
-          "startAngle": "##expression(4 / 5 * pi)##",
+          "arcLength": "${7 / 5 * pi}",
+          "startAngle": "${4 / 5 * pi}",
           "type": "arc"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

@@ -64,9 +64,9 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales, color:#1c98f3, fillColor:#92cbf9)##",
-        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales, color:#f54133)##",
-        "mobile": "##create_series(items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales, color:#48804f, fillColor:#00000000)##"
+        "desktop": "${create_series({'items':data['desktop'], 'name':'Desktop', 'domain':'$.year', 'measure':'$.sales', 'color':'#1c98f3', 'fillColor':'#92cbf9'})}",
+        "tablet": "${create_series({'items':data['tablet'], 'name':'Tablet', 'domain':'$.year', 'measure':'$.sales', 'color':'#f54133'})}",
+        "mobile": "${create_series({'items':data['mobile'], 'name':'Mobile', 'domain':'$.year', 'measure':'$.sales', 'color':'#48804f', 'fillColor':'#00000000'})}"
       }
     },
     "child": {
@@ -77,7 +77,7 @@
           "groupingType": "stacked",
           "strokeWidthPx": 2.0
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

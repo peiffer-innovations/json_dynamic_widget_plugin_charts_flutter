@@ -25,17 +25,17 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(items:{{data}}, name:Sales)##"
+      "series": "${create_series({'items':data, 'name':'Sales'})}"
     },
     "child": {
       "type": "pie_chart",
       "args": {
         "animate": false,
         "defaultRenderer": {
-          "arcLength": "##expression(3 / 2 * pi)##",
+          "arcLength": "${3 / 2 * pi}",
           "type": "arc"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

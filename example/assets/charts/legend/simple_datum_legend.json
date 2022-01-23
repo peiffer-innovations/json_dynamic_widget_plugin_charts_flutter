@@ -25,7 +25,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+      "series": "${create_series({'type':'int', 'items':data, 'name':'Sales'})}"
     },
     "child": {
       "type": "numeric_pie_chart",
@@ -36,7 +36,7 @@
             "type": "datum_legend"
           }
         ],
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

@@ -28,14 +28,14 @@
     "type": "set_value",
     "args": {
       "series": {
-        "global": "##create_series(measureAxisIdKey:secondaryMeasureAxisId, items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+        "global": "${create_series({'measureAxisIdKey':'secondaryMeasureAxisId', 'items':data['global'], 'name':'Global', 'domain':'$.year', 'measure':'$.sales'})}"
       }
     },
     "child": {
       "type": "bar_chart",
       "args": {
         "animate": false,
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

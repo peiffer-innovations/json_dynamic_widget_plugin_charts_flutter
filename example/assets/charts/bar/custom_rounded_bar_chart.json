@@ -64,9 +64,9 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales)##",
-        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales)##",
-        "mobile": "##create_series(items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales)##"
+        "desktop": "${create_series({'items':data['desktop'], 'name':'Desktop', 'domain':'$.year', 'measure':'$.sales'})}",
+        "tablet": "${create_series({'items':data['tablet'], 'name':'Tablet', 'domain':'$.year', 'measure':'$.sales'})}",
+        "mobile": "${create_series({'items':data['mobile'], 'name':'Mobile', 'domain':'$.year', 'measure':'$.sales'})}"
       }
     },
     "child": {
@@ -77,7 +77,7 @@
         "defaultRenderer": {
           "cornerStrategy": 30
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

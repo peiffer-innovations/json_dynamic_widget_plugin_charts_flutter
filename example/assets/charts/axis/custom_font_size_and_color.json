@@ -28,7 +28,7 @@
     "type": "set_value",
     "args": {
       "series": {
-        "global": "##create_series(items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+        "global": "${create_series({'items':data['global'], 'name':'Global', 'domain':'$.year', 'measure':'$.sales'})}"
       }
     },
     "child": {
@@ -38,11 +38,11 @@
         "domainAxis": {
           "renderSpec": {
             "labelStyle": {
-              "color": "!{{charts.MaterialPalette.black}}",
+              "color": "${charts.MaterialPalette.black}",
               "fontSize": 18
             },
             "lineStyle": {
-              "color": "!{{charts.MaterialPalette.black}}"
+              "color": "${charts.MaterialPalette.black}"
             },
             "type": "small_tick"
           }
@@ -50,18 +50,21 @@
         "primaryMeasureAxis": {
           "renderSpec": {
             "labelStyle": {
-              "color": "!{{charts.MaterialPalette.black}}",
+              "color": "${charts.MaterialPalette.black}",
               "fontSize": 18
             },
             "lineStyle": {
-              "color": "!{{charts.MaterialPalette.black}}"
+              "color": "${charts.MaterialPalette.black}"
             },
             "type": "gridline"
           },
           "type": "numeric"
         },
-        "series": "{{series}}"
-      }
+        "series": "${series}"
+      },
+      "listen": [
+        "series"
+      ]
     }
   }
 }

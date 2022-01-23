@@ -29,37 +29,25 @@ class CreateSeriesFunction {
       if (arg == null) {
         continue;
       }
-      if (arg is NamedFunctionArg) {
-        values[arg.name] = arg.value;
-      } else {
-        List<String> parts;
-        try {
-          parts = arg.split(':');
-        } catch (e) {
-          rethrow;
-        }
-
-        var key = parts[0];
-        dynamic value = parts.skip(1).join(':');
-        _logger.finest('[$key] = [$value]');
-        value = registry.processDynamicArgs(value).values;
-
-        switch (key) {
-          case 'type':
-            if (value == 'DateTime') {
-              domainType = DateTime;
-            } else if (value == 'int') {
-              domainType = int;
-            } else if (value == 'double') {
-              domainType = double;
-            } else {
-              domainType = String;
-            }
-            break;
-
-          default:
-            values[key] = value;
-        }
+      if (arg is Map) {
+        Map<String, dynamic>.from(arg).forEach((key, value) {
+          _logger.finest('[$key] = [$value]');
+          switch (key) {
+            case 'type':
+              if (value == 'DateTime') {
+                domainType = DateTime;
+              } else if (value == 'int') {
+                domainType = int;
+              } else if (value == 'double') {
+                domainType = double;
+              } else {
+                domainType = String;
+              }
+              break;
+            default:
+              values[key] = value;
+          }
+        });
       }
     }
 

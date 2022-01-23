@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:json_dynamic_widget/json_dynamic_widget.dart';
 import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
-import 'package:json_dynamic_widget_plugin_expressions/json_dynamic_widget_plugin_expressions.dart';
 import 'package:json_theme/json_theme_schemas.dart';
 import 'package:logging/logging.dart';
 
@@ -62,7 +61,7 @@ void main() async {
   registry.setValue('Icons.cloud', Icons.cloud);
 
   registry.registerFunction(
-    'template',
+    'loadTemplate',
     ({args, required registry}) => registry.getValue(
       args![0],
     ),
@@ -81,7 +80,6 @@ void main() async {
   );
 
   JsonChartsFlutterPlugin.bind(registry);
-  JsonExpressionsPlugin.bind(registry);
 
   registry.navigatorKey = navigatorKey;
 
@@ -206,8 +204,7 @@ void main() async {
   await Future.wait(futures);
 
   var data = JsonWidgetData.fromDynamic(
-    json.decode(await rootBundle.loadString('assets/pages/charts.json')),
-  )!;
+      json.decode(await rootBundle.loadString('assets/pages/charts.json')))!;
 
   runApp(
     MaterialApp(

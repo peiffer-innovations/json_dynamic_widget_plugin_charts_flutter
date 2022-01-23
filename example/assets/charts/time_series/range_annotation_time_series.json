@@ -25,7 +25,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value)##"
+      "series": "${create_series({'type':'DateTime', 'items':data, 'name':'Desktop', 'domain':'$.date', 'measure':'$.value'})}"
     },
     "child": {
       "type": "time_series_chart",
@@ -42,7 +42,7 @@
           ],
           "type": "range_annotation"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

@@ -25,7 +25,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+      "series": "${create_series({'type':'int', 'items':data, 'name':'Sales'})}"
     },
     "child": {
       "type": "column",
@@ -39,12 +39,15 @@
               "behaviors": [
                 {
                   "initialDomainValue": 1.0,
-                  "onChangeCallback": "!{{on_slider_change}}",
+                  "onChangeCallback": "${on_slider_change}",
                   "type": "slider"
                 }
               ],
-              "series": "{{series}}"
-            }
+              "series": "${series}"
+            },
+            "listen": [
+              "series"
+            ]
           }
         },
         {
@@ -66,7 +69,7 @@
               {
                 "type": "text",
                 "args": {
-                  "text": "{{sliderDomainValue}}"
+                  "text": "${sliderDomainValue}"
                 }
               }
             ]
@@ -91,7 +94,7 @@
               {
                 "type": "text",
                 "args": {
-                  "text": "{{sliderPosition}}"
+                  "text": "${sliderPosition}"
                 }
               }
             ]
@@ -116,7 +119,7 @@
               {
                 "type": "text",
                 "args": {
-                  "text": "{{sliderDragState}}"
+                  "text": "${sliderDragState}"
                 }
               }
             ]
