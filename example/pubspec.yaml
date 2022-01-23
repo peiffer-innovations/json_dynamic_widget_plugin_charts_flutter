@@ -15,8 +15,6 @@ dependencies:
     path: ../
 
 # dependency_overrides:
-#   json_class:
-#     path: ../../json_class
 #   json_dynamic_widget:
 #     path: ../../json_dynamic_widget
 
