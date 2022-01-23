@@ -64,9 +64,9 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(type:int, items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.blue}})##",
-        "tablet": "##create_series(type:int, items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.red}})##",
-        "mobile": "##create_series(type:int, rendererIdKey:customPoint, items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.green}})##"
+        "desktop": "${create_series({'type':'int', 'items':data['desktop'], 'name':'Desktop', 'domain':'$.year', 'measure':'$.sales', 'color':charts.MaterialPalette.blue})}",
+        "tablet": "${create_series({'type':'int', 'items':data['tablet'], 'name':'Tablet', 'domain':'$.year', 'measure':'$.sales', 'color':charts.MaterialPalette.red})}",
+        "mobile": "${create_series({'type':'int', 'rendererIdKey':'customPoint', 'items':data['mobile'], 'name':'Mobile', 'domain':'$.year', 'measure':'$.sales', 'color':charts.MaterialPalette.green})}"
       }
     },
     "child": {
@@ -82,8 +82,12 @@
         "defaultRenderer": {
           "type": "line"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
-    }
+    },
+    "listen": [
+      "series",
+      "data"
+    ]
   }
 }

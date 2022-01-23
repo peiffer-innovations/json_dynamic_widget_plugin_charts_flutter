@@ -46,8 +46,8 @@
     "type": "set_value",
     "args": {
       "series": {
-        "us": "##create_series(type:DateTime, items:{{data;$.us}}, name:US)##",
-        "uk": "##create_series(type:DateTime, items:{{data;$.uk}}, name:UK)##"
+        "us": "${create_series({'type':'DateTime', 'items':data['us'], 'name':'US'})}",
+        "uk": "${create_series({'type':'DateTime', 'items':data['uk'], 'name':'UK'})}"
       }
     },
     "child": {
@@ -61,12 +61,15 @@
               "animate": false,
               "selectionModels": [
                 {
-                  "changedListener": "!{{on_selection_callback_change}}",
+                  "changedListener": "${on_selection_callback_change}",
                   "type": "info"
                 }
               ],
-              "series": "{{series}}"
-            }
+              "series": "${series}"
+            },
+            "listen": [
+              "series"
+            ]
           }
         },
         {
@@ -79,7 +82,7 @@
           "child": {
             "type": "text",
             "args": {
-              "text": "{{selectionCallbackTime}}"
+              "text": "${selectionCallbackTime}"
             }
           }
         },
@@ -102,7 +105,7 @@
               {
                 "type": "text",
                 "args": {
-                  "text": "{{selectionCallbackSalesUS}}"
+                  "text": "${selectionCallbackSalesUS}"
                 }
               }
             ]
@@ -127,7 +130,7 @@
               {
                 "type": "text",
                 "args": {
-                  "text": "{{selectionCallbackSalesUK}}"
+                  "text": "${selectionCallbackSalesUK}"
                 }
               }
             ]

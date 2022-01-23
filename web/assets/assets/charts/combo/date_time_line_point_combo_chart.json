@@ -64,9 +64,9 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(type:DateTime, items:{{data;$.desktop}}, name:Desktop, domain:$.date, measure:$.value, color:!{{charts.MaterialPalette.blue}})##",
-        "tablet": "##create_series(type:DateTime, items:{{data;$.tablet}}, name:Tablet, domain:$.date, measure:$.value, color:!{{charts.MaterialPalette.red}})##",
-        "mobile": "##create_series(type:DateTime, rendererIdKey:customPoint, items:{{data;$.mobile}}, name:Mobile, domain:$.date, measure:$.value, color:!{{charts.MaterialPalette.green}})##"
+        "desktop": "${create_series({'type':'DateTime', 'items':data['desktop'], 'name':'Desktop', 'domain':'$.date', 'measure':'$.value', 'color':charts.MaterialPalette.blue})}",
+        "tablet": "${create_series({'type':'DateTime', 'items':data['tablet'], 'name':'Tablet', 'domain':'$.date', 'measure':'$.value', 'color':charts.MaterialPalette.red})}",
+        "mobile": "${create_series({'type':'DateTime', 'rendererIdKey':'customPoint', 'items':data['mobile'], 'name':'Mobile', 'domain':'$.date', 'measure':'$.value', 'color':charts.MaterialPalette.green})}"
       }
     },
     "child": {
@@ -80,8 +80,12 @@
         "defaultRenderer": {
           "type": "line"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
-    }
+    },
+    "listen": [
+      "series",
+      "data"
+    ]
   }
 }

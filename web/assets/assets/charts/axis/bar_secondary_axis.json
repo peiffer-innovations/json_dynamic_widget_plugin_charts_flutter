@@ -46,8 +46,8 @@
     "type": "set_value",
     "args": {
       "series": {
-        "global": "##create_series(items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##",
-        "losAngeles": "##create_series(measureAxisIdKey:secondaryMeasureAxisId, items:{{data;$.losAngeles}}, name:LosAngeles, domain:$.year, measure:$.sales)##"
+        "global": "${create_series({'items':data['global'], 'name':'Global', 'domain':'$.year', 'measure':'$.sales'})}",
+        "losAngeles": "${create_series({'measureAxisIdKey':'secondaryMeasureAxisId', 'items':data['losAngeles'], 'name':'LosAngeles', 'domain':'$.year', 'measure':'$.sales'})}"
       }
     },
     "child": {
@@ -69,7 +69,7 @@
           },
           "type": "numeric"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

@@ -110,14 +110,15 @@
       "children": [
         {
           "type": "expanded",
-          "child": "##template(!{{value}})##"
+          "child": "${loadTemplate(value)}",
+          "listen": []
         },
         {
           "type": "text",
           "args": {
             "maxLines": 1,
             "overflow": "ellipsis",
-            "text": "{{title}}"
+            "text": "${title}"
           }
         }
       ]
@@ -194,7 +195,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.bar}}, template)##"
+                    "children": "${for_each(charts['bar'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",
@@ -230,7 +231,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.time_series}}, template)##"
+                    "children": "${for_each(charts['time_series'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",
@@ -266,7 +267,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.line}}, template)##"
+                    "children": "${for_each(charts['line'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",
@@ -302,7 +303,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.scatter_plot}}, template)##"
+                    "children": "${for_each(charts['scatter_plot'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",
@@ -338,7 +339,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.combo}}, template)##"
+                    "children": "${for_each(charts['combo'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",
@@ -374,7 +375,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.pie}}, template)##"
+                    "children": "${for_each(charts['pie'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",
@@ -410,7 +411,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.axis}}, template)##"
+                    "children": "${for_each(charts['axis'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",
@@ -455,7 +456,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.legend}}, template)##"
+                    "children": "${for_each(charts['legend'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",
@@ -500,7 +501,7 @@
                         "type": "max_cross_axis_extent"
                       }
                     },
-                    "children": "##for_each({{charts;$.behavior}}, template)##"
+                    "children": "${for_each(charts['behavior'], 'template')}"
                   },
                   {
                     "type": "sliver_to_box_adapter",

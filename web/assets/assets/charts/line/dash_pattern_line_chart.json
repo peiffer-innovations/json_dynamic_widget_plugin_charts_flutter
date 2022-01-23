@@ -64,17 +64,21 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(type:int, items:{{data;$.desktop}}, name:Desktop, color:!{{charts.MaterialPalette.blue}})##",
-        "tablet": "##create_series(dashPattern:[2\\,2], type:int, items:{{data;$.tablet}}, name:Tablet, color:!{{charts.MaterialPalette.red}})##",
-        "mobile": "##create_series(dashPattern:[8\\,3\\,2\\,3], type:int, items:{{data;$.mobile}}, name:Mobile, color:!{{charts.MaterialPalette.green}})##"
+        "desktop": "${create_series({'type':'int', 'items':data['desktop'], 'name':'Desktop', 'color':charts.MaterialPalette.blue})}",
+        "tablet": "${create_series({'dashPattern':'[2,2]', 'type':'int', 'items':data['tablet'], 'name':'Tablet', 'color':charts.MaterialPalette.red})}",
+        "mobile": "${create_series({'dashPattern':'[8,3,2,3]', 'type':'int', 'items':data['mobile'], 'name':'Mobile', 'color':charts.MaterialPalette.green})}"
       }
     },
     "child": {
       "type": "line_chart",
       "args": {
         "animate": false,
-        "series": "{{series}}"
+        "series": "${series}"
       }
-    }
+    },
+    "listen": [
+      "series",
+      "data"
+    ]
   }
 }

@@ -83,11 +83,11 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(measureAxisIdKey:axis 1, type:int, items:{{data;$.desktop}}, name:Desktop, color:!{{charts.MaterialPalette.blue}})##",
-        "tablet": "##create_series(measureAxisIdKey:axis 2, type:int, items:{{data;$.tablet}}, name:Tablet, color:!{{charts.MaterialPalette.red}})##",
-        "mobile": "##create_series(measureAxisIdKey:axis 3, type:int, items:{{data;$.mobile}}, name:Mobile, color:!{{charts.MaterialPalette.green}})##",
-        "fakeClick": "##create_series(measureAxisIdKey:axis 4, type:int, items:{{data;$.fakeClick}}, name:FakeClick, color:!{{charts.MaterialPalette.purple}})##",
-        "empty": "##create_series(type:int, items:{{data;$.empty}}, name:Empty)##"
+        "desktop": "${create_series({'measureAxisIdKey':'axis 1', 'type':'int', 'items':data['desktop'], 'name':'Desktop', 'color':charts.MaterialPalette.blue})}",
+        "tablet": "${create_series({'measureAxisIdKey':'axis 2', 'type':'int', 'items':data['tablet'], 'name':'Tablet', 'color':charts.MaterialPalette.red})}",
+        "mobile": "${create_series({'measureAxisIdKey':'axis 3', 'type':'int', 'items':data['mobile'], 'name':'Mobile', 'color':charts.MaterialPalette.green})}",
+        "fakeClick": "${create_series({'measureAxisIdKey':'axis 4', 'type':'int', 'items':data['fakeClick'], 'name':'FakeClick', 'color':charts.MaterialPalette.purple})}",
+        "empty": "${create_series({'type':'int', 'items':data['empty'], 'name':'Empty'})}"
       }
     },
     "child": {
@@ -136,8 +136,9 @@
           },
           "type": "numeric"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
-    }
+    },
+    "listen":["series", "data"]
   }
 }

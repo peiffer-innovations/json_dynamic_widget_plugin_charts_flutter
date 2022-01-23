@@ -25,13 +25,13 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value)##"
+      "series": "${create_series({'type':'DateTime', 'items':data, 'name':'Desktop', 'domain':'$.date', 'measure':'$.value'})}"
     },
     "child": {
       "type": "time_series_chart",
       "args": {
         "animate": false,
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

@@ -29,7 +29,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(items:{{data}}, name:Sales, domain:$.year, measure:$.sales)##"
+      "series": "${create_series({'items':data, 'name':'Sales', 'domain':'$.year', 'measure':'$.sales'})}"
     },
     "child": {
       "type": "bar_chart",
@@ -44,7 +44,7 @@
             "type": "none"
           }
         },
-        "series": "{{series}}",
+        "series": "${series}",
         "vertical": false
       }
     }

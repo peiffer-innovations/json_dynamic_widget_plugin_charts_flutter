@@ -64,12 +64,12 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktopA": "##create_series(seriesCategory:A, items:{{data;$.desktop}}, name:DesktopA, domain:$.year, measure:$.sales)##",
-        "tabletA": "##create_series(seriesCategory:A, items:{{data;$.tablet}}, name:TabletA, domain:$.year, measure:$.sales)##",
-        "mobileA": "##create_series(seriesCategory:A, items:{{data;$.mobile}}, name:MobileA, domain:$.year, measure:$.sales)##",
-        "desktopB": "##create_series(seriesCategory:B, items:{{data;$.desktop}}, name:DesktopB, domain:$.year, measure:$.sales)##",
-        "tabletB": "##create_series(seriesCategory:B, items:{{data;$.tablet}}, name:TabletB, domain:$.year, measure:$.sales)##",
-        "mobileB": "##create_series(seriesCategory:B, items:{{data;$.mobile}}, name:MobileB, domain:$.year, measure:$.sales)##"
+        "desktopA": "${create_series({'seriesCategory':'A', 'items':data['desktop'], 'name':'DesktopA', 'domain':'$.year', 'measure':'$.sales'})}",
+        "tabletA": "${create_series({'seriesCategory':'A', 'items':data['tablet'], 'name':'TabletA', 'domain':'$.year', 'measure':'$.sales'})}",
+        "mobileA": "${create_series({'seriesCategory':'A', 'items':data['mobile'], 'name':'MobileA', 'domain':'$.year', 'measure':'$.sales'})}",
+        "desktopB": "${create_series({'seriesCategory':'B', 'items':data['desktop'], 'name':'DesktopB', 'domain':'$.year', 'measure':'$.sales'})}",
+        "tabletB": "${create_series({'seriesCategory':'B', 'items':data['tablet'], 'name':'TabletB', 'domain':'$.year', 'measure':'$.sales'})}",
+        "mobileB": "${create_series({'seriesCategory':'B', 'items':data['mobile'], 'name':'MobileB', 'domain':'$.year', 'measure':'$.sales'})}"
       }
     },
     "child": {
@@ -86,7 +86,7 @@
         "primaryMeasureAxis": {
           "type": "percent"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

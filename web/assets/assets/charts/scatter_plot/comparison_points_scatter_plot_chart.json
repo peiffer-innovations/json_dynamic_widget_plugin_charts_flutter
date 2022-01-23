@@ -5,7 +5,7 @@
     "title": "Comparison Points",
     "data": [
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "radius": 5.0,
         "x": 10,
         "xLowerBound": 7,
@@ -15,7 +15,7 @@
         "yUpperBound": 25
       },
       {
-        "color": "!{{charts.MaterialPalette.green}}",
+        "color": "${charts.MaterialPalette.green}",
         "radius": 5.0,
         "x": 13,
         "xLowerBound": 11,
@@ -25,7 +25,7 @@
         "yUpperBound": 225
       },
       {
-        "color": "!{{charts.MaterialPalette.red}}",
+        "color": "${charts.MaterialPalette.red}",
         "radius": 5.0,
         "x": 34,
         "xLowerBound": 34,
@@ -35,7 +35,7 @@
         "yUpperBound": 130
       },
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "radius": 6.5,
         "x": 37,
         "xLowerBound": 37,
@@ -45,7 +45,7 @@
         "yUpperBound": 12
       },
       {
-        "color": "!{{charts.MaterialPalette.green}}",
+        "color": "${charts.MaterialPalette.green}",
         "radius": 8.0,
         "x": 45,
         "xLowerBound": 35,
@@ -55,7 +55,7 @@
         "yUpperBound": 260
       },
       {
-        "color": "!{{charts.MaterialPalette.green}}",
+        "color": "${charts.MaterialPalette.green}",
         "radius": 7.0,
         "x": 56,
         "xLowerBound": 46,
@@ -69,7 +69,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+      "series": "${create_series({'type':'int', 'items':data, 'name':'Sales'})}"
     },
     "child": {
       "type": "scatter_plot_chart",
@@ -84,8 +84,12 @@
           ],
           "type": "point"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
-  }
+  },
+  "listen": [
+    "series",
+    "data"
+  ]
 }
