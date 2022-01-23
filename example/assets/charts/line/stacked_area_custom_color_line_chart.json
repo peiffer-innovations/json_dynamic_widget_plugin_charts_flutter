@@ -64,9 +64,9 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(type:int, items:{{data;$.desktop}}, name:Desktop, color:!{{charts.MaterialPalette.blue}}, areaColor:!{{charts.MaterialPalette.blue.lighter}})##",
-        "tablet": "##create_series(type:int, items:{{data;$.tablet}}, name:Tablet, color:!{{charts.MaterialPalette.red}}, areaColor:!{{charts.MaterialPalette.red.lighter}})##",
-        "mobile": "##create_series(type:int, items:{{data;$.mobile}}, name:Mobile, color:!{{charts.MaterialPalette.green}}, areaColor:!{{charts.MaterialPalette.green.lighter}})##"
+        "desktop": "${create_series({'type':'int', 'items':data['desktop'], 'name':'Desktop', 'color':charts.MaterialPalette.blue, 'areaColor':charts.MaterialPalette.blue.lighter})}",
+        "tablet": "${create_series({'type':'int', 'items':data['tablet'], 'name':'Tablet', 'color':charts.MaterialPalette.red, 'areaColor':charts.MaterialPalette.red.lighter})}",
+        "mobile": "${create_series({'type':'int', 'items':data['mobile'], 'name':'Mobile', 'color':charts.MaterialPalette.green, 'areaColor':charts.MaterialPalette.green.lighter})}"
       }
     },
     "child": {
@@ -77,8 +77,12 @@
           "includeArea": true,
           "stacked": true
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
-    }
+    },
+    "listen": [
+      "series",
+      "data"
+    ]
   }
 }

@@ -71,10 +71,10 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(type:DateTime, items:{{data;$.desktop}}, name:Desktop, domain:$.timeCurrent, measure:$.sales, color:!{{charts.MaterialPalette.blue}})##",
-        "tablet": "##create_series(type:DateTime, items:{{data;$.tablet}}, name:Tablet, domain:$.timeCurrent, measure:$.sales, color:!{{charts.MaterialPalette.green}})##",
-        "annotationSeries1": "##create_series(boundsLineRadiusPxKey:3.5, rendererIdKey:customSymbolAnnotation, type:DateTime, items:{{data;$.annotation1}}, name:Annotation Series 1, domain:$.timeCurrent, itemDomainLowerBound:$.timePrevious, itemDomainUpperBound:$.timeTarget, color:!{{charts.MaterialPalette.gray}})##",
-        "annotationSeries2": "##create_series(boundsLineRadiusPxKey:3.5, rendererIdKey:customSymbolAnnotation, type:DateTime, items:{{data;$.annotation2}}, name:Annotation Series 2, domain:$.timeCurrent, itemDomainLowerBound:$.timePrevious, itemDomainUpperBound:$.timeTarget, color:!{{charts.MaterialPalette.red}})##"
+        "desktop": "${create_series({'type':'DateTime', 'items':data['desktop'], 'name':'Desktop', 'domain':'$.timeCurrent', 'measure':'$.sales', 'color':charts.MaterialPalette.blue})}",
+        "tablet": "${create_series({'type':'DateTime', 'items':data['tablet'], 'name':'Tablet', 'domain':'$.timeCurrent', 'measure':'$.sales', 'color':charts.MaterialPalette.green})}",
+        "annotationSeries1": "${create_series({'boundsLineRadiusPxKey':'3.5', 'rendererIdKey':'customSymbolAnnotation', 'type':'DateTime', 'items':data['annotation1'], 'name':'Annotation Series 1', 'domain':'$.timeCurrent', 'itemDomainLowerBound':'$.timePrevious', 'itemDomainUpperBound':'$.timeTarget', 'color':charts.MaterialPalette.gray})}",
+        "annotationSeries2": "${create_series({'boundsLineRadiusPxKey':'3.5', 'rendererIdKey':'customSymbolAnnotation', 'type':'DateTime', 'items':data['annotation2'], 'name':'Annotation Series 2', 'domain':'$.timeCurrent', 'itemDomainLowerBound':'$.timePrevious', 'itemDomainUpperBound':'$.timeTarget', 'color':charts.MaterialPalette.red})}"
       }
     },
     "child": {
@@ -85,7 +85,7 @@
           "customRendererId": "customSymbolAnnotation",
           "type": "symbol_annotation"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

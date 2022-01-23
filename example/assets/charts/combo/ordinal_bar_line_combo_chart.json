@@ -64,9 +64,9 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.blue}})##",
-        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.red}})##",
-        "mobile": "##create_series(rendererIdKey:customLine, items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales, color:!{{charts.MaterialPalette.green}})##"
+        "desktop": "${create_series({'items':data['desktop'], 'name':'Desktop', 'domain':'$.year', 'measure':'$.sales', 'color':charts.MaterialPalette.blue})}",
+        "tablet": "${create_series({'items':data['tablet'], 'name':'Tablet', 'domain':'$.year', 'measure':'$.sales', 'color':charts.MaterialPalette.red})}",
+        "mobile": "${create_series({'rendererIdKey':'customLine', 'items':data['mobile'], 'name':'Mobile', 'domain':'$.year', 'measure':'$.sales', 'color':charts.MaterialPalette.green})}"
       }
     },
     "child": {
@@ -83,7 +83,7 @@
           "groupingType": "grouped",
           "type": "bar"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

@@ -5,29 +5,29 @@
     "title": "Shapes",
     "data": [
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "x": 0,
         "y": 5,
         "radius": 3.0,
         "shape": "circle"
       },
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "x": 10,
         "y": 25,
         "radius": 5.0,
         "shape": "rect"
       },
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "x": 12,
         "y": 75,
         "radius": 4.0,
         "shape": "rect"
       },
       {
-        "color": "!{{charts.MaterialPalette.green}}",
-        "fillColor": "!{{charts.MaterialPalette.white}}",
+        "color": "${charts.MaterialPalette.green}",
+        "fillColor": "${charts.MaterialPalette.white}",
         "x": 13,
         "y": 225,
         "radius": 5.0,
@@ -35,43 +35,43 @@
         "strokeWidth": 2.0
       },
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "x": 16,
         "y": 50,
         "radius": 4.0,
         "shape": "rect"
       },
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "x": 24,
         "y": 75,
         "radius": 3.0,
         "shape": "rect"
       },
       {
-        "color": "!{{charts.MaterialPalette.red}}",
+        "color": "${charts.MaterialPalette.red}",
         "x": 25,
         "y": 100,
         "radius": 3.0,
         "shape": "circle"
       },
       {
-        "color": "!{{charts.MaterialPalette.red}}",
+        "color": "${charts.MaterialPalette.red}",
         "x": 34,
         "y": 150,
         "radius": 5.0,
         "shape": "rect"
       },
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "x": 37,
         "y": 10,
         "radius": 4.5,
         "shape": "rect"
       },
       {
-        "color": "!{{charts.MaterialPalette.green}}",
-        "fillColor": "!{{charts.MaterialPalette.white}}",
+        "color": "${charts.MaterialPalette.green}",
+        "fillColor": "${charts.MaterialPalette.white}",
         "x": 45,
         "y": 300,
         "radius": 8.0,
@@ -79,15 +79,15 @@
         "strokeWidth": 2.0
       },
       {
-        "color": "!{{charts.MaterialPalette.blue}}",
+        "color": "${charts.MaterialPalette.blue}",
         "x": 52,
         "y": 15,
         "radius": 4.0,
         "shape": "rect"
       },
       {
-        "color": "!{{charts.MaterialPalette.green}}",
-        "fillColor": "!{{charts.MaterialPalette.white}}",
+        "color": "${charts.MaterialPalette.green}",
+        "fillColor": "${charts.MaterialPalette.white}",
         "x": 56,
         "y": 200,
         "radius": 7.0,
@@ -99,7 +99,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:int, items:{{data}}, name:Sales)##"
+      "series": "${create_series({'type':'int', 'items':data, 'name':'Sales'})}"
     },
     "child": {
       "type": "scatter_plot_chart",
@@ -116,8 +116,12 @@
           },
           "type": "point"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
-  }
+  },
+  "listen": [
+    "series",
+    "data"
+  ]
 }

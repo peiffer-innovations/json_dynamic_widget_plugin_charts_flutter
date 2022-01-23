@@ -6,73 +6,73 @@
     "data": {
       "desktop": [
         {
-          "color": "!{{charts.MaterialPalette.blue}}",
+          "color": "${charts.MaterialPalette.blue}",
           "x": 0,
           "y": 5,
           "radius": 3.0
         },
         {
-          "color": "!{{charts.MaterialPalette.blue}}",
+          "color": "${charts.MaterialPalette.blue}",
           "x": 10,
           "y": 25,
           "radius": 5.0
         },
         {
-          "color": "!{{charts.MaterialPalette.blue}}",
+          "color": "${charts.MaterialPalette.blue}",
           "x": 12,
           "y": 75,
           "radius": 4.0
         },
         {
-          "color": "!{{charts.MaterialPalette.green}}",
+          "color": "${charts.MaterialPalette.green}",
           "x": 13,
           "y": 225,
           "radius": 5.0
         },
         {
-          "color": "!{{charts.MaterialPalette.blue}}",
+          "color": "${charts.MaterialPalette.blue}",
           "x": 16,
           "y": 50,
           "radius": 4.0
         },
         {
-          "color": "!{{charts.MaterialPalette.blue}}",
+          "color": "${charts.MaterialPalette.blue}",
           "x": 24,
           "y": 75,
           "radius": 3.0
         },
         {
-          "color": "!{{charts.MaterialPalette.red}}",
+          "color": "${charts.MaterialPalette.red}",
           "x": 25,
           "y": 100,
           "radius": 3.0
         },
         {
-          "color": "!{{charts.MaterialPalette.red}}",
+          "color": "${charts.MaterialPalette.red}",
           "x": 34,
           "y": 150,
           "radius": 5.0
         },
         {
-          "color": "!{{charts.MaterialPalette.blue}}",
+          "color": "${charts.MaterialPalette.blue}",
           "x": 37,
           "y": 10,
           "radius": 4.5
         },
         {
-          "color": "!{{charts.MaterialPalette.green}}",
+          "color": "${charts.MaterialPalette.green}",
           "x": 45,
           "y": 300,
           "radius": 8.0
         },
         {
-          "color": "!{{charts.MaterialPalette.blue}}",
+          "color": "${charts.MaterialPalette.blue}",
           "x": 52,
           "y": 15,
           "radius": 4.0
         },
         {
-          "color": "!{{charts.MaterialPalette.green}}",
+          "color": "${charts.MaterialPalette.green}",
           "x": 56,
           "y": 200,
           "radius": 7.0
@@ -96,8 +96,8 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(type:int, items:{{data;$.desktop}}, name:Desktop)##",
-        "tablet": "##create_series(rendererIdKey:customLine, type:int, items:{{data;$.tablet}}, name:Tablet, color:!{{charts.MaterialPalette.purple}})##"
+        "desktop": "${create_series({'type':'int', 'items':data['desktop'], 'name':'Desktop'})}",
+        "tablet": "${create_series({'rendererIdKey':'customLine', 'type':'int', 'items':data['tablet'], 'name':'Tablet', 'color':charts.MaterialPalette.purple})}"
       }
     },
     "child": {
@@ -112,8 +112,12 @@
         "defaultRenderer": {
           "type": "point"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
-  }
+  },
+  "listen": [
+    "series",
+    "data"
+  ]
 }

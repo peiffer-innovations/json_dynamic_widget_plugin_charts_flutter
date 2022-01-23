@@ -82,10 +82,10 @@
     "type": "set_value",
     "args": {
       "series": {
-        "desktop": "##create_series(items:{{data;$.desktop}}, name:Desktop, domain:$.year, measure:$.sales)##",
-        "tablet": "##create_series(items:{{data;$.tablet}}, name:Tablet, domain:$.year, measure:$.sales)##",
-        "mobile": "##create_series(items:{{data;$.mobile}}, name:Mobile, domain:$.year, measure:$.sales)##",
-        "other": "##create_series(items:{{data;$.other}}, name:Other, domain:$.year, measure:$.sales)##"
+        "desktop": "${create_series({'items':data['desktop'], 'name':'Desktop', 'domain':'$.year', 'measure':'$.sales'})}",
+        "tablet": "${create_series({'items':data['tablet'], 'name':'Tablet', 'domain':'$.year', 'measure':'$.sales'})}",
+        "mobile": "${create_series({'items':data['mobile'], 'name':'Mobile', 'domain':'$.year', 'measure':'$.sales'})}",
+        "other": "${create_series({'items':data['other'], 'name':'Other', 'domain':'$.year', 'measure':'$.sales'})}"
       }
     },
     "child": {
@@ -98,7 +98,7 @@
             "type": "series_legend"
           }
         ],
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

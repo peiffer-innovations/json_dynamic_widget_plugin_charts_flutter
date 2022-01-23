@@ -25,13 +25,13 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value, measureLowerBoundFn:{{confidence_interval_measure_lower_bound}}, measureUpperBoundFn:{{confidence_interval_measure_upper_bound}})##"
+      "series": "${create_series({'type':'DateTime', 'items':data, 'name':'Desktop', 'domain':'$.date', 'measure':'$.value', 'measureLowerBoundFn':confidence_interval_measure_lower_bound, 'measureUpperBoundFn':confidence_interval_measure_upper_bound})}"
     },
     "child": {
       "type": "time_series_chart",
       "args": {
         "animate": false,
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

@@ -56,7 +56,7 @@
     "type": "set_value",
     "args": {
       "series": {
-        "global": "##create_series(type:int, items:{{data;$.global}}, name:Global, domain:$.year, measure:$.sales)##"
+        "global": "${create_series({'type':'int', 'items':data['global'], 'name':'Global', 'domain':'$.year', 'measure':'$.sales'})}"
       }
     },
     "child": {
@@ -75,7 +75,7 @@
             "max": 7.0
           }
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }

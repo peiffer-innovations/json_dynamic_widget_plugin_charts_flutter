@@ -29,7 +29,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(items:{{data}}, name:Sales)##"
+      "series": "${create_series({'items':data, 'name':'Sales'})}"
     },
     "child": {
       "type": "comment",
@@ -51,7 +51,7 @@
             },
             "type": "arc"
           },
-          "series": "{{series}}"
+          "series": "${series}"
         }
       }
     }

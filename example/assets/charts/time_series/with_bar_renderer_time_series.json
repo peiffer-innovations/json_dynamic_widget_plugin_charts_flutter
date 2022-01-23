@@ -93,7 +93,7 @@
   "child": {
     "type": "set_value",
     "args": {
-      "series": "##create_series(type:DateTime, items:{{data}}, name:Desktop, domain:$.date, measure:$.value)##"
+      "series": "${create_series({'type':'DateTime', 'items':data, 'name':'Desktop', 'domain':'$.date', 'measure':'$.value'})}"
     },
     "child": {
       "type": "time_series_chart",
@@ -111,7 +111,7 @@
         "defaultRenderer": {
           "type": "bar"
         },
-        "series": "{{series}}"
+        "series": "${series}"
       }
     }
   }
