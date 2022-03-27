@@ -1,3 +1,8 @@
+## [2.1.0] - March 27th, 2022
+
+* Updated to the latest version of the core framework
+
+
 ## [2.0.0+2] - February 20th, 2022
 
 * Dependency updates
