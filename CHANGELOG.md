@@ -1,3 +1,8 @@
+## [3.0.0] - May 14th, 2022
+
+* Flutter 3.0
+
+
 ## [2.1.0] - March 27th, 2022
 
 * Updated to the latest version of the core framework
