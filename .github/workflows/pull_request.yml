@@ -1,21 +1,21 @@
-# name: Flutter Pull Request Checker
+name: Flutter Pull Request Checker
 
-# on:
-#   pull_request:
-#     branches: [main]
+on:
+  pull_request:
+    branches: [main]
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-#       - uses: subosito/flutter-action@v1
-#         with:
-#           channel: "stable"
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
 
-#       - name: Validate
-#         uses: peiffer-innovations/actions-flutter-validate@v1.1.2
-#         with:
-#           flutter_package: true
+      - name: Validate
+        uses: peiffer-innovations/actions-flutter-validate@v1.1.2
+        with:
+          flutter_package: true
