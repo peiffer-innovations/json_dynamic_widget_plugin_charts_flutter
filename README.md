@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [json_dynamic_widget_plugin_charts_flutter](#json_dynamic_widget_plugin_charts_flutter)
+  - [Table of Contents](#table-of-contents)
+  - [Live Example](#live-example)
+  - [Introduction](#introduction)
+  - [Using the Plugin](#using-the-plugin)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # json_dynamic_widget_plugin_charts_flutter
 
 ## Table of Contents
