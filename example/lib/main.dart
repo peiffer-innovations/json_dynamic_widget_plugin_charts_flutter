@@ -14,8 +14,6 @@ import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_pl
 import 'package:json_theme/json_theme_schemas.dart';
 import 'package:logging/logging.dart';
 
-import 'src/custom_functions/confidence_interval_functions.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
