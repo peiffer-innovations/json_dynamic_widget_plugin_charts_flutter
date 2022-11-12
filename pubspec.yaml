@@ -3,19 +3,18 @@ description: "A plugin to the JSON Dynamic Widget to provide support for Google'
 homepage: 'https://github.com/peiffer-innovations/json_dynamic_widget_plugin_charts_flutter'
 version: '3.0.0+23'
 
-environment: 
-  sdk: '>=2.17.0 <3.0.0'
+environment:
+  sdk: '>=2.18.0 <3.0.0'
 
-analyzer: 
-  exclude: 
+analyzer:
+  exclude:
     - 'lib/generated/**'
 
-
-dependencies: 
+dependencies:
   charts_common: '^0.12.0'
   charts_flutter: '^0.12.0'
   child_builder: '^2.0.0+3'
-  flutter: 
+  flutter:
     sdk: 'flutter'
   intl: '^0.17.0'
   json_class: '^2.1.2+13'
@@ -26,15 +25,14 @@ dependencies:
   meta: '^1.7.0'
   uuid: '^3.0.6'
 
-false_secrets: 
+false_secrets:
   - 'example/web/index.html'
 
-dev_dependencies: 
-  flutter_test: 
+dev_dependencies:
+  flutter_test:
     sdk: 'flutter'
 
-
-ignore_updates: 
+ignore_updates:
   - 'archive'
   - 'async'
   - 'boolean_selector'
