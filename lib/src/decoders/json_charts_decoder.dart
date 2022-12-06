@@ -210,8 +210,8 @@ class JsonChartsDecoder {
         validate: validate,
       ));
 
-      var type = map['type'];
-      var axisType = decodeRangeAnnotationAxisType(
+      final type = map['type'];
+      final axisType = decodeRangeAnnotationAxisType(
         map['axisType'],
         validate: false,
       )!;
@@ -607,7 +607,7 @@ class JsonChartsDecoder {
         validate: validate,
       ));
 
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'bucketing':
@@ -935,7 +935,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'bar_target_line':
@@ -1120,7 +1120,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'label':
@@ -1129,7 +1129,8 @@ class JsonChartsDecoder {
                   map['insideLabelStyleSpec'],
                   validate: false,
                 ) ??
-                common.TextStyleSpec(fontSize: 12, color: common.Color.white),
+                const common.TextStyleSpec(
+                    fontSize: 12, color: common.Color.white),
             labelAnchor: decodeBarLabelAnchor(
               map['labelAnchor'],
               validate: false,
@@ -1154,7 +1155,8 @@ class JsonChartsDecoder {
                   map['outsideLabelStyleSpec'],
                   validate: false,
                 ) ??
-                common.TextStyleSpec(fontSize: 12, color: common.Color.black),
+                const common.TextStyleSpec(
+                    fontSize: 12, color: common.Color.black),
           );
           break;
 
@@ -1315,7 +1317,7 @@ class JsonChartsDecoder {
         validate: validate,
       ));
 
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'chart_title':
@@ -1633,7 +1635,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'const':
@@ -1642,7 +1644,7 @@ class JsonChartsDecoder {
           break;
 
         case 'none':
-          result = charts.NoCornerStrategy();
+          result = const charts.NoCornerStrategy();
           break;
 
         default:
@@ -1767,7 +1769,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'auto':
@@ -1810,11 +1812,11 @@ class JsonChartsDecoder {
       ));
       switch (map) {
         case 'local':
-          result = common.LocalDateTimeFactory();
+          result = const common.LocalDateTimeFactory();
           break;
 
         case 'utc':
-          result = common.UTCDateTimeFactory();
+          result = const common.UTCDateTimeFactory();
           break;
 
         default:
@@ -1850,7 +1852,7 @@ class JsonChartsDecoder {
         validate: validate,
       ));
 
-      var type = map['type'];
+      final type = map['type'];
       if (type == 'auto_date_time') {
         result = charts.AutoDateTimeTickFormatterSpec(
           day: decodeTimeFormatterSpec(map['day']),
@@ -2557,7 +2559,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'percent':
@@ -2653,7 +2655,7 @@ class JsonChartsDecoder {
     if (map is charts.NumericAxisSpec) {
       result = map;
     } else if (map != null) {
-      var type = map['type'];
+      final type = map['type'];
 
       if (type == 'bucketing') {
         result = decodeBucketingAxisSpec(
@@ -2787,7 +2789,7 @@ class JsonChartsDecoder {
     if (map is common.NumericTickProviderSpec) {
       result = map;
     } else if (map != null) {
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'basic':
@@ -2819,7 +2821,7 @@ class JsonChartsDecoder {
           break;
 
         case 'end_points':
-          result = common.NumericEndPointsTickProviderSpec();
+          result = const common.NumericEndPointsTickProviderSpec();
           break;
 
         case 'static':
@@ -2921,7 +2923,7 @@ class JsonChartsDecoder {
         validate: validate,
       ));
 
-      result = charts.BasicOrdinalTickFormatterSpec();
+      result = const charts.BasicOrdinalTickFormatterSpec();
     }
 
     return result;
@@ -2951,11 +2953,11 @@ class JsonChartsDecoder {
         validate: validate,
       ));
 
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'basic':
-          result = charts.BasicOrdinalTickProviderSpec();
+          result = const charts.BasicOrdinalTickProviderSpec();
           break;
 
         case 'static':
@@ -3316,7 +3318,7 @@ class JsonChartsDecoder {
         validate: validate,
       ));
 
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'comparison_points':
@@ -3574,7 +3576,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
-      var type = map['type'];
+      final type = map['type'];
       switch (type) {
         case 'gridline':
           result = charts.GridlineRendererSpec<D>(
@@ -4289,7 +4291,7 @@ class JsonChartsDecoder {
         validate: validate,
       ));
 
-      var type = map['type'];
+      final type = map['type'];
       switch (type) {
         case 'arc':
           result = decodeArcRendererConfig<D>(
@@ -4471,7 +4473,7 @@ class JsonChartsDecoder {
           validate: false,
         ),
         handleOffset: map['point'] == null
-            ? Point<double>(0, 0)
+            ? const Point<double>(0, 0)
             : Point<double>(
                 JsonClass.parseDouble(map['point']['x'])!,
                 JsonClass.parseDouble(map['point']['y'])!,
@@ -4482,7 +4484,7 @@ class JsonChartsDecoder {
             ) ??
             common.SliderHandlePosition.middle,
         handleSize: map['handleSize'] == null
-            ? Rectangle(0, 0, 10, 20)
+            ? const Rectangle(0, 0, 10, 20)
             : Rectangle(
                 JsonClass.parseInt(map['handleSize']['left'])!,
                 JsonClass.parseInt(map['handleSize']['top'])!,
@@ -4712,7 +4714,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
-      var type = map['type'];
+      final type = map['type'];
 
       switch (type) {
         case 'circle':
@@ -4826,7 +4828,7 @@ class JsonChartsDecoder {
         value: map,
         validate: validate,
       ));
-      var type = map['type'];
+      final type = map['type'];
       switch (type) {
         case 'auto_date_time':
         case 'date_time':

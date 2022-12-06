@@ -8,7 +8,7 @@ import 'values/material_palette_values.dart';
 
 class JsonChartsFlutterPlugin {
   static void bind(JsonWidgetRegistry registry) {
-    var schemaCache = SchemaCache();
+    final schemaCache = SchemaCache();
     Enums.all.addAll(JsonChartsFlutterSchemas.enums.keys);
 
     schemaCache.addSchemas(JsonChartsFlutterSchemas.enums);
@@ -23,35 +23,35 @@ class JsonChartsFlutterPlugin {
     });
 
     registry.registerCustomBuilders({
-      BarChartBuilder.type: JsonWidgetBuilderContainer(
+      BarChartBuilder.type: const JsonWidgetBuilderContainer(
         builder: BarChartBuilder.fromDynamic,
         schemaId: BarChartSchema.id,
       ),
-      LineChartBuilder.type: JsonWidgetBuilderContainer(
+      LineChartBuilder.type: const JsonWidgetBuilderContainer(
         builder: LineChartBuilder.fromDynamic,
         schemaId: LineChartSchema.id,
       ),
-      NumericPieChartBuilder.type: JsonWidgetBuilderContainer(
+      NumericPieChartBuilder.type: const JsonWidgetBuilderContainer(
         builder: NumericPieChartBuilder.fromDynamic,
         schemaId: PieChartSchema.id,
       ),
-      NumericComboChartBuilder.type: JsonWidgetBuilderContainer(
+      NumericComboChartBuilder.type: const JsonWidgetBuilderContainer(
         builder: NumericComboChartBuilder.fromDynamic,
         schemaId: NumericComboChartSchema.id,
       ),
-      OrdinalComboChartBuilder.type: JsonWidgetBuilderContainer(
+      OrdinalComboChartBuilder.type: const JsonWidgetBuilderContainer(
         builder: OrdinalComboChartBuilder.fromDynamic,
         schemaId: OrdinalComboChartSchema.id,
       ),
-      ScatterPlotChartBuilder.type: JsonWidgetBuilderContainer(
+      ScatterPlotChartBuilder.type: const JsonWidgetBuilderContainer(
         builder: ScatterPlotChartBuilder.fromDynamic,
         schemaId: ScatterPlotChartSchema.id,
       ),
-      StringPieChartBuilder.type: JsonWidgetBuilderContainer(
+      StringPieChartBuilder.type: const JsonWidgetBuilderContainer(
         builder: StringPieChartBuilder.fromDynamic,
         schemaId: PieChartSchema.id,
       ),
-      TimeSeriesChartBuilder.type: JsonWidgetBuilderContainer(
+      TimeSeriesChartBuilder.type: const JsonWidgetBuilderContainer(
         builder: TimeSeriesChartBuilder.fromDynamic,
         schemaId: TimeSeriesChartSchema.id,
       ),

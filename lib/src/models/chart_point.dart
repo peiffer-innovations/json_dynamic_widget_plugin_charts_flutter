@@ -35,7 +35,7 @@ class ChartPoint<D> extends JsonClass {
       throw Exception('[ChartPoint]: map is null');
     }
 
-    var domain = JsonClass.parseValue<D>(map['domain']);
+    final domain = JsonClass.parseValue<D>(map['domain']);
 
     return ChartPoint<D>(
       color: map['color'],

@@ -5,7 +5,6 @@ import 'package:json_class/json_class.dart';
 import 'package:json_dynamic_widget/json_dynamic_widget.dart';
 import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';
 import 'package:json_path/json_path.dart';
-
 import 'package:logging/logging.dart';
 
 class CreateSeriesFunction {
@@ -23,7 +22,7 @@ class CreateSeriesFunction {
       );
     }
 
-    var values = <String, dynamic>{};
+    final values = <String, dynamic>{};
     var domainType = String;
     for (var arg in args) {
       if (arg == null) {
@@ -245,11 +244,11 @@ class CreateSeriesFunction {
       items = json.decode(items);
     }
 
-    var areaChartsColor = JsonChartsDecoder.decodeColor(areaColor);
-    var chartsColor = JsonChartsDecoder.decodeColor(color);
-    var chartsFillColor = JsonChartsDecoder.decodeColor(fillColor);
+    final areaChartsColor = JsonChartsDecoder.decodeColor(areaColor);
+    final chartsColor = JsonChartsDecoder.decodeColor(color);
+    final chartsFillColor = JsonChartsDecoder.decodeColor(fillColor);
 
-    var data = <ChartPoint<D>>[];
+    final data = <ChartPoint<D>>[];
     var hasColor = false;
     var hasDomainLowerBound = false;
     var hasDomainUpperBound = false;
@@ -291,63 +290,63 @@ class CreateSeriesFunction {
       itemStrokeWidth ??= r'$.strokeWidth';
       measure ??= r'$.y';
 
-      var colorPath = JsonPath(itemColor);
-      var domainLowerBoundPath = JsonPath(itemDomainLowerBound);
-      var domainPath = JsonPath(domain);
-      var domainUpperBoundPath = JsonPath(itemDomainUpperBound);
-      var fillColorPath = JsonPath(itemFillColor);
-      var labelPath = JsonPath(itemLabel);
-      var measureLowerBoundPath = JsonPath(itemMeasureLowerBound);
-      var measurePath = JsonPath(measure);
-      var measureUpperBoundPath = JsonPath(itemMeasureUpperBound);
-      var radiusPath = JsonPath(itemRadius);
-      var shapePath = JsonPath(itemShape);
-      var strokeWidthPath = JsonPath(itemStrokeWidth);
+      final colorPath = JsonPath(itemColor);
+      final domainLowerBoundPath = JsonPath(itemDomainLowerBound);
+      final domainPath = JsonPath(domain);
+      final domainUpperBoundPath = JsonPath(itemDomainUpperBound);
+      final fillColorPath = JsonPath(itemFillColor);
+      final labelPath = JsonPath(itemLabel);
+      final measureLowerBoundPath = JsonPath(itemMeasureLowerBound);
+      final measurePath = JsonPath(measure);
+      final measureUpperBoundPath = JsonPath(itemMeasureUpperBound);
+      final radiusPath = JsonPath(itemRadius);
+      final shapePath = JsonPath(itemShape);
+      final strokeWidthPath = JsonPath(itemStrokeWidth);
       for (var point in items) {
-        var dRead = domainPath.read(point);
+        final dRead = domainPath.read(point);
         if (dRead.isEmpty) {
           throw Exception(
             'No domain entry found for point: [$point] inside items: [$items]',
           );
         }
-        var d = domainParser(dRead.first.value);
+        final d = domainParser(dRead.first.value);
 
-        var dlbRead = domainLowerBoundPath.read(point);
-        var dlb = dlbRead.isEmpty ? null : domainParser(dlbRead.first.value);
+        final dlbRead = domainLowerBoundPath.read(point);
+        final dlb = dlbRead.isEmpty ? null : domainParser(dlbRead.first.value);
 
-        var dubRead = domainUpperBoundPath.read(point);
-        var dub = dubRead.isEmpty ? null : domainParser(dubRead.first.value);
+        final dubRead = domainUpperBoundPath.read(point);
+        final dub = dubRead.isEmpty ? null : domainParser(dubRead.first.value);
 
-        var labels = labelPath.read(point);
-        var l = labels.isNotEmpty ? labels.first.value : null;
+        final labels = labelPath.read(point);
+        final l = labels.isNotEmpty ? labels.first.value : null;
 
-        var colors = colorPath.read(point);
-        var c = colors.isNotEmpty
+        final colors = colorPath.read(point);
+        final c = colors.isNotEmpty
             ? JsonChartsDecoder.decodeColor(colors.first.value)
             : null;
 
-        var fillColors = fillColorPath.read(point);
-        var fc = fillColors.isNotEmpty
+        final fillColors = fillColorPath.read(point);
+        final fc = fillColors.isNotEmpty
             ? JsonChartsDecoder.decodeColor(fillColors.first.value)
             : null;
 
-        var mlbRead = measureLowerBoundPath.read(point);
-        var mlb =
+        final mlbRead = measureLowerBoundPath.read(point);
+        final mlb =
             mlbRead.isEmpty ? null : JsonClass.parseDouble(mlbRead.first.value);
 
-        var mubRead = measureUpperBoundPath.read(point);
-        var mub =
+        final mubRead = measureUpperBoundPath.read(point);
+        final mub =
             mubRead.isEmpty ? null : JsonClass.parseDouble(mubRead.first.value);
 
-        var radii = radiusPath.read(point);
-        var r =
+        final radii = radiusPath.read(point);
+        final r =
             radii.isNotEmpty ? JsonClass.parseDouble(radii.first.value) : null;
 
-        var shapes = shapePath.read(point);
-        var s = shapes.isNotEmpty ? shapes.first.value : null;
+        final shapes = shapePath.read(point);
+        final s = shapes.isNotEmpty ? shapes.first.value : null;
 
-        var strokeWidths = strokeWidthPath.read(point);
-        var sw = strokeWidths.isNotEmpty
+        final strokeWidths = strokeWidthPath.read(point);
+        final sw = strokeWidths.isNotEmpty
             ? JsonClass.parseDouble(strokeWidths.first.value)
             : null;
 
@@ -362,8 +361,9 @@ class CreateSeriesFunction {
         hasShape = hasShape || s != null;
         hasStrokeWidth = hasStrokeWidth || sw != null;
 
-        var mRead = measurePath.read(point);
-        var m = mRead.isEmpty ? null : JsonClass.parseDouble(mRead.first.value);
+        final mRead = measurePath.read(point);
+        final m =
+            mRead.isEmpty ? null : JsonClass.parseDouble(mRead.first.value);
         data.add(ChartPoint<D>(
           color: c,
           domain: d,
@@ -381,7 +381,7 @@ class CreateSeriesFunction {
       }
     }
 
-    var result = Series<ChartPoint<D>, D>(
+    final result = Series<ChartPoint<D>, D>(
       areaColorFn: areaChartsColor == null ? null : (_, __) => areaChartsColor,
       colorFn: hasColor
           ? (point, _) =>

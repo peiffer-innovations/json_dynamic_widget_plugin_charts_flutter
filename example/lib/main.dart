@@ -47,9 +47,9 @@ void main() async {
     });
   }
 
-  var navigatorKey = GlobalKey<NavigatorState>();
+  final navigatorKey = GlobalKey<NavigatorState>();
 
-  var registry = JsonWidgetRegistry.instance;
+  final registry = JsonWidgetRegistry.instance;
 
   registry.setValue(
     'NumberFormat.compactSimpleCurrency',
@@ -81,7 +81,7 @@ void main() async {
 
   registry.navigatorKey = navigatorKey;
 
-  var templates = {
+  final templates = {
     // bar
     'simple_bar_chart': 'bar',
     'stacked_bar_chart': 'bar',
@@ -184,7 +184,7 @@ void main() async {
     'percent_of_series': 'behavior',
     'initial_hint_animation': 'behavior',
   };
-  var futures = <Future>[];
+  final futures = <Future>[];
   for (var entry in templates.entries) {
     futures.add(
       Future.microtask(
@@ -201,7 +201,7 @@ void main() async {
   }
   await Future.wait(futures);
 
-  var data = JsonWidgetData.fromDynamic(
+  final data = JsonWidgetData.fromDynamic(
       json.decode(await rootBundle.loadString('assets/pages/charts.json')))!;
 
   runApp(

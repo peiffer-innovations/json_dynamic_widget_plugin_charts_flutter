@@ -11,7 +11,7 @@ class SliderFunctions {
       String roleId,
       charts.SliderListenerDragState dragState,
     ) {
-      var registry = JsonWidgetRegistry.instance;
+      final registry = JsonWidgetRegistry.instance;
 
       registry.setValue('sliderDomainValue', (domain * 10).round() / 10);
       registry.setValue('sliderDragState', dragState.toString());
