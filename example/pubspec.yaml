@@ -14,9 +14,8 @@ dependencies:
   json_dynamic_widget_plugin_charts_flutter:
     path: ../
 
-# dependency_overrides:
-#   json_dynamic_widget:
-#     path: ../../json_dynamic_widget
+dependency_overrides:
+  intl: '^0.18.0'
 
 dev_dependencies:
   flutter_test:
