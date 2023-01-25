@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:charts_flutter/flutter.dart';
+import 'package:community_charts_flutter/flutter.dart';
 import 'package:json_class/json_class.dart';
 import 'package:json_dynamic_widget/json_dynamic_widget.dart';
 import 'package:json_dynamic_widget_plugin_charts_flutter/json_dynamic_widget_plugin_charts_flutter.dart';

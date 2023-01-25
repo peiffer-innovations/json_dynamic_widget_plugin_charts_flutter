@@ -1,3 +1,10 @@
+# DISCONTINUED
+
+This packages is discontinued as the [base package](https://github.com/google/charts) is also discontinued and there does appear to be an active community maintaining a replacement.
+
+---
+
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**

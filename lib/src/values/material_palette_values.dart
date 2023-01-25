@@ -1,4 +1,4 @@
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:community_charts_flutter/flutter.dart' as charts;
 
 class MaterialPaletteValues {
   static final values = {

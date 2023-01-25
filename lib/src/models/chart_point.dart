@@ -1,4 +1,4 @@
-import 'package:charts_flutter/flutter.dart';
+import 'package:community_charts_flutter/flutter.dart';
 import 'package:json_class/json_class.dart';
 
 class ChartPoint<D> extends JsonClass {
